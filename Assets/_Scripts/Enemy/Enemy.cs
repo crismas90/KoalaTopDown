@@ -22,6 +22,7 @@ public class Enemy : Fighter
     public float cooldown = 0.5f;                           // перезардяка атаки
     public int attackDamage;                                // урон
     public float pushForce;                                 // сила толчка
+    public float attackRadius;                              // радиус атаки
     //public float attackSpeed = 1;                           // скорость атаки
 
     // Для анимации
@@ -116,5 +117,13 @@ public class Enemy : Fighter
     {
         base.Death();
         Destroy(gameObject);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;
+        //Gizmos.DrawSphere(transform.position, attackRadius);
+        Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
 }

@@ -16,12 +16,12 @@ public class EnemyHitbox : MonoBehaviour
     {
         //Debug.Log(enemy.lastAttack);
         // Атака
-        if (enemy.readyToAttack && Time.time - enemy.lastAttack > enemy.cooldown)
+        if (enemy.readyToAttack && Time.time - enemy.lastAttack > enemy.cooldown)           // если готовы атаковать и кд готово
         {
             //Debug.Log("Attack!");
-            enemy.lastAttack = Time.time;
+            enemy.lastAttack = Time.time;                                                   // присваиваем время атаки
 
-            Collider2D[] collidersHitbox = Physics2D.OverlapCircleAll(transform.position, 3);
+            Collider2D[] collidersHitbox = Physics2D.OverlapCircleAll(transform.position, enemy.attackRadius);  // создаем круг в позиции объекта с радиусом
             foreach (Collider2D enObjectBox in collidersHitbox)
             {
                 if (enObjectBox == null)
@@ -29,15 +29,15 @@ public class EnemyHitbox : MonoBehaviour
                     continue;
                 }
 
-                if (enObjectBox.gameObject.TryGetComponent<Player>(out Player player))
+                if (enObjectBox.gameObject.TryGetComponent<Player>(out Player player))                  // ищем скрипт плеера
                 {
-                    player.TakeDamage(enemy.attackDamage);
-                    Vector2 vec2 = (player.transform.position - transform.position).normalized;
-                    player.rb2D.AddForce(vec2 * enemy.pushForce, ForceMode2D.Impulse);
-                    enemy.animator.SetTrigger("Attack");
+                    player.TakeDamage(enemy.attackDamage);                                              // наносим урон
+                    Vector2 vec2 = (player.transform.position - transform.position).normalized;         // вычисляем вектор направления удара
+                    player.rb2D.AddForce(vec2 * enemy.pushForce, ForceMode2D.Impulse);                  // даём импульс
+                    enemy.animator.SetTrigger("Attack");                                                // начинаем анимацию
                     //Debug.Log("Player!");
                 }
-                collidersHitbox = null;
+                collidersHitbox = null;                                                                 // сбрасываем все найденные объекты (на самом деле непонятно как это работает)
             }            
         }
     }

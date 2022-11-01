@@ -47,7 +47,7 @@ public class Weapon : MonoBehaviour
     {
         // Поворот оружия
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);                                                            // положение мыши                  
-        Vector3 aimDirection = mousePosition - pivot.transform.position;                                                         // угол между положением мыши и weaponHolder (но нужно между firePoint)          
+        Vector3 aimDirection = mousePosition - pivot.transform.position;                                                                // угол между положением мыши и weaponHolder (но нужно между firePoint)          
         float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;                                                   // находим угол в градусах             
         Quaternion qua1 = Quaternion.Euler(0, 0, aimAngle);                                                                             // создаем этот угол в Quaternion
         weaponHolder.transform.rotation = Quaternion.Lerp(weaponHolder.transform.rotation, qua1, Time.fixedDeltaTime * 15);             // делаем Lerp между weaponHoder и нашим углом
