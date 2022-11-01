@@ -3,6 +3,7 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     // Ссылки
+    Player player;
     SpriteRenderer spriteRenderer;          
     public WeaponClass weaponClass;         // ссылка на класс оружия
     public Transform firePoint;             // якорь для снарядов
@@ -16,10 +17,8 @@ public class Weapon : MonoBehaviour
     GameObject bulletPrefab;                // префаб снаряда
     float bulletSpeed;                      // скорость снаряда
     int damage;                             // урон (возможно нужно сделать на снаряде)
-    [HideInInspector]
-    public float fireRate;                  // скорострельность оружия (10 - 0,1 выстрелов в секунду)
-    [HideInInspector]
-    public float nextTimeToFire = 0f;       // для стрельбы (когда стрелять в след раз)
+    [HideInInspector] public float fireRate;                  // скорострельность оружия (10 - 0,1 выстрелов в секунду)
+    [HideInInspector] public float nextTimeToFire = 0f;       // для стрельбы (когда стрелять в след раз)
 
     bool needFlip;                          // нужен флип (для правильного отображения оружия)    
     bool leftFlip;                          // оружие слева
@@ -33,14 +32,15 @@ public class Weapon : MonoBehaviour
 
     private void Start()
     {
+        player = GameManager.instance.player;
+        weaponHolder = GetComponentInParent<WeaponHolder>().gameObject;         // находим weaponHolder
+        spriteRenderer = GetComponent<SpriteRenderer>();
         weaponName = weaponClass.name;                                          // имя
         bulletPrefab = weaponClass.bullet;                                      // тип снаряда
         bulletSpeed = weaponClass.bulletSpeed;                                  // скорость
         damage = weaponClass.damage;                                            // урон
         fireRate = weaponClass.fireRate;                                        // скорострельность
         //GetComponent<Renderer>().material.color = weaponClass.color;            // цвет
-        weaponHolder = GetComponentInParent<WeaponHolder>().gameObject;         // находим weaponHolder
-        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void FixedUpdate()
@@ -78,29 +78,29 @@ public class Weapon : MonoBehaviour
                 {
                     spriteRenderer.sortingOrder = 1;
                 }*/
-        
-        
-        
-
-
     }
 
     void Flip()
     {
-        if (leftFlip)
-            transform.localScale = new Vector3(transform.localScale.x, -1, transform.localScale.z);
+        if (leftFlip)                                                                                   // разворот налево
+        {
+            transform.localScale = new Vector3(transform.localScale.x, -1, transform.localScale.z);     // поворачиваем оружие через scale
+            player.spriteRenderer.flipX = true;                                                         // поворачиваем спрайт игрока
+        }
         if (rightFlip)
+        {
             transform.localScale = new Vector3(transform.localScale.x, 1, transform.localScale.z);          
+            player.spriteRenderer.flipX = false;
+        }
         needFlip = false;
     }
 
 
     public void Fire()
     {
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);                      // создаем префаб снаряда с позицией и поворотом якоря
-        //bullet.layer = 7;                                                                                           // назначаем снаряду слой "BulletPlayer"
-        bullet.GetComponent<Bullet>().damage = damage;                                                              // присваиваем урон снаряду
-        //bullet.transform.Rotate(0.0f, 0.0f, 0.0f, Space.Self);                                                     // поворачиваем снаряд (для ракеты)
-        bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.right * bulletSpeed, ForceMode2D.Impulse);            // даём импульс
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);              // создаем префаб снаряда с позицией и поворотом якоря
+        bullet.GetComponent<Bullet>().damage = damage;                                                      // присваиваем урон снаряду
+        bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.right * bulletSpeed, ForceMode2D.Impulse);    // даём импульс
+        //bullet.transform.Rotate(0.0f, 0.0f, 0.0f, Space.Self);                                             // поворачиваем снаряд (для ракеты)
     }
 }
