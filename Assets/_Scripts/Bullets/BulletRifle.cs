@@ -1,16 +1,17 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class BulletRifle : Bullet
 {
-    [HideInInspector] public int damage;
-    private void OnTriggerEnter2D(Collider2D collision)
-    {        
+    public override void OnTriggerEnter2D(Collider2D collision)
+    {
         if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
             enemy.TakeDamage(damage);
             Vector2 vec2 = (collision.transform.position - GameManager.instance.player.transform.position).normalized;
-            enemy.rb2D.AddForce(vec2 * 6, ForceMode2D.Impulse);
+            enemy.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
         }
-        Destroy(gameObject);
+        base.OnTriggerEnter2D(collision);
     }
 }

@@ -9,7 +9,7 @@ public class WeaponHolder : MonoBehaviour
     void Start()
     {      
         BuyWeapon(0);
-        //BuyWeapon(1);
+        BuyWeapon(1);
         //BuyWeapon(2);
         SelectWeapon();
     }
@@ -17,11 +17,16 @@ public class WeaponHolder : MonoBehaviour
     private void Update()
     {
         // Стрельба
-        if (Input.GetMouseButton(0) && currentWeapon && Time.time >= currentWeapon.nextTimeToFire)  // для левого холдера
+        if (Input.GetMouseButtonDown(0) && currentWeapon)       
         {
-            currentWeapon.nextTimeToFire = Time.time + 1f / currentWeapon.fireRate;
-            currentWeapon.Fire();                                                           // вызываем функцию стрельбы у текущего оружия
+            currentWeapon.fireStart = true;                     // вызываем функцию стрельбы у текущего оружия
         }
+        if (Input.GetMouseButtonUp(0) && currentWeapon)         
+        {
+            currentWeapon.fireStart = false;                    // вызываем функцию стрельбы у текущего оружия
+        }
+
+
 
         // Выбор оружия
         int previousWeapon = selectedWeapon;                                                // присваиваем переменной индекс оружия
@@ -82,8 +87,8 @@ public class WeaponHolder : MonoBehaviour
 
     void BuyWeapon(int weaponNumber)
     {
-        GameObject weaponGO = Instantiate(weapons[weaponNumber], transform.position, transform.rotation);
-        weaponGO.transform.SetParent(this.transform, true);
+        GameObject weaponGO = Instantiate(weapons[weaponNumber], (transform.position + new Vector3(0.3f,0,0)), transform.rotation);
+        weaponGO.transform.SetParent(this.transform, true);       
         weaponGO.SetActive(false);
     }
 }

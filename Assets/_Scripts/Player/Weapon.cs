@@ -17,18 +17,20 @@ public class Weapon : MonoBehaviour
     GameObject bulletPrefab;                // префаб снар€да
     float bulletSpeed;                      // скорость снар€да
     int damage;                             // урон (возможно нужно сделать на снар€де)
-    [HideInInspector] public float fireRate;                  // скорострельность оружи€ (10 - 0,1 выстрелов в секунду)
-    [HideInInspector] public float nextTimeToFire = 0f;       // дл€ стрельбы (когда стрел€ть в след раз)
+    float pushForce;                        // сила толчка (возможно нужно сделать на снар€де)
+    [HideInInspector] public float fireRate;                // скорострельность оружи€ (10 - 0,1 выстрелов в секунду)
+    [HideInInspector] public float nextTimeToFire;          // дл€ стрельбы (когда стрел€ть в след раз)
+    [HideInInspector] public bool fireStart;
 
+    // ƒл€ флипа оружи€
     bool needFlip;                          // нужен флип (дл€ правильного отображени€ оружи€)    
     bool leftFlip;                          // оружие слева
     bool rightFlip = true;                  // оружие справа
 
+    // Ёффекты
+    public GameObject flashEffect;
+    bool flashEffectActive;
 
-    private void Awake()
-    {
-        
-    }
 
     private void Start()
     {
@@ -39,18 +41,45 @@ public class Weapon : MonoBehaviour
         bulletPrefab = weaponClass.bullet;                                      // тип снар€да
         bulletSpeed = weaponClass.bulletSpeed;                                  // скорость
         damage = weaponClass.damage;                                            // урон
-        fireRate = weaponClass.fireRate;                                        // скорострельность
-        //GetComponent<Renderer>().material.color = weaponClass.color;            // цвет
+        pushForce = weaponClass.pushForce;                                      // сила толчка
+        fireRate = weaponClass.fireRate;                                        // скорострельность        
+    }
+
+    private void Update()
+    {
+        // —трельба
+        if (fireStart && Time.time >= nextTimeToFire)
+        {
+            nextTimeToFire = Time.time + 1f / fireRate;
+            Fire();
+        }
+
+        // Ёффект флэш
+        if (fireStart && !flashEffectActive)
+        {
+            if (flashEffect == null)
+                return;
+            flashEffect.SetActive(true);
+            flashEffectActive = true;
+        }
+        if (!fireStart)
+        {
+            if (flashEffect == null)
+                return;
+            flashEffect.SetActive(false);
+            flashEffectActive = false;
+        }
+
     }
 
     private void FixedUpdate()
     {
         // ѕоворот оружи€
-        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);                                                            // положение мыши                  
-        Vector3 aimDirection = mousePosition - pivot.transform.position;                                                                // угол между положением мыши и weaponHolder (но нужно между firePoint)          
-        float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;                                                   // находим угол в градусах             
-        Quaternion qua1 = Quaternion.Euler(0, 0, aimAngle);                                                                             // создаем этот угол в Quaternion
-        weaponHolder.transform.rotation = Quaternion.Lerp(weaponHolder.transform.rotation, qua1, Time.fixedDeltaTime * 15);             // делаем Lerp между weaponHoder и нашим углом
+        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);                                                    // положение мыши                  
+        Vector3 aimDirection = mousePosition - pivot.transform.position;                                                        // угол между положением мыши и weaponHolder (но нужно между firePoint)          
+        float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;                                           // находим угол в градусах             
+        Quaternion qua1 = Quaternion.Euler(0, 0, aimAngle);                                                                     // создаем этот угол в Quaternion
+        weaponHolder.transform.rotation = Quaternion.Lerp(weaponHolder.transform.rotation, qua1, Time.fixedDeltaTime * 15);     // делаем Lerp между weaponHoder и нашим углом
 
         // ‘лип оружи€
         if (Mathf.Abs(aimAngle) > 90 && rightFlip)
@@ -70,6 +99,7 @@ public class Weapon : MonoBehaviour
             Flip();
         }
 
+         // ќтображение оружи€ перед или позади игрока
         /*        if (aimAngle > 0)
                 {
                     spriteRenderer.sortingOrder = -1;
@@ -80,7 +110,7 @@ public class Weapon : MonoBehaviour
                 }*/
     }
 
-    void Flip()
+    void Flip()                                                                                         
     {
         if (leftFlip)                                                                                   // разворот налево
         {
@@ -100,7 +130,8 @@ public class Weapon : MonoBehaviour
     {
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);              // создаем префаб снар€да с позицией и поворотом €кор€
         bullet.GetComponent<Bullet>().damage = damage;                                                      // присваиваем урон снар€ду
+        bullet.GetComponent<Bullet>().pushForce = pushForce;                                                // присваиваем урон снар€ду
         bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.right * bulletSpeed, ForceMode2D.Impulse);    // даЄм импульс
-        //bullet.transform.Rotate(0.0f, 0.0f, 0.0f, Space.Self);                                             // поворачиваем снар€д (дл€ ракеты)
+        //bullet.transform.Rotate(0.0f, 0.0f, -90.0f, Space.Self);                                             // поворачиваем снар€д (дл€ ракеты)
     }
 }

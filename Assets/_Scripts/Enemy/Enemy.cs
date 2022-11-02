@@ -63,8 +63,20 @@ public class Enemy : Fighter
         if (!target)
             return;
 
+        NavMeshHit hit;
+        if (!agent.Raycast(target.transform.position, out hit))
+        {
+            //Debug.Log("Visible");            
+            targetVisible = true;                                           // Target is "visible" from our position.
+        }
+        else
+        {
+            // тут добавить проверку какой объект попал под рейкаст (стена или снар€д например или враг)
+            targetVisible = false;
+        }
+
         // ѕреследование
-        if (Vector3.Distance(target.transform.position, transform.position) < triggerLenght)       // если дистанци€ до игрока < тригер дистанции
+        if (Vector3.Distance(target.transform.position, transform.position) < triggerLenght && targetVisible)       // если дистанци€ до игрока < тригер дистанции
         {
             chasing = true;                                                 // преследование включено 
         }
@@ -72,17 +84,7 @@ public class Enemy : Fighter
         if (chasing)                                                        // если преследуем
         {
             //agent.SetDestination(target.transform.position);                    // перемещаемс€ к цели
-            NavMeshHit hit;
-            if (!agent.Raycast(target.transform.position, out hit))
-            {
-                //Debug.Log("Visible");            
-                targetVisible = true;                                       // Target is "visible" from our position.
-            }
-            else
-            {
-                // тут добавить проверку какой объект попал под рейкаст (стена или снар€д например или враг)
-                targetVisible = false;
-            }
+
 
             float distance = Vector3.Distance(transform.position, target.transform.position);       // считаем дистанцию до цели
             if (distance < distanceToAttack && targetVisible)                                       // если дошли до цели и видим еЄ
