@@ -5,13 +5,14 @@ using UnityEngine;
 public class EnemyHitbox : MonoBehaviour
 {
     Enemy enemy;
-    // Start is called before the first frame update
+    public float attackRadius;                              // радиус атаки
+    
     void Start()
     {
         enemy = GetComponentInParent<Enemy>();
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         //Debug.Log(enemy.lastAttack);
@@ -21,7 +22,7 @@ public class EnemyHitbox : MonoBehaviour
             //Debug.Log("Attack!");
             enemy.lastAttack = Time.time;                                                   // присваиваем время атаки
 
-            Collider2D[] collidersHitbox = Physics2D.OverlapCircleAll(transform.position, enemy.attackRadius);  // создаем круг в позиции объекта с радиусом
+            Collider2D[] collidersHitbox = Physics2D.OverlapCircleAll(transform.position, attackRadius);  // создаем круг в позиции объекта с радиусом
             foreach (Collider2D enObjectBox in collidersHitbox)
             {
                 if (enObjectBox == null)
@@ -40,5 +41,12 @@ public class EnemyHitbox : MonoBehaviour
                 collidersHitbox = null;                                                                 // сбрасываем все найденные объекты (на самом деле непонятно как это работает)
             }            
         }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;        
+        Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
 }

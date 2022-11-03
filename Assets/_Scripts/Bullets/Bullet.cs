@@ -4,9 +4,12 @@ public class Bullet : MonoBehaviour
 {
     [HideInInspector] public int damage;
     [HideInInspector] public float pushForce;
+    public GameObject expEffect;
 
     public virtual void OnTriggerEnter2D(Collider2D collision)
-    {        
-        Destroy(gameObject);
+    {
+        GameObject effect = Instantiate(expEffect, transform.position, Quaternion.identity);    // создаем эффект
+        Destroy(effect, 1);                                                                     // уничтожаем эффект через .. сек     
+        Destroy(gameObject);                                                                    // уничтожаем пулю
     }
 }

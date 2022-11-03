@@ -22,12 +22,16 @@ public class Enemy : Fighter
     public float cooldown = 0.5f;                           // перезардяка атаки
     public int attackDamage;                                // урон
     public float pushForce;                                 // сила толчка
-    public float attackRadius;                              // радиус атаки
+    
     //public float attackSpeed = 1;                           // скорость атаки
 
     // Для анимации
     bool flipLeft;                                          // для флипа
     bool flipRight;                                         //    
+
+    // Таймер для цветов при уроне
+    float timerForColor;
+    bool red;
 
 
     void Start()
@@ -56,6 +60,9 @@ public class Enemy : Fighter
         }
 
         animator.SetFloat("Speed", agent.velocity.magnitude);
+
+        // Выбор цвета при получении урона и его сброс
+        SetColorTimer();
     }
 
     void FixedUpdate()
@@ -76,7 +83,7 @@ public class Enemy : Fighter
         }
 
         // Преследование
-        if (Vector3.Distance(target.transform.position, transform.position) < triggerLenght && targetVisible)       // если дистанция до игрока < тригер дистанции
+        if (Vector3.Distance(target.transform.position, transform.position) < triggerLenght && targetVisible || currentHealth != maxHealth)       // если дистанция до игрока < тригер дистанции
         {
             chasing = true;                                                 // преследование включено 
         }
@@ -101,7 +108,34 @@ public class Enemy : Fighter
         }
     }
 
+    public override void TakeDamage(int dmg)
+    {
+        base.TakeDamage(dmg);
+        //animator.SetTrigger("TakeHit");
+        ColorRed(0.05f);
+    }
 
+    // Смена цветов при уроне
+    void SetColorTimer()
+    {
+        if (timerForColor > 0)                  // таймер для отображения урона
+            timerForColor -= Time.deltaTime;
+        if (red && timerForColor <= 0)
+            ColorWhite();
+    }
+    void ColorRed(float time)
+    {
+        timerForColor = time;
+        spriteRenderer.color = Color.red;
+        red = true;
+    }
+    void ColorWhite()
+    {
+        spriteRenderer.color = Color.white;
+        red = false;
+    }
+
+    // Поворот спрайта
     void FaceTargetRight()                                          // поворот направо
     {
         spriteRenderer.flipX = false;
@@ -119,13 +153,5 @@ public class Enemy : Fighter
     {
         base.Death();
         Destroy(gameObject);
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        // Draw a yellow sphere at the transform's position
-        Gizmos.color = Color.yellow;
-        //Gizmos.DrawSphere(transform.position, attackRadius);
-        Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
 }

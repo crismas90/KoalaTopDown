@@ -7,11 +7,11 @@ public class BulletRocket : Bullet
     public float expRadius = 3;
     public override void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemyFront))
+        if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemyFront))      // если попадаем ракетой прямо во врага
         {
             //enemyFront.TakeDamage(damage);
             Vector2 vec2 = (collision.transform.position - GameManager.instance.player.transform.position).normalized;
-            enemyFront.rb2D.AddForce(vec2 * 3, ForceMode2D.Impulse);
+            enemyFront.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
         }
 
         Collider2D[] collidersHits = Physics2D.OverlapCircleAll(transform.position, expRadius);     // создаем круг в позиции объекта с радиусом
@@ -26,10 +26,17 @@ public class BulletRocket : Bullet
             {
                 enemy.TakeDamage(enemy.attackDamage);                                               // наносим урон
                 Vector2 vec2 = (enemy.transform.position - transform.position).normalized;          // вычисляем вектор направления удара
-                enemy.rb2D.AddForce(vec2 * enemy.pushForce, ForceMode2D.Impulse);                   // даём импульс                                                                
+                enemy.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);                         // даём импульс                                                                
             }
             collidersHits = null;
         }
         base.OnTriggerEnter2D(collision);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;        
+        Gizmos.DrawWireSphere(transform.position, expRadius);
     }
 }

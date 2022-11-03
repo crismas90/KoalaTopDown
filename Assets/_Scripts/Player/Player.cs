@@ -16,7 +16,7 @@ public class Player : Fighter
     public float moveSpeed = 5f;                        // скорость передвижения    
     //Vector3 mousePosition;                              // вектор положения мыши
 
-    // Таймер
+    // Таймер для цветов при уроне
     float timerForColor;
     bool red;
 
@@ -47,11 +47,8 @@ public class Player : Fighter
         // Анимации 
         animator.SetFloat("Speed", rb2D.velocity.magnitude);
 
-        // Таймер для отображения урона
-        if (timerForColor > 0 )
-            timerForColor -= Time.deltaTime;
-        if (red && timerForColor <= 0)
-            ColorWhite();
+        // Выбор цвета при получении урона и его сброс
+        SetColorTimer();
     }
 
 
@@ -77,10 +74,17 @@ public class Player : Fighter
     {
         base.TakeDamage(dmg);
         animator.SetTrigger("TakeHit");
-        ColorRed(0.2f);
+        ColorRed(0.1f);
     }
 
     // Смена цветов при уроне
+    void SetColorTimer()
+    {        
+        if (timerForColor > 0)                  // таймер для отображения урона
+            timerForColor -= Time.deltaTime;
+        if (red && timerForColor <= 0)
+            ColorWhite();
+    }
     void ColorRed(float time)
     {
         timerForColor = time;        

@@ -20,7 +20,7 @@ public class Weapon : MonoBehaviour
     float pushForce;                        // сила толчка (возможно нужно сделать на снар€де)
     [HideInInspector] public float fireRate;                // скорострельность оружи€ (10 - 0,1 выстрелов в секунду)
     [HideInInspector] public float nextTimeToFire;          // дл€ стрельбы (когда стрел€ть в след раз)
-    [HideInInspector] public bool fireStart;
+    [HideInInspector] public bool fireStart;                // начало стрельбы (устанавливаетс€ в WeaponHolder)
 
     // ƒл€ флипа оружи€
     bool needFlip;                          // нужен флип (дл€ правильного отображени€ оружи€)    
@@ -35,8 +35,8 @@ public class Weapon : MonoBehaviour
     private void Start()
     {
         player = GameManager.instance.player;
-        weaponHolder = GetComponentInParent<WeaponHolder>().gameObject;         // находим weaponHolder
         spriteRenderer = GetComponent<SpriteRenderer>();
+        weaponHolder = GetComponentInParent<WeaponHolder>().gameObject;         // находим weaponHolder
         weaponName = weaponClass.name;                                          // им€
         bulletPrefab = weaponClass.bullet;                                      // тип снар€да
         bulletSpeed = weaponClass.bulletSpeed;                                  // скорость
@@ -52,9 +52,15 @@ public class Weapon : MonoBehaviour
         {
             nextTimeToFire = Time.time + 1f / fireRate;
             Fire();
+            CMCameraShake.Instance.ShakeCamera(1f, 0.1f);
         }
 
         // Ёффект флэш
+        Flash();        
+    }
+
+    void Flash()
+    {
         if (fireStart && !flashEffectActive)
         {
             if (flashEffect == null)
@@ -69,7 +75,6 @@ public class Weapon : MonoBehaviour
             flashEffect.SetActive(false);
             flashEffectActive = false;
         }
-
     }
 
     private void FixedUpdate()

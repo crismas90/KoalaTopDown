@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3071749746224958633}
   - component: {fileID: 4011024034582896118}
+  - component: {fileID: 3806995117466385971}
   - component: {fileID: 6266089601931315247}
   - component: {fileID: 8144049846394484820}
   - component: {fileID: -2232350860397090774}
-  - component: {fileID: 3806995117466385971}
   m_Layer: 8
   m_Name: Bullet_Rifle
   m_TagString: Untagged
@@ -88,6 +88,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &3806995117466385971
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5170081587130710907}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: dac8f1de678cd4542897df705eb5009f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!70 &6266089601931315247
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -139,23 +159,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   pushForce: 0
---- !u!95 &3806995117466385971
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5170081587130710907}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: dac8f1de678cd4542897df705eb5009f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  expEffect: {fileID: 6838830282863028361, guid: 9bcfbd57f80156d47881a4c5be09b696, type: 3}
