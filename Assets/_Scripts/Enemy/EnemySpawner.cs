@@ -31,10 +31,10 @@ public class EnemySpawner : MonoBehaviour
     public void SpawnEnemy()
     {
         int ndx = Random.Range(0, prefabEnemies.Length);            // выбираем рандом из массива врагов
-        GameObject go = Instantiate(prefabEnemies[ndx]);            // создаём префаб        
-
+        GameObject go = Instantiate(prefabEnemies[ndx]);            // создаём префаб
         go.transform.SetParent(transform, false);                   // Назначаем этот спавнер родителем
         agent = go.GetComponent<NavMeshAgent>();                    // Находим НавМешАгент
         agent.Warp(transform.position);                             // Перемещаем префаб к спавнеру
+        go.GetComponent<Enemy>().chasing = true;
     }
 }

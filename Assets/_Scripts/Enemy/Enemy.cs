@@ -11,7 +11,7 @@ public class Enemy : Fighter
 
     // Преследование
     [HideInInspector] public GameObject target;             // цель
-    bool chasing;                                           // статус преследования
+    [HideInInspector] public bool chasing;                  // статус преследования
     public float triggerLenght;                             // дистанция тригера
     public float distanceToAttack;                          // дистанция, с которой можно атаковать
     [HideInInspector] public bool targetVisible;            // видим мы цель или нет
