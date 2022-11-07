@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    // Ссылки
+    [Header("Ссылки")]
     Player player;
-    SpriteRenderer spriteRenderer;          
+    SpriteRenderer spriteRenderer;
     public WeaponClass weaponClass;         // ссылка на класс оружия
     public Transform firePoint;             // якорь для снарядов
-    public Transform pivot;                 // якорь weaponHolder
-    GameObject weaponHolder;                // ссылка на weaponHolder (для поворота)
+    public Transform pivot;                 // якорь weaponHolder (используется для прицеливания)
+    GameObject weaponHolderGO;              // ссылка на объект weaponHolder (для поворота)
+    WeaponHolder weaponHolder;              // ссылка на скрипт weaponHolder (для стрельбы)
 
     Vector3 mousePosition;                  // положение мыши
 
@@ -19,8 +20,7 @@ public class Weapon : MonoBehaviour
     int damage;                             // урон (возможно нужно сделать на снаряде)
     float pushForce;                        // сила толчка (возможно нужно сделать на снаряде)
     [HideInInspector] public float fireRate;                // скорострельность оружия (10 - 0,1 выстрелов в секунду)
-    [HideInInspector] public float nextTimeToFire;          // для стрельбы (когда стрелять в след раз)
-    [HideInInspector] public bool fireStart;                // начало стрельбы (устанавливается в WeaponHolder)
+    [HideInInspector] public float nextTimeToFire;          // для стрельбы (когда стрелять в след раз)    
 
     // Для флипа оружия
     bool needFlip;                          // нужен флип (для правильного отображения оружия)    
@@ -28,63 +28,80 @@ public class Weapon : MonoBehaviour
     bool rightFlip = true;                  // оружие справа
 
     // Эффекты
-    public GameObject flashEffect;
+    public Animator flashEffectAnimator;
+    public bool singleFlash;
     bool flashEffectActive;
+
+    [Header("Тряска камеры при выстреле")]
+    public float cameraAmplitudeShake = 1f;     // амплитуда
+    public float cameraTimedeShake = 0.1f;      // длительность
+
+
+
 
 
     private void Start()
     {
         player = GameManager.instance.player;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        weaponHolder = GetComponentInParent<WeaponHolder>().gameObject;         // находим weaponHolder
+        weaponHolderGO = GetComponentInParent<WeaponHolder>().gameObject;       // находим объект weaponHolder
+        weaponHolder = GetComponentInParent<WeaponHolder>();                    // находим скрипт weaponHolder
         weaponName = weaponClass.name;                                          // имя
         bulletPrefab = weaponClass.bullet;                                      // тип снаряда
         bulletSpeed = weaponClass.bulletSpeed;                                  // скорость
         damage = weaponClass.damage;                                            // урон
         pushForce = weaponClass.pushForce;                                      // сила толчка
         fireRate = weaponClass.fireRate;                                        // скорострельность        
+        //flashEffect = weaponClass.flashEffect;                                  // эффект вспышки при выстреле (флэш)
+
     }
 
     private void Update()
     {
         // Стрельба
-        if (fireStart && Time.time >= nextTimeToFire)
+        if (weaponHolder.fireStart && Time.time >= nextTimeToFire)                          // если начинаем стрелять и кд готово
         {
-            nextTimeToFire = Time.time + 1f / fireRate;
-            Fire();
-            CMCameraShake.Instance.ShakeCamera(1f, 0.1f);
+            nextTimeToFire = Time.time + 1f / fireRate;                                     // вычисляем кд
+            Fire();                                                                         // огонь
+            CMCameraShake.Instance.ShakeCamera(cameraAmplitudeShake, cameraTimedeShake);    // тряска камеры
+
+            // Эффект флэш для единичного эффекта (потом все так сделать наверное надо)
+            if (singleFlash)
+                FlashSingle();
         }
 
         // Эффект флэш
-        Flash();        
+        if (flashEffectAnimator != null && !singleFlash)        // если флэшэффект есть
+            Flash();        
     }
 
     void Flash()
     {
-        if (fireStart && !flashEffectActive)
+        if (weaponHolder.fireStart && !flashEffectActive)
         {
-            if (flashEffect == null)
-                return;
-            flashEffect.SetActive(true);
+            flashEffectAnimator.SetBool("Fire", true);
             flashEffectActive = true;
         }
-        if (!fireStart)
+        if (!weaponHolder.fireStart)
         {
-            if (flashEffect == null)
-                return;
-            flashEffect.SetActive(false);
+            flashEffectAnimator.SetBool("Fire", false);
             flashEffectActive = false;
         }
     }
+    void FlashSingle()
+    {
+        flashEffectAnimator.SetTrigger("Fire");
+    }
 
-    private void FixedUpdate()
+
+        private void FixedUpdate()
     {
         // Поворот оружия
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);                                                    // положение мыши                  
         Vector3 aimDirection = mousePosition - pivot.transform.position;                                                        // угол между положением мыши и weaponHolder (но нужно между firePoint)          
         float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;                                           // находим угол в градусах             
         Quaternion qua1 = Quaternion.Euler(0, 0, aimAngle);                                                                     // создаем этот угол в Quaternion
-        weaponHolder.transform.rotation = Quaternion.Lerp(weaponHolder.transform.rotation, qua1, Time.fixedDeltaTime * 15);     // делаем Lerp между weaponHoder и нашим углом
+        weaponHolderGO.transform.rotation = Quaternion.Lerp(weaponHolderGO.transform.rotation, qua1, Time.fixedDeltaTime * 15); // делаем Lerp между weaponHoder и нашим углом
 
         // Флип оружия
         if (Mathf.Abs(aimAngle) > 90 && rightFlip)
@@ -137,6 +154,6 @@ public class Weapon : MonoBehaviour
         bullet.GetComponent<Bullet>().damage = damage;                                                      // присваиваем урон снаряду
         bullet.GetComponent<Bullet>().pushForce = pushForce;                                                // присваиваем урон снаряду
         bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.right * bulletSpeed, ForceMode2D.Impulse);    // даём импульс
-        //bullet.transform.Rotate(0.0f, 0.0f, -90.0f, Space.Self);                                             // поворачиваем снаряд (для ракеты)
+        //bullet.transform.Rotate(0.0f, 0.0f, -90.0f, Space.Self);                                             // поворачиваем снаряд
     }
 }

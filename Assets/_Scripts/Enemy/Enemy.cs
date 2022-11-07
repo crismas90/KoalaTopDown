@@ -26,6 +26,7 @@ public class Enemy : Fighter
     //public float attackSpeed = 1;                           // скорость атаки
 
     // Для анимации
+    public GameObject deathEffect;                          // эффект (потом сделать его в аниматоре (или  нет))
     bool flipLeft;                                          // для флипа
     bool flipRight;                                         //    
 
@@ -152,6 +153,16 @@ public class Enemy : Fighter
     protected override void Death()
     {
         base.Death();
+        CMCameraShake.Instance.ShakeCamera(3, 0.2f);                                            // тряска камеры
+        GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);  // создаем эффект
+        Destroy(effect, 1);                                                                     // уничтожаем эффект через .. сек
         Destroy(gameObject);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, distanceToAttack);
     }
 }

@@ -6,9 +6,11 @@ public class Player : Fighter
 {
     // Ссылки
     [HideInInspector] public Rigidbody2D rb2D;
-    Animator animator;
+    [HideInInspector] public Animator animator;
     NavMeshAgent agent;
     [HideInInspector] public SpriteRenderer spriteRenderer;
+    [HideInInspector] public WeaponHolder weaponHolder;
+
 
     // Передвижение
     [HideInInspector] public Vector2 moveDirection;     // вектор для перемещения (направление)
@@ -30,6 +32,7 @@ public class Player : Fighter
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        weaponHolder = GetComponentInChildren<WeaponHolder>();
 
         agent.updateRotation = false;
         agent.updateUpAxis = false;

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: RocketLauncher
   m_EditorClassIdentifier: 
   weaponName: "\u0420\u0430\u043A\u0435\u0442\u043D\u0438\u0446\u0430"
-  bullet: {fileID: 2964085781682761175, guid: 689a4741e2e6d3d4295070fc2825abdd, type: 3}
-  damage: 1
+  bullet: {fileID: 2609019957272575851, guid: a973d9f66c30a584396351f203d6b99c, type: 3}
+  damage: 100
   pushForce: 20
   bulletSpeed: 10
   fireRate: 2

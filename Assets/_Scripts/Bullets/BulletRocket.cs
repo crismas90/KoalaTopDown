@@ -24,12 +24,13 @@ public class BulletRocket : Bullet
 
             if (coll.gameObject.TryGetComponent<Enemy>(out Enemy enemy))                            // ищем скрипт енеми
             {
-                enemy.TakeDamage(enemy.attackDamage);                                               // наносим урон
+                enemy.TakeDamage(damage);                                                           // наносим урон
                 Vector2 vec2 = (enemy.transform.position - transform.position).normalized;          // вычисляем вектор направления удара
                 enemy.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);                         // даём импульс                                                                
             }
             collidersHits = null;
         }
+        CMCameraShake.Instance.ShakeCamera(3, 0.1f);            // тряска камеры
         base.OnTriggerEnter2D(collision);
     }
 

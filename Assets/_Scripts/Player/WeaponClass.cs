@@ -8,5 +8,6 @@ public class WeaponClass : ScriptableObject
     public int damage;
     public float pushForce;
     public int bulletSpeed;
-    public float fireRate;    
+    public float fireRate;
+    //public GameObject flashEffect;
 }
