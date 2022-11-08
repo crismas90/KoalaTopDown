@@ -183,12 +183,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAlive: 1
   currentHealth: 0
-  maxHealth: 60
+  maxHealth: 100
   animator: {fileID: 0}
   rb2D: {fileID: 0}
   target: {fileID: 0}
   chasing: 0
-  triggerLenght: 7
+  triggerLenght: 5
   distanceToAttack: 1.1
   targetVisible: 0
   readyToAttack: 0

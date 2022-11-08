@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class UnityEventTest : MonoBehaviour
+public class UnityEventKey : MonoBehaviour
 {
     public UnityEvent keyEvent;
 

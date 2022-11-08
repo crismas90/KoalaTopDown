@@ -9,8 +9,19 @@ public class GameManager : MonoBehaviour
     [Header("Ссылки")]
     public Player player;                       // ссылка на игрока
 
+    [Header("Предметы")]
+    public int keys;                            // ключи
+
     private void Awake()
     {
         instance = this;
+    }
+
+    public void TakeKey(bool findKey)
+    {
+        if (findKey)
+            keys++;
+        else if (!findKey && keys > 0)
+            keys--;
     }
 }

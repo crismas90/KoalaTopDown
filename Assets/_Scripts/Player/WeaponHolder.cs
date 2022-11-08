@@ -21,10 +21,10 @@ public class WeaponHolder : MonoBehaviour
     void Start()
     {
         player = GameManager.instance.player;
-        //BuyWeapon(0);
-        //BuyWeapon(1);
+        BuyWeapon(0);
+        BuyWeapon(1);
         //BuyWeapon(2);
-        //SelectWeapon();
+        SelectWeapon();
     }
 
     private void Update()

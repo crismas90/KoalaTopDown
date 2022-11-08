@@ -12,9 +12,9 @@ public class Player : Fighter
     [HideInInspector] public WeaponHolder weaponHolder;
 
     // Передвижение
-    [Header("Параметры перемещения")]
     [HideInInspector] public Vector2 moveDirection;     // вектор для перемещения (направление)
     Vector2 movementVector;                             // вектор перещение (добавляем скорость)
+    [Header("Параметры перемещения")]
     public float moveSpeed = 5f;                        // скорость передвижения      
 
     // Таймер для цветов при уроне
