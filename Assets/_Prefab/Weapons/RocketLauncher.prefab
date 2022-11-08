@@ -170,8 +170,8 @@ MonoBehaviour:
   nextTimeToFire: 0
   flashEffectAnimator: {fileID: 6982191634660688761}
   singleFlash: 1
-  cameraAmplitudeShake: 1
-  cameraTimedeShake: 0.1
+  cameraAmplitudeShake: 1.5
+  cameraTimedeShake: 0.3
 --- !u!1 &6020096225174558978
 GameObject:
   m_ObjectHideFlags: 0

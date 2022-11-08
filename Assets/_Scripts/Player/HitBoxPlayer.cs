@@ -38,7 +38,7 @@ public class HitBoxPlayer : MonoBehaviour
                 if (coll.gameObject.TryGetComponent<Enemy>(out Enemy enemy))                            // ищем скрипт енеми
                 {
                     enemy.TakeDamage(damage);                                                           // наносим урон
-                    Vector2 vec2 = (enemy.transform.position - transform.position).normalized;          // вычисляем вектор направления удара
+                    Vector2 vec2 = (enemy.transform.position - player.transform.position).normalized;          // вычисляем вектор направления удара
                     enemy.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);                         // даём импульс                                                                
                 }
                 collidersHits = null;

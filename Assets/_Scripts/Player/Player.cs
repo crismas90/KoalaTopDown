@@ -5,18 +5,17 @@ using UnityEngine.AI;
 public class Player : Fighter
 {
     // Ссылки
-    [HideInInspector] public Rigidbody2D rb2D;
+    [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Animator animator;
     NavMeshAgent agent;
     [HideInInspector] public SpriteRenderer spriteRenderer;
     [HideInInspector] public WeaponHolder weaponHolder;
 
-
     // Передвижение
+    [Header("Параметры перемещения")]
     [HideInInspector] public Vector2 moveDirection;     // вектор для перемещения (направление)
     Vector2 movementVector;                             // вектор перещение (добавляем скорость)
-    public float moveSpeed = 5f;                        // скорость передвижения    
-    //Vector3 mousePosition;                              // вектор положения мыши
+    public float moveSpeed = 5f;                        // скорость передвижения      
 
     // Таймер для цветов при уроне
     float timerForColor;
@@ -28,14 +27,14 @@ public class Player : Fighter
 
     private void Start()
     {
-        rb2D = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         weaponHolder = GetComponentInChildren<WeaponHolder>();
 
-        agent.updateRotation = false;
-        agent.updateUpAxis = false;
+        agent.updateRotation = false;               // для навМеш2д
+        agent.updateUpAxis = false;                 //
     }
 
     void Update()
@@ -43,12 +42,11 @@ public class Player : Fighter
         // Перемещение и направление
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");        
-        moveDirection = new Vector2(moveX, moveY).normalized;                       // скорость нормализированная
-        //UpdateMotor(moveDirection);
-        //mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);        // положение мыши
+        moveDirection = new Vector2(moveX, moveY).normalized;                       // скорость нормализированная 
 
         // Анимации 
-        animator.SetFloat("Speed", rb2D.velocity.magnitude);
+        animator.SetFloat("Speed", movementVector.magnitude);
+        //Debug.Log(movementVector.magnitude);
 
         // Выбор цвета при получении урона и его сброс
         SetColorTimer();
@@ -57,27 +55,38 @@ public class Player : Fighter
 
     private void FixedUpdate()
     {
-        // Скорость
+        // Перемещение
+        UpdateMotor(moveDirection);             // запускаем мотор
+
         //rb2D.AddForce(moveDirection * moveSpeed);
-        //rb2D.MovePosition(rb2D.position + moveDirection * moveSpeed * Time.deltaTime);                  // скорость полная  
-        rb2D.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);       // скорость полная        
+        //rb2D.MovePosition(rb2D.position + moveDirection * moveSpeed * Time.deltaTime);                // скорость полная  
+        //rb2D.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);        // скорость полная        
     }
 
+    // Мотор
+    void UpdateMotor(Vector2 input)
+    {
+        movementVector = new Vector2(input.x * moveSpeed, input.y * moveSpeed);     // добавляем скорость к направлению
+        transform.Translate(movementVector * Time.deltaTime);                       // перемещаем с учётом дельтаТайм
 
-    /*    void UpdateMotor(Vector2 input)
-        {
-            movementVector = new Vector2(input.x * agent.speed, input.y * agent.speed);                      // создаем вектор куда нужно переместится        
-            agent.Move(movementVector * Time.deltaTime);                                                        // перемещаем с учётом дельтаТайм
-            Debug.Log(movementVector);
-        }*/
+        /*movementVector = new Vector2(input.x * agent.speed, input.y * agent.speed);                      // создаем вектор куда нужно переместится        
+        agent.Move(movementVector * Time.deltaTime);                                                        // перемещаем с учётом дельтаТайм
+        Debug.Log(movementVector);*/
+    }
 
+    // Отдача
+    public void ForceBackFire(Vector3 forceDirection, float forceBack)
+    {
+        Vector2 vec2 = (transform.position - forceDirection).normalized;        // направление отдачи нормализированное
+        rb.AddForce(vec2 * forceBack, ForceMode2D.Impulse);                   // толкаем импульсом
+    }
 
-
+    // Получение урона
     public override void TakeDamage(int dmg)
     {
         base.TakeDamage(dmg);
         animator.SetTrigger("TakeHit");
-        ColorRed(0.1f);
+        ColorRed(0.1f);                         // делаем спрайт красным
     }
 
     // Смена цветов при уроне

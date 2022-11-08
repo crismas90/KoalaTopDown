@@ -53,6 +53,7 @@ MonoBehaviour:
   pivot: {fileID: 5263069249925988804}
   fireRate: 15
   nextTimeToFire: 0
+  forceBackFire: 0.5
   flashEffectAnimator: {fileID: 2802771401264512540}
   singleFlash: 0
   cameraAmplitudeShake: 1

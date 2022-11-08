@@ -18,3 +18,4 @@ MonoBehaviour:
   pushForce: 3
   bulletSpeed: 15
   fireRate: 10
+  forceBackFire: 0.1

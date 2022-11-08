@@ -2,16 +2,15 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    [Header("Ссылки")]
+    [Header("Ссылки")]                      // почему-то не отображается
     Player player;
     SpriteRenderer spriteRenderer;
     public WeaponClass weaponClass;         // ссылка на класс оружия
     public Transform firePoint;             // якорь для снарядов
     public Transform pivot;                 // якорь weaponHolder (используется для прицеливания)
-    GameObject weaponHolderGO;              // ссылка на объект weaponHolder (для поворота)
     WeaponHolder weaponHolder;              // ссылка на скрипт weaponHolder (для стрельбы)
-
-    Vector3 mousePosition;                  // положение мыши
+    //GameObject weaponHolderGO;              // ссылка на объект weaponHolder (для поворота)
+    //Vector3 mousePosition;                  // положение мыши
 
     // Параметры оружия (из класса оружия)
     string weaponName;                      // название оружия
@@ -20,14 +19,15 @@ public class Weapon : MonoBehaviour
     int damage;                             // урон (возможно нужно сделать на снаряде)
     float pushForce;                        // сила толчка (возможно нужно сделать на снаряде)
     [HideInInspector] public float fireRate;                // скорострельность оружия (10 - 0,1 выстрелов в секунду)
-    [HideInInspector] public float nextTimeToFire;          // для стрельбы (когда стрелять в след раз)    
+    [HideInInspector] public float nextTimeToFire;          // для стрельбы (когда стрелять в след раз)
+    float forceBackFire;             // отдача оружия
 
     // Для флипа оружия
     bool needFlip;                          // нужен флип (для правильного отображения оружия)    
     bool leftFlip;                          // оружие слева
     bool rightFlip = true;                  // оружие справа
 
-    // Эффекты
+    [Header("Эффекты")]
     public Animator flashEffectAnimator;
     public bool singleFlash;
     bool flashEffectActive;
@@ -37,23 +37,20 @@ public class Weapon : MonoBehaviour
     public float cameraTimedeShake = 0.1f;      // длительность
 
 
-
-
-
     private void Start()
     {
         player = GameManager.instance.player;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        weaponHolderGO = GetComponentInParent<WeaponHolder>().gameObject;       // находим объект weaponHolder
+        //weaponHolderGO = GetComponentInParent<WeaponHolder>().gameObject;       // находим объект weaponHolder
         weaponHolder = GetComponentInParent<WeaponHolder>();                    // находим скрипт weaponHolder
         weaponName = weaponClass.name;                                          // имя
         bulletPrefab = weaponClass.bullet;                                      // тип снаряда
         bulletSpeed = weaponClass.bulletSpeed;                                  // скорость
         damage = weaponClass.damage;                                            // урон
         pushForce = weaponClass.pushForce;                                      // сила толчка
-        fireRate = weaponClass.fireRate;                                        // скорострельность        
+        fireRate = weaponClass.fireRate;                                        // скорострельность
+        forceBackFire = weaponClass.forceBackFire;                              // сила отдачи
         //flashEffect = weaponClass.flashEffect;                                  // эффект вспышки при выстреле (флэш)
-
     }
 
     private void Update()
@@ -70,7 +67,7 @@ public class Weapon : MonoBehaviour
                 FlashSingle();
         }
 
-        // Эффект флэш
+        // Эффект флэш для мультиэффекта
         if (flashEffectAnimator != null && !singleFlash)        // если флэшэффект есть
             Flash();        
     }
@@ -94,23 +91,23 @@ public class Weapon : MonoBehaviour
     }
 
 
-        private void FixedUpdate()
+    private void FixedUpdate()
     {
-        // Поворот оружия
-        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);                                                    // положение мыши                  
-        Vector3 aimDirection = mousePosition - pivot.transform.position;                                                        // угол между положением мыши и weaponHolder (но нужно между firePoint)          
-        float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;                                           // находим угол в градусах             
-        Quaternion qua1 = Quaternion.Euler(0, 0, aimAngle);                                                                     // создаем этот угол в Quaternion
-        weaponHolderGO.transform.rotation = Quaternion.Lerp(weaponHolderGO.transform.rotation, qua1, Time.fixedDeltaTime * 15); // делаем Lerp между weaponHoder и нашим углом
+        // Находим угол для флипа холдера и спрайта игрока
+        //mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);                // положение мыши                  
+        //Vector3 aimDirection = mousePosition - transform.position;                          // угол между положением мыши и pivot оружия          
+        //float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;       // находим угол в градусах             
+        //Quaternion qua1 = Quaternion.Euler(0, 0, aimAngle);                                 // создаем этот угол в Quaternion
+        //weaponHolderGO.transform.rotation = Quaternion.Lerp(weaponHolderGO.transform.rotation, qua1, Time.fixedDeltaTime * 15); // делаем Lerp между weaponHoder и нашим углом
 
-        // Флип оружия
-        if (Mathf.Abs(aimAngle) > 90 && rightFlip)
+        // Флип оружия и спрайта игрока
+        if (Mathf.Abs(weaponHolder.aimAngle) > 90 && rightFlip)
         {
             needFlip = true;
             leftFlip = true;
             rightFlip = false;
         }
-        if (Mathf.Abs(aimAngle) <= 90 && leftFlip)
+        if (Mathf.Abs(weaponHolder.aimAngle) <= 90 && leftFlip)
         {
             needFlip = true;
             rightFlip = true;
@@ -137,12 +134,10 @@ public class Weapon : MonoBehaviour
         if (leftFlip)                                                                                   // разворот налево
         {
             transform.localScale = new Vector3(transform.localScale.x, -1, transform.localScale.z);     // поворачиваем оружие через scale
-            player.spriteRenderer.flipX = true;                                                         // поворачиваем спрайт игрока
         }
         if (rightFlip)
         {
-            transform.localScale = new Vector3(transform.localScale.x, 1, transform.localScale.z);          
-            player.spriteRenderer.flipX = false;
+            transform.localScale = new Vector3(transform.localScale.x, 1, transform.localScale.z);             
         }
         needFlip = false;
     }
@@ -155,5 +150,6 @@ public class Weapon : MonoBehaviour
         bullet.GetComponent<Bullet>().pushForce = pushForce;                                                // присваиваем урон снаряду
         bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.right * bulletSpeed, ForceMode2D.Impulse);    // даём импульс
         //bullet.transform.Rotate(0.0f, 0.0f, -90.0f, Space.Self);                                             // поворачиваем снаряд
+        player.ForceBackFire(firePoint.transform.position, forceBackFire);                                  // даём отдачу оружия
     }
 }

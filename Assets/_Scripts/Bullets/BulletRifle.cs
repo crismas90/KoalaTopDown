@@ -12,6 +12,11 @@ public class BulletRifle : Bullet
             Vector2 vec2 = (collision.transform.position - GameManager.instance.player.transform.position).normalized;
             enemy.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
         }
-        base.OnTriggerEnter2D(collision);
+        Explosion();
+        base.OnTriggerEnter2D(collision);               // там пусто пока что
+    }
+    public override void Explosion()
+    {
+        base.Explosion();
     }
 }
