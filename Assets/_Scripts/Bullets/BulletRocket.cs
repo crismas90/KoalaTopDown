@@ -18,8 +18,8 @@ public class BulletRocket : Bullet
             Vector2 vec2 = (collision.transform.position - GameManager.instance.player.transform.position).normalized;
             enemyFront.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
         }
-        Explosion();
         base.OnTriggerEnter2D(collision);           // там пусто пока что
+        Explosion();
     }
 
     public override void Explosion()
