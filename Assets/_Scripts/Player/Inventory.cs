@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Inventory: MonoBehaviour
 {
-    public int keys;
+/*    public int keys;
 
     public void TakeKey()
     {
         keys++;
-    }
+    }*/
 }

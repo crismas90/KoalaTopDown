@@ -1,0 +1,29 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Door : MonoBehaviour
+{
+    public Sprite openedDoorSprite;
+    SpriteRenderer spriteRenderer;
+    BoxCollider2D boxCollider2D;
+    bool isOpened;
+    
+
+    private void Start()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        boxCollider2D = GetComponent<BoxCollider2D>();
+    }
+
+    public void OpenDoorWithKey()
+    {   
+        if (GameManager.instance.keys > 0 && !isOpened)         // если ключей больше 0 и дверь ещё не открыта
+        {
+            spriteRenderer.sprite = openedDoorSprite;           // меняем спрайт закрытой двери на спрайт открытой
+            boxCollider2D.enabled = false;                      // убираем коллайдер
+            GameManager.instance.TakeKey(false);                // забираем ключ
+            isOpened = true;                                    // дверь открыта
+        }
+    }
+}
