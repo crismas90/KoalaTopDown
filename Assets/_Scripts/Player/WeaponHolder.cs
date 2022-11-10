@@ -3,18 +3,28 @@ using System.Collections.Generic;
 
 public class WeaponHolder : MonoBehaviour
 {
+    Player player;
     public List<GameObject> weapons;                    // Список оружий    
-    Weapon currentWeapon;                               // текущее оружие
+    //Weapon currentWeapon;                               // текущее оружие
     [HideInInspector] public int selectedWeapon = 0;    // индекс оружия (положение в иерархии WeaponHolder)
     [HideInInspector] public bool fireStart;            // начать стрельбу
-    [HideInInspector] public bool attackHitBoxStart;            // начать стрельбу
+    [HideInInspector] public bool attackHitBoxStart;    // начать атаку мечом
+    [HideInInspector] public float aimAngle;            // угол поворота для вращения холдера с оружием и хитбоксПивота
+    Vector3 mousePosition;                              // положение мыши
+
+    // Для флипа оружия
+    bool needFlip;                          // нужен флип (для правильного отображения оружия)    
+    bool leftFlip;                          // оружие слева
+    bool rightFlip = true;                  // оружие справа
+
 
     void Start()
-    {      
-        //BuyWeapon(0);
-        //BuyWeapon(1);
+    {
+        player = GameManager.instance.player;
+        BuyWeapon(0);
+        BuyWeapon(1);
         //BuyWeapon(2);
-        //SelectWeapon();
+        SelectWeapon();
     }
 
     private void Update()
@@ -22,11 +32,11 @@ public class WeaponHolder : MonoBehaviour
         //Debug.Log(weapons.Count - 1);
 
         // Стрельба
-        if (Input.GetMouseButtonDown(0))       
+        if (Input.GetMouseButtonDown(0))
         {
             fireStart = true;                     // вызываем функцию стрельбы у текущего оружия
         }
-        if (Input.GetMouseButtonUp(0))         
+        if (Input.GetMouseButtonUp(0))
         {
             fireStart = false;                    // вызываем функцию стрельбы у текущего оружия
         }
@@ -42,6 +52,31 @@ public class WeaponHolder : MonoBehaviour
         }
 
 
+        // Поворот оружия
+        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);                        // положение мыши                  
+        Vector3 aimDirection = mousePosition - transform.position;                                  // угол между положением мыши и pivot оружия          
+        aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;                     // находим угол в градусах             
+        Quaternion qua1 = Quaternion.Euler(0, 0, aimAngle);                                         // создаем этот угол в Quaternion
+        transform.rotation = Quaternion.Lerp(transform.rotation, qua1, Time.fixedDeltaTime * 15);   // делаем Lerp между weaponHoder и нашим углом
+        //Debug.Log(aimAngle);
+
+        // Флип спрайта игрока
+        if (Mathf.Abs(aimAngle) > 90 && rightFlip)
+        {
+            needFlip = true;
+            leftFlip = true;
+            rightFlip = false;
+        }
+        if (Mathf.Abs(aimAngle) <= 90 && leftFlip)
+        {
+            needFlip = true;
+            rightFlip = true;
+            leftFlip = false;
+        }
+        if (needFlip)
+        {
+            Flip();
+        }
 
         // Выбор оружия
         int previousWeapon = selectedWeapon;                                // присваиваем переменной индекс оружия
@@ -61,28 +96,42 @@ public class WeaponHolder : MonoBehaviour
                 selectedWeapon--;
         }
 
-/*        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            selectedWeapon = 0;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >= 2)
-        {
-            selectedWeapon = 1;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3) && transform.childCount >= 3)
-        {
-            selectedWeapon = 2;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3) && transform.childCount >= 4)
-        {
-            selectedWeapon = 3;
-        }*/
+        /*        if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    selectedWeapon = 0;
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >= 2)
+                {
+                    selectedWeapon = 1;
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha3) && transform.childCount >= 3)
+                {
+                    selectedWeapon = 2;
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha3) && transform.childCount >= 4)
+                {
+                    selectedWeapon = 3;
+                }*/
 
-        if (previousWeapon != selectedWeapon)                   // если индекс оружия изменился - вызываем функцию
+        if (previousWeapon != selectedWeapon)               // если индекс оружия изменился - вызываем функцию
         {
             SelectWeapon();
         }
     }
+
+
+    void Flip()
+    {
+        if (leftFlip)                                   // разворот налево
+        {
+            player.spriteRenderer.flipX = true;         // поворачиваем спрайт игрока
+        }
+        if (rightFlip)
+        {            
+            player.spriteRenderer.flipX = false;
+        }
+        needFlip = false;
+    } 
 
     // Смена оружия
     public void SelectWeapon()
@@ -101,6 +150,7 @@ public class WeaponHolder : MonoBehaviour
         }
     }
 
+    // Покупка оружия (подбираем оружие)
     public void BuyWeapon(int weaponNumber)
     {
         GameObject weaponGO = Instantiate(weapons[weaponNumber], (transform.position), transform.rotation);

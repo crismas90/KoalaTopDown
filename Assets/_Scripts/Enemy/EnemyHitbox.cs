@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyHitbox : MonoBehaviour
 {
     Enemy enemy;
+    //public WeaponHolder weaponHolder;
     public float attackRadius;                              // радиус атаки
     
     void Start()
@@ -34,13 +35,13 @@ public class EnemyHitbox : MonoBehaviour
                 {
                     player.TakeDamage(enemy.attackDamage);                                              // наносим урон
                     Vector2 vec2 = (player.transform.position - transform.position).normalized;         // вычисляем вектор направления удара
-                    player.rb2D.AddForce(vec2 * enemy.pushForce, ForceMode2D.Impulse);                  // даём импульс
+                    player.rb.AddForce(vec2 * enemy.pushForce, ForceMode2D.Impulse);                  // даём импульс
                     enemy.animator.SetTrigger("Attack");                                                // начинаем анимацию
                     //Debug.Log("Player!");
                 }
                 collidersHitbox = null;                                                                 // сбрасываем все найденные объекты (на самом деле непонятно как это работает)
             }            
-        }
+        }        
     }
 
     void OnDrawGizmosSelected()

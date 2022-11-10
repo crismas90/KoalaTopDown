@@ -16,8 +16,8 @@ TagManager:
   - Enemy
   - BulletPlayer
   - WeaponPickUp
-  - 
-  - 
+  - TriggerEvent
+  - PostProcessing
   - 
   - 
   - 
@@ -41,4 +41,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Top
+    uniqueID: 246409961
+    locked: 0
+  - name: BackGround
+    uniqueID: 3604680985
     locked: 0

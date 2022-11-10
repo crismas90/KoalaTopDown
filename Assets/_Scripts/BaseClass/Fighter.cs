@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Fighter : MonoBehaviour
 {
+    [Header("Параметры")]
     public bool isAlive = true;
     public int currentHealth;
     public int maxHealth;

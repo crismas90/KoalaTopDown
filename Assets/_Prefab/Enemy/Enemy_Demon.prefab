@@ -183,18 +183,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAlive: 1
   currentHealth: 0
-  maxHealth: 60
+  maxHealth: 100
   animator: {fileID: 0}
   rb2D: {fileID: 0}
   target: {fileID: 0}
-  triggerLenght: 7
-  distanceToAttack: 1
+  chasing: 0
+  triggerLenght: 5
+  distanceToAttack: 1.1
   targetVisible: 0
   readyToAttack: 0
   lastAttack: 0
-  cooldown: 1
-  attackDamage: 1
-  pushForce: 0
+  cooldown: 0.5
+  attackDamage: 2
+  pushForce: 15
   deathEffect: {fileID: 7845441016114820387, guid: 87167e05437f7c844b845e558dc030aa, type: 3}
 --- !u!1 &8105260069407886602
 GameObject:
@@ -240,4 +241,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b03f2c74ed169fe4cabb684c22f4cfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRadius: 0.5
+  attackRadius: 0.55

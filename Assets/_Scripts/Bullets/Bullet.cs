@@ -8,6 +8,11 @@ public class Bullet : MonoBehaviour
 
     public virtual void OnTriggerEnter2D(Collider2D collision)
     {
+
+    }
+
+    public virtual void Explosion()
+    {
         GameObject effect = Instantiate(expEffect, transform.position, Quaternion.identity);    // создаем эффект
         Destroy(effect, 0.5f);                                                                  // уничтожаем эффект через .. сек     
         Destroy(gameObject);                                                                    // уничтожаем пулю

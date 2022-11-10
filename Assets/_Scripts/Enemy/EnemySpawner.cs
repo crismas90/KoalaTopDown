@@ -3,11 +3,15 @@ using UnityEngine.AI;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject[] prefabEnemies;      // массив префабов с зомби
     NavMeshAgent agent;
 
-    public bool active;
-    public float cooldown = 1f;             // перезарядка спауна
+    [Header("Префабы врагов")]
+    public GameObject[] prefabEnemies;      // массив префабов с зомби
+
+    public bool active;                     // активен или нет
+    public bool chasePlayer;                // триггер врагов срабатывает сразу
+    public float cooldown = 1f;             // перезарядка спауна    
+    //public int enemyTriggerDistance;        // установить дистанцию тригера врагов
     private float lastSpawn;
 
 
@@ -32,9 +36,10 @@ public class EnemySpawner : MonoBehaviour
     {
         int ndx = Random.Range(0, prefabEnemies.Length);            // выбираем рандом из массива врагов
         GameObject go = Instantiate(prefabEnemies[ndx]);            // создаём префаб
-        go.transform.SetParent(transform, false);                   // Назначаем этот спавнер родителем
-        agent = go.GetComponent<NavMeshAgent>();                    // Находим НавМешАгент
-        agent.Warp(transform.position);                             // Перемещаем префаб к спавнеру
-        go.GetComponent<Enemy>().chasing = true;
+        go.transform.SetParent(transform, false);                   // назначаем этот спавнер родителем
+        agent = go.GetComponent<NavMeshAgent>();                    // находим НавМешАгент
+        agent.Warp(transform.position);                             // перемещаем префаб к спавнеру
+        if(chasePlayer)
+            go.GetComponent<Enemy>().chasing = true;                // устанавливаем преследование за игроком
     }
 }
