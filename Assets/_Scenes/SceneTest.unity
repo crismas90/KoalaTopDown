@@ -138,7 +138,6 @@ GameObject:
   - component: {fileID: 63706629}
   - component: {fileID: 63706632}
   - component: {fileID: 63706636}
-  - component: {fileID: 63706637}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -315,14 +314,6 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!81 &63706637
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 63706628}
-  m_Enabled: 1
 --- !u!1001 &121104264
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8098,12 +8089,12 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 670307193}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 488403213b3486146ae63964af83861e, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
