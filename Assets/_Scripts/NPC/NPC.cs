@@ -3,14 +3,14 @@ using UnityEngine.Events;
 
 public class NPC : MonoBehaviour
 {    
-    public string[] textToSay;
-    int dialogeNumber;
-    public bool textDone;
+    public string[] textToSay;      // текст дл€ диалога
+    int dialogeNumber;              // номер диалога
+    bool isTextDone;                // проговорили весь текст
 
 
     public void Speak()
     {
-        if (!textDone)
+        if (!isTextDone)
         {
             ChatBubble.Clear(gameObject);
             if (dialogeNumber == 0)
@@ -26,25 +26,15 @@ public class NPC : MonoBehaviour
 
             if (dialogeNumber >= textToSay.Length)
             {
-                dialogeNumber = 1;
+                isTextDone = true;
             }
         }
-        else
-        {
-            ChatBubble.Clear(gameObject);
-            ChatBubble.Create(transform, new Vector3(0f, 0f), "¬сЄ, молодец, иди дальше");
-        }  
-    }
-
-    public void TextDone()
-    {
-        textDone = true;
     }
 
     public void SpeakText(string text)
     {
         ChatBubble.Clear(gameObject);
-        ChatBubble.Create(transform, new Vector3(0f, 0f), text);
+        ChatBubble.Create(transform, new Vector3(0f, 0f), text);        
     }
 
 /*    void ClearDialoge()

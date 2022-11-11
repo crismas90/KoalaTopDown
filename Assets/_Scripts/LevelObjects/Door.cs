@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    public Sprite openedDoorSprite;
+    public Sprite openedDoorSprite;         // спрайт открыйтой двери
     SpriteRenderer spriteRenderer;
     BoxCollider2D boxCollider2D;
     bool isOpened;

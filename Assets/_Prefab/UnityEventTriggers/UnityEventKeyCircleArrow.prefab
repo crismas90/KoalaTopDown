@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 366399733124784376}
   - component: {fileID: 2660023156008569600}
   m_Layer: 10
-  m_Name: EventTriggerCircle
+  m_Name: UnityEventKeyCircleArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,9 +62,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69f6c280aa3acdd41b05baf13977d671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  withArrow: 0
-  key: 101
   spriteButtomUse: {fileID: 8526230229399481002}
+  key: 101
   interactAction:
     m_PersistentCalls:
       m_Calls: []
@@ -78,6 +77,10 @@ PrefabInstance:
     - target: {fileID: 3237850732736583336, guid: e8a09d50e0ff3c44ca6f33a0379cf56d, type: 3}
       propertyPath: m_Name
       value: QuestArrow
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237850732736583336, guid: e8a09d50e0ff3c44ca6f33a0379cf56d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3237850732736583337, guid: e8a09d50e0ff3c44ca6f33a0379cf56d, type: 3}
       propertyPath: m_RootOrder

@@ -6,15 +6,16 @@ using UnityEngine.Events;
 public class UnityEventInteract : MonoBehaviour
 {
     [Header("Параметры")]
-    public bool withArrow;
-    public KeyCode key;
-    bool isInRange;
-    public SpriteRenderer spriteButtomUse;
-    public UnityEvent interactAction;
+    public bool withArrow;                      // со стрелкой или без
+    public KeyCode key;                         // клавиша для действия
+    public UnityEvent interactAction;           // ивент
+    bool isInRange;                             // в ренже или нет
+    GameObject arrow;                           // стрелка
 
     private void Start()
     {
-        spriteButtomUse.enabled = false;
+        arrow = transform.Find("QuestArrow").gameObject;
+        arrow.SetActive(false);
     }
 
     public void Update()
@@ -34,7 +35,7 @@ public class UnityEventInteract : MonoBehaviour
         {
             isInRange = true;
             if (withArrow)
-                spriteButtomUse.enabled = true;
+                arrow.SetActive(true);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -43,7 +44,7 @@ public class UnityEventInteract : MonoBehaviour
         {
             isInRange = false;
             if (withArrow)
-                spriteButtomUse.enabled = false;
+                arrow.SetActive(false);
         }
     }
 }
