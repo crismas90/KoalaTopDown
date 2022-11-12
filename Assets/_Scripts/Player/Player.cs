@@ -4,8 +4,7 @@ using UnityEngine.AI;
 
 public class Player : Fighter
 {
-    // Ссылки
-    [HideInInspector] public Rigidbody2D rb;
+    // Ссылки    
     [HideInInspector] public Animator animator;
     NavMeshAgent agent;
     [HideInInspector] public SpriteRenderer spriteRenderer;
@@ -26,8 +25,7 @@ public class Player : Fighter
 
 
     private void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
+    {        
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -78,7 +76,7 @@ public class Player : Fighter
     public void ForceBackFire(Vector3 forceDirection, float forceBack)
     {
         Vector2 vec2 = (transform.position - forceDirection).normalized;        // направление отдачи нормализированное
-        rb.AddForce(vec2 * forceBack, ForceMode2D.Impulse);                   // толкаем импульсом
+        rb2D.AddForce(vec2 * forceBack, ForceMode2D.Impulse);                   // толкаем импульсом
     }
 
     // Получение урона

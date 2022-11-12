@@ -6,6 +6,7 @@ public class HitBoxPlayer : MonoBehaviour
 {
     Player player;
     public WeaponHolder weaponHolder;                   // ссылка на скрипт weaponHolder (для удара)
+    public LayerMask layer;                             // слои для битья
 
     public int damage = 10;                             // урон
     public float pushForce = 1;                         // сила толчка
@@ -27,7 +28,7 @@ public class HitBoxPlayer : MonoBehaviour
             lastAttack = Time.time;                             // присваиваем время атаки
             player.animator.SetTrigger("AttackHit");
 
-            Collider2D[] collidersHits = Physics2D.OverlapCircleAll(transform.position, radius);     // создаем круг в позиции объекта с радиусом
+            Collider2D[] collidersHits = Physics2D.OverlapCircleAll(transform.position, radius, layer);     // создаем круг в позиции объекта с радиусом
             foreach (Collider2D coll in collidersHits)
             {
                 if (coll == null)
@@ -35,11 +36,11 @@ public class HitBoxPlayer : MonoBehaviour
                     continue;
                 }
 
-                if (coll.gameObject.TryGetComponent<Enemy>(out Enemy enemy))                            // ищем скрипт енеми
+                if (coll.gameObject.TryGetComponent<Fighter>(out Fighter fighter))
                 {
-                    enemy.TakeDamage(damage);                                                           // наносим урон
-                    Vector2 vec2 = (enemy.transform.position - player.transform.position).normalized;          // вычисляем вектор направления удара
-                    enemy.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);                         // даём импульс                                                                
+                    fighter.TakeDamage(damage);
+                    Vector2 vec2 = (coll.transform.position - player.transform.position).normalized;
+                    fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
                 }
                 collidersHits = null;
             }

@@ -8,10 +8,12 @@ public class Fighter : MonoBehaviour
     public bool isAlive = true;
     public int currentHealth;
     public int maxHealth;
+    [HideInInspector] public Rigidbody2D rb2D;
 
     void Awake()
     {
-        currentHealth = maxHealth;        
+        currentHealth = maxHealth;
+        rb2D = GetComponent<Rigidbody2D>();
     }
 
 

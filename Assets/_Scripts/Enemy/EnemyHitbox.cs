@@ -35,7 +35,7 @@ public class EnemyHitbox : MonoBehaviour
                 {
                     player.TakeDamage(enemy.attackDamage);                                              // наносим урон
                     Vector2 vec2 = (player.transform.position - transform.position).normalized;         // вычисляем вектор направления удара
-                    player.rb.AddForce(vec2 * enemy.pushForce, ForceMode2D.Impulse);                  // даём импульс
+                    player.rb2D.AddForce(vec2 * enemy.pushForce, ForceMode2D.Impulse);                  // даём импульс
                     enemy.animator.SetTrigger("Attack");                                                // начинаем анимацию
                     //Debug.Log("Player!");
                 }

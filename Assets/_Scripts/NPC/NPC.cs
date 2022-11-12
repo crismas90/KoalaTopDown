@@ -10,31 +10,28 @@ public class NPC : MonoBehaviour
 
     public void Speak()
     {
-        if (!isTextDone)
+        if (!isTextDone)                            // если не проговорили весь текст
         {
-            ChatBubble.Clear(gameObject);
-            if (dialogeNumber == 0)
-            {
-                ChatBubble.Create(transform, new Vector3(0f, 0f), textToSay[0]);
-            }
-            else
-            {
-                ChatBubble.Create(transform, new Vector3(0f, 0f), textToSay[dialogeNumber]);
-            }
+            ChatBubble.Clear(gameObject);           // очищаем диалог
+            ChatBubble.Create(transform, new Vector3(-1f, 0.2f), textToSay[dialogeNumber]);     // говорим     
 
-            dialogeNumber++;
+            dialogeNumber++;                        // + к номеру диалога
 
-            if (dialogeNumber >= textToSay.Length)
+            if (dialogeNumber >= textToSay.Length)  // если номер диалога последний
             {
-                isTextDone = true;
+                isTextDone = true;                  // проговорили весь текст
             }
+        }
+        else
+        {
+            ChatBubble.Clear(gameObject);           // очищаем диалог если всё проговорили
         }
     }
 
     public void SpeakText(string text)
     {
         ChatBubble.Clear(gameObject);
-        ChatBubble.Create(transform, new Vector3(0f, 0f), text);        
+        ChatBubble.Create(transform, new Vector3(-1f, 0.2f), text);        
     }
 
 /*    void ClearDialoge()

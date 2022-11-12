@@ -247,6 +247,9 @@ MonoBehaviour:
   pushForce: 0
   expEffect: {fileID: 3263829405623792208, guid: 44a16ea2ff4687f4cb651db3a8c41e10, type: 3}
   expRadius: 1.5
+  layer:
+    serializedVersion: 2
+    m_Bits: 4224
 --- !u!96 &6759844036914890781
 TrailRenderer:
   serializedVersion: 2

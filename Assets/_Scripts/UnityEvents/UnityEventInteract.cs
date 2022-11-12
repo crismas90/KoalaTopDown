@@ -6,8 +6,7 @@ using UnityEngine.Events;
 public class UnityEventInteract : MonoBehaviour
 {
     [Header("ѕараметры")]
-    public bool withArrow;                      // со стрелкой или без
-    public KeyCode key;                         // клавиша дл€ действи€
+    public bool withArrow;                      // со стрелкой или без   
     public UnityEvent interactAction;           // ивент
     bool isInRange;                             // в ренже или нет
     GameObject arrow;                           // стрелка
@@ -22,7 +21,7 @@ public class UnityEventInteract : MonoBehaviour
     {
         if (isInRange)
         {
-            if (Input.GetKeyDown(key))
+            if (Input.GetKeyDown(GameManager.instance.keyToUse))
             {
                 interactAction.Invoke();
             }

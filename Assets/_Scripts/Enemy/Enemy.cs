@@ -6,8 +6,7 @@ public class Enemy : Fighter
     // Ссылки
     NavMeshAgent agent;
     [HideInInspector] public Animator animator;
-    SpriteRenderer spriteRenderer;
-    [HideInInspector] public Rigidbody2D rb2D;
+    SpriteRenderer spriteRenderer;    
 
     // Преследование
     [HideInInspector] public GameObject target;             // цель
@@ -39,8 +38,7 @@ public class Enemy : Fighter
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        rb2D = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();        
 
         target = GameManager.instance.player.gameObject;    // пока что цель только игрок
 

@@ -4,8 +4,9 @@ public class Teleport : MonoBehaviour
 {
     Animator animator;
     public GameObject exitTeleport;         // второй телепорт
-    public float timeToTeleport;            // время через которое происходит телепортация
+    public float timeToTeleport;            // время через которое происходит телепортация    
     bool isInRange;                         // в ренже мы или нет
+    bool startLoadTeleport;                 // телепортация начата
     float timerCount;                       // таймер
     GameObject goToTeleport;                // объект, который нужно телепортировать
 
@@ -16,9 +17,15 @@ public class Teleport : MonoBehaviour
 
     public void Update()
     {
-        if (isInRange)                      // если в ренже
+        if (isInRange && !startLoadTeleport && Input.GetKeyDown(GameManager.instance.keyToUse))
+        {            
+            startLoadTeleport = true;
+            timerCount = timeToTeleport;            // если зашли в телепорт присваиваем время таймеру
+            animator.SetBool("Teleporting", true);
+        }
+        if (startLoadTeleport)
         {
-            Timer();                        // отсчитываем таймер
+            Timer();                                // отсчитываем таймер
         }
     }
 
@@ -28,8 +35,6 @@ public class Teleport : MonoBehaviour
         {
             isInRange = true;
             goToTeleport = player.gameObject;
-            timerCount = timeToTeleport;                // если зашли в телепорт присваиваем время таймеру
-            animator.SetBool("Teleporting", true);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -37,8 +42,7 @@ public class Teleport : MonoBehaviour
         if (collision.gameObject.TryGetComponent<Player>(out Player player))
         {
             isInRange = false;
-            goToTeleport = null;
-            animator.SetBool("Teleporting", false);
+            goToTeleport = null;            
         }
     }
 
@@ -46,12 +50,15 @@ public class Teleport : MonoBehaviour
     {
         if (timerCount > 0)                             // пока таймер больше 
             timerCount -= Time.deltaTime;
-        if (timerCount <= 0)                            // если таймер закончился
+        if (timerCount <= 0)                            // если таймер закончился и игрок в ренже
             TeleportObject(goToTeleport);               // телепортируем
     }
 
     public void TeleportObject(GameObject go)
     {
-        go.transform.position = exitTeleport.transform.position;
+        if (isInRange)
+            go.transform.position = exitTeleport.transform.position;
+        animator.SetBool("Teleporting", false);
+        startLoadTeleport = false;
     }
 }

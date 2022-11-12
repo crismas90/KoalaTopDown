@@ -9,11 +9,13 @@ public class GameManager : MonoBehaviour
 
     [Header("Ссылки")]
     public Player player;                       // ссылка на игрока    
-    public GameObject gui;
-    
+    public GameObject gui;    
 
     [Header("Предметы")]
     public int keys;                            // ключи
+
+    [Header("Клавиша взаимодействия")]
+    public KeyCode keyToUse;                         // клавиша для действия
 
     private void Awake()
     {

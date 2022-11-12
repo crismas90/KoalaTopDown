@@ -5,6 +5,7 @@ using UnityEngine;
 public class BulletRocket : Bullet
 {
     public float expRadius = 3;
+    public LayerMask layer;
 
     private void Start()
     {
@@ -12,11 +13,10 @@ public class BulletRocket : Bullet
     }
     public override void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemyFront))      // если попадаем ракетой прямо во врага
-        {
-            //enemyFront.TakeDamage(damage);
+        if (collision.gameObject.TryGetComponent<Fighter>(out Fighter fighter))
+        {            
             Vector2 vec2 = (collision.transform.position - GameManager.instance.player.transform.position).normalized;
-            enemyFront.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
+            fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
         }
         base.OnTriggerEnter2D(collision);           // там пусто пока что
         Explosion();
@@ -24,7 +24,7 @@ public class BulletRocket : Bullet
 
     public override void Explosion()
     {
-        Collider2D[] collidersHits = Physics2D.OverlapCircleAll(transform.position, expRadius);     // создаем круг в позиции объекта с радиусом
+        Collider2D[] collidersHits = Physics2D.OverlapCircleAll(transform.position, expRadius, layer);     // создаем круг в позиции объекта с радиусом
         foreach (Collider2D coll in collidersHits)
         {
             if (coll == null)
@@ -32,11 +32,11 @@ public class BulletRocket : Bullet
                 continue;
             }
 
-            if (coll.gameObject.TryGetComponent<Enemy>(out Enemy enemy))                            // ищем скрипт енеми
+            if (coll.gameObject.TryGetComponent<Fighter>(out Fighter fighter))
             {
-                enemy.TakeDamage(damage);                                                           // наносим урон
-                Vector2 vec2 = (enemy.transform.position - transform.position).normalized;          // вычисляем вектор направления удара
-                enemy.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);                         // даём импульс                                                                
+                fighter.TakeDamage(damage);
+                Vector2 vec2 = (coll.transform.position - transform.position).normalized;
+                fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
             }
             collidersHits = null;
         }

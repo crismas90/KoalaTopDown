@@ -3,26 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponPickUp : ItemPickUp
-{
-    public GameObject item;
+{   
     public GameObject weaponToPickUp;
-    public override void OnTriggerEnter2D(Collider2D collision)
+    Player player;
+
+    private void Start()
     {
-        if (collision.gameObject.TryGetComponent<Player>(out Player player))
-        {
-            //Debug.Log("Игрок вошёл в тригер");
-            player.weaponHolder.weapons.Add(weaponToPickUp);                        // добавляем оружие в список оружий
-            player.weaponHolder.BuyWeapon(player.weaponHolder.weapons.Count - 1);   // создаем его в инвентаре игрока
-                                                                                    // (длинна списка - 1 и будет номер последнего добавленного оружия)
-            if (player.weaponHolder.weapons.Count - 1 > 0)
-                player.weaponHolder.selectedWeapon++;
-            player.weaponHolder.SelectWeapon();
-            Destroy(item);
-        }
+        player = GameManager.instance.player;
     }
 
-    private void Update()
+    public void TakeWeapon()
     {
-        
+        player.weaponHolder.weapons.Add(weaponToPickUp);                        // добавляем оружие в список оружий
+        player.weaponHolder.BuyWeapon(player.weaponHolder.weapons.Count - 1);   // создаем его в инвентаре игрока                                                                                
+        if (player.weaponHolder.weapons.Count - 1 > 0)                          // (длинна списка - 1 и будет номер последнего добавленного оружия)
+            player.weaponHolder.selectedWeapon++;
+        player.weaponHolder.SelectWeapon();                                     // выбрать оружие        
     }
 }
