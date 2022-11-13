@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6226485657186698509}
   - component: {fileID: 956439014551784615}
   m_Layer: 10
-  m_Name: UnityEventTrigger
+  m_Name: UnityEventTriggerCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

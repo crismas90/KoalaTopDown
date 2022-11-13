@@ -22,7 +22,7 @@ public class WeaponHolder : MonoBehaviour
     {
         player = GameManager.instance.player;
         BuyWeapon(0);
-        BuyWeapon(1);
+        //BuyWeapon(1);
         //BuyWeapon(2);
         SelectWeapon();
     }

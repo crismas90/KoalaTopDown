@@ -10,7 +10,7 @@ public class ChatBubble : MonoBehaviour
         Transform chatBubbleTransform = Instantiate(GameAssets.instance.chatBubblePrefab, parent);  // создаём префаб диалога и присваиваем родителя
         chatBubbleTransform.localPosition = localPosition;                                          // задаём позицию диалога такую же как и у родителя
         chatBubbleTransform.GetComponent<ChatBubble>().Setup(text);                                 // вызываем фукцию написать текст у префаба
-        Destroy(chatBubbleTransform.gameObject, 6f);
+        Destroy(chatBubbleTransform.gameObject, 4f);
     }
 
     public static void Clear(GameObject go )                                                        // очистить диалог

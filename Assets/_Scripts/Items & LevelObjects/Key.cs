@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Key : ItemPickUp
 {
     public void PickUpKey()
     {
-        GameManager.instance.TakeKey(true);
+        GameManager.instance.keys++;
         Destroy(gameObject);
     }
 }

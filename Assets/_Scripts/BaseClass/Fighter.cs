@@ -10,7 +10,7 @@ public class Fighter : MonoBehaviour
     public int maxHealth;
     [HideInInspector] public Rigidbody2D rb2D;
 
-    void Awake()
+    public virtual void Awake()
     {
         currentHealth = maxHealth;
         rb2D = GetComponent<Rigidbody2D>();
@@ -31,6 +31,17 @@ public class Fighter : MonoBehaviour
                 isAlive = false;
                 Death();
             }       
+    }
+    public virtual void Heal(int healingAmount)
+    {
+        if (currentHealth == maxHealth)
+            return;
+
+        currentHealth += healingAmount;
+        if (currentHealth > maxHealth)
+            currentHealth = maxHealth;
+        //GameManager.instance.ShowText("+" + healingAmount.ToString() + "hp", 25, Color.green, transform.position, Vector3.up * 30, 1.5f);
+        //GameManager.instance.OnHitpointChange();
     }
 
     protected virtual void Death()

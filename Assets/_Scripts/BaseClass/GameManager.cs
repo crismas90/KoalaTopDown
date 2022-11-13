@@ -9,13 +9,15 @@ public class GameManager : MonoBehaviour
 
     [Header("Ссылки")]
     public Player player;                       // ссылка на игрока    
-    public GameObject gui;    
+    public GameObject gui;   
+    
+    [Header("Клавиша взаимодействия")]
+    public KeyCode keyToUse;                    // клавиша для действия
 
     [Header("Предметы")]
     public int keys;                            // ключи
+    public int battery;                         // батареи
 
-    [Header("Клавиша взаимодействия")]
-    public KeyCode keyToUse;                         // клавиша для действия
 
     private void Awake()
     {
@@ -46,19 +48,14 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.H))
         {
-            ChatBubble.Create(player.transform, new Vector3(0f, 0f), "hi");
+            ChatBubble.Clear(gameObject);
+            ChatBubble.Create(player.transform, new Vector3(0.2f, 0.2f), "Hi");
         }    
     }
 
-    public void TakeKey(bool findKey)
-    {
-        if (findKey)
-            keys++;
-        else if (!findKey && keys > 0)
-            keys--;
-    }
 
-    public void OnSceneLoaded(Scene s, LoadSceneMode mode)
+
+    public void OnSceneLoaded(Scene s, LoadSceneMode mode)                      // выполняем при загрузке сцены
     {
         player.transform.position = GameObject.Find("SpawnPoint").transform.position;
     }

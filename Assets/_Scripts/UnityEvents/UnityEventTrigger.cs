@@ -1,24 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class UnityEventTrigger : MonoBehaviour
 {
     [Header("Параметры")]
+    public bool isEnemyTrigger;
     public bool isSingleTrigger;
     public UnityEvent interactAction;
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent<Player>(out Player player))
+        if (isEnemyTrigger)
         {
-            interactAction.Invoke();
-            if (isSingleTrigger)
+            if (collision.gameObject.TryGetComponent<Fighter>(out Fighter fighter))
             {
-                Destroy(gameObject);
-            }                
+                interactAction.Invoke();
+                if (isSingleTrigger)
+                {
+                    Destroy(gameObject);
+                }
+            }
         }
+        else
+        {
+            if (collision.gameObject.TryGetComponent<Player>(out Player player))
+            {
+                interactAction.Invoke();
+                if (isSingleTrigger)
+                {
+                    Destroy(gameObject);
+                }
+            }
+        }
+
+
+    }
+
+    public void TextToSayPlayer(string text)
+    {
+        GameManager.instance.player.SayText(text);
     }
 }

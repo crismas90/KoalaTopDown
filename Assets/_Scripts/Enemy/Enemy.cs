@@ -6,9 +6,10 @@ public class Enemy : Fighter
     // —сылки
     NavMeshAgent agent;
     [HideInInspector] public Animator animator;
-    SpriteRenderer spriteRenderer;    
+    SpriteRenderer spriteRenderer;
 
     // ѕреследование
+    public bool isNeutral;                                   // не будет никого атаковать
     [HideInInspector] public GameObject target;             // цель
     [HideInInspector] public bool chasing;                  // статус преследовани€
     public float triggerLenght;                             // дистанци€ тригера
@@ -33,13 +34,16 @@ public class Enemy : Fighter
     float timerForColor;
     bool red;
 
+    public override void Awake()
+    {
+        base.Awake();
+        agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();        
-
         target = GameManager.instance.player.gameObject;    // пока что цель только игрок
 
         agent.updateRotation = false;                       // дл€ навмеш2д
@@ -67,6 +71,8 @@ public class Enemy : Fighter
     void FixedUpdate()
     {
         if (!target)
+            return;
+        if (isNeutral)
             return;
 
         NavMeshHit hit;
@@ -162,5 +168,11 @@ public class Enemy : Fighter
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, distanceToAttack);
+    }
+
+    public void SayText(string text)
+    {
+        ChatBubble.Clear(gameObject);
+        ChatBubble.Create(transform, new Vector3(0.2f, 0.2f), text);
     }
 }

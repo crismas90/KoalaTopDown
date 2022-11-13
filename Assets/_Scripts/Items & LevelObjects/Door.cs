@@ -22,8 +22,8 @@ public class Door : MonoBehaviour
         {
             spriteRenderer.sprite = openedDoorSprite;           // меняем спрайт закрытой двери на спрайт открытой
             boxCollider2D.enabled = false;                      // убираем коллайдер
-            GameManager.instance.TakeKey(false);                // забираем ключ
             isOpened = true;                                    // дверь открыта
+            GameManager.instance.keys--;                        // забираем ключ
         }
     }
 }
