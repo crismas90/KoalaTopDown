@@ -193,7 +193,6 @@ GameObject:
   - component: {fileID: 63706629}
   - component: {fileID: 63706632}
   - component: {fileID: 63706636}
-  - component: {fileID: 63706637}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -282,7 +281,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 63706628}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.49, y: -9.500038, z: 0}
+  m_LocalPosition: {x: -10.49, y: -6.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -370,6 +369,7 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+<<<<<<< HEAD
 --- !u!114 &63706637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,6 +388,9 @@ Transform:
   m_PrefabInstance: {fileID: 666115251}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &122960040
+=======
+--- !u!1001 &121104264
+>>>>>>> parent of 83173ec (office level room 2)
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -6854,7 +6857,11 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 488403213b3486146ae63964af83861e, type: 3}
   m_PlayOnAwake: 1
+<<<<<<< HEAD
   m_Volume: 0.06
+=======
+  m_Volume: 0.1
+>>>>>>> parent of 83173ec (office level room 2)
   m_Pitch: 1
   Loop: 1
   Mute: 0
