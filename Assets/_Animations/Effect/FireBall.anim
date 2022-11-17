@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack
+  m_Name: FireBall
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,15 +20,13 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: -476376378, guid: 64ecf136ee7eb76418656a56279221b9, type: 3}
-    - time: 0.41666666
-      value: {fileID: -1514241311, guid: 64ecf136ee7eb76418656a56279221b9, type: 3}
-    - time: 0.5
-      value: {fileID: -1104325992, guid: 64ecf136ee7eb76418656a56279221b9, type: 3}
-    - time: 0.5833333
-      value: {fileID: -476376378, guid: 64ecf136ee7eb76418656a56279221b9, type: 3}
-    - time: 0.8333333
-      value: {fileID: -476376378, guid: 64ecf136ee7eb76418656a56279221b9, type: 3}
+      value: {fileID: 21300000, guid: 7d3f8e83c79f9de4b95a2882af489736, type: 2}
+    - time: 0.083333336
+      value: {fileID: 21300000, guid: 3d772dd20736a1d4cbef72afb3d799a5, type: 2}
+    - time: 0.16666667
+      value: {fileID: 21300000, guid: 4c26fe8ee749f954aba5d70090c19a9a, type: 2}
+    - time: 0.25
+      value: {fileID: 21300000, guid: c05d237e34ddfc34c81da8aa5e0871e6, type: 2}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -48,17 +46,16 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: -476376378, guid: 64ecf136ee7eb76418656a56279221b9, type: 3}
-    - {fileID: -1514241311, guid: 64ecf136ee7eb76418656a56279221b9, type: 3}
-    - {fileID: -1104325992, guid: 64ecf136ee7eb76418656a56279221b9, type: 3}
-    - {fileID: -476376378, guid: 64ecf136ee7eb76418656a56279221b9, type: 3}
-    - {fileID: -476376378, guid: 64ecf136ee7eb76418656a56279221b9, type: 3}
+    - {fileID: 21300000, guid: 7d3f8e83c79f9de4b95a2882af489736, type: 2}
+    - {fileID: 21300000, guid: 3d772dd20736a1d4cbef72afb3d799a5, type: 2}
+    - {fileID: 21300000, guid: 4c26fe8ee749f954aba5d70090c19a9a, type: 2}
+    - {fileID: 21300000, guid: c05d237e34ddfc34c81da8aa5e0871e6, type: 2}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.84999996
+    m_StopTime: 0.26666668
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -77,18 +74,4 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 0.16666667
-    functionName: EffectRangeAttackHitBox
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.5833333
-    functionName: AttacHitBox
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []

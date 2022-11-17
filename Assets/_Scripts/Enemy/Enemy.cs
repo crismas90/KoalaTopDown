@@ -8,6 +8,7 @@ public class Enemy : Fighter
     [HideInInspector] public Animator animator;
     SpriteRenderer spriteRenderer;
     EnemyHitBoxPivot pivot;
+    EnemyHitbox hitBox;
 
     // Преследование
     public bool isNeutral;                                  // не будет никого атаковать
@@ -41,6 +42,7 @@ public class Enemy : Fighter
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         pivot = GetComponentInChildren<EnemyHitBoxPivot>();
+        hitBox = GetComponentInChildren<EnemyHitbox>();
     }
 
     void Start()
@@ -107,7 +109,7 @@ public class Enemy : Fighter
         }
 
         // Преследование
-        if (Vector3.Distance(target.transform.position, transform.position) < triggerLenght && targetVisible || currentHealth != maxHealth)       // если дистанция до игрока < тригер дистанции
+        if (Vector3.Distance(target.transform.position, transform.position) < triggerLenght && targetVisible)       // если дистанция до игрока < тригер дистанции
         {
             chasing = true;                                                 // преследование включено 
         }
@@ -135,6 +137,17 @@ public class Enemy : Fighter
         }
     }
 
+    // Фукция для ивента анимации (потом как-нибудь сделать по нормальному)
+    public void AttacHitBox()               
+    {
+        hitBox.Attack();
+    }   
+
+    public void EffectRangeAttackHitBox()
+    {
+        hitBox.EffectRangeAttack();
+    }
+
 
 
     public void SayText(string text)
@@ -152,6 +165,8 @@ public class Enemy : Fighter
 
     public override void TakeDamage(int dmg)
     {
+        if (currentHealth == maxHealth)             // если получили урон, но жизни были полные
+            chasing = true;
         base.TakeDamage(dmg);
         //animator.SetTrigger("TakeHit");
         ColorRed(0.05f);

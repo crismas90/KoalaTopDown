@@ -294,6 +294,7 @@ MonoBehaviour:
   pushForce: 10
   isRange: 1
   bulletPrefab: {fileID: 2609019957272575851, guid: c675c6819f034a14ca6c9a63f9865382, type: 3}
+  effectRangeAttack: {fileID: 5054126191899019494, guid: f17d94ee6a43b8d4d972e7a779ba5f46, type: 3}
   bulletSpeed: 5
   forceBackFire: 0
 --- !u!1001 &649583413433996764

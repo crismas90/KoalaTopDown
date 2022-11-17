@@ -16,6 +16,7 @@ public class EnemyHitbox : MonoBehaviour
     // Если ренж
     public bool isRange;                                    // ренж атака
     public GameObject bulletPrefab;
+    public GameObject effectRangeAttack;                    // эффект ренж атаки
     public float bulletSpeed = 10;                          // скорость снаряда
     public float forceBackFire = 10;                        // отдача
 
@@ -45,15 +46,8 @@ public class EnemyHitbox : MonoBehaviour
         // Атака
         if (enemy.readyToAttack && Time.time - lastAttack > cooldown)               // если готовы атаковать и кд готово
         {
-            if (!isRange)
-            {
-                MeleeAttack();                                                                  // мили атака
-            }
-            else if (isRange)
-            {
-                RangeAttack();                                                                  // ренж атака
-            }
-            enemy.animator.SetTrigger("Attack");                                                // начинаем анимацию атаки
+            lastAttack = Time.time;                                                 // присваиваем время атаки
+            enemy.animator.SetTrigger("Attack");                                    // начинаем анимацию атаки
         }
 
         // Флип оружия
@@ -75,10 +69,20 @@ public class EnemyHitbox : MonoBehaviour
         }
     }
 
+    public void Attack()
+    {
+        if (!isRange)
+        {
+            MeleeAttack();                                                      // мили атака
+        }
+        else if (isRange)
+        {
+            RangeAttack();                                                      // ренж атака
+        }        
+    }
+
     void MeleeAttack()
     {
-        lastAttack = Time.time;                                                                         // присваиваем время атаки
-
         Collider2D[] collidersHitbox = Physics2D.OverlapCircleAll(transform.position, hitBoxRadius);    // создаем круг в позиции объекта с радиусом
         foreach (Collider2D enObjectBox in collidersHitbox)
         {
@@ -97,9 +101,15 @@ public class EnemyHitbox : MonoBehaviour
         }
     }
 
-    void RangeAttack()
+
+    public void EffectRangeAttack()
     {
-        lastAttack = Time.time;                                                                             // присваиваем время атаки
+        if (effectRangeAttack)
+            Instantiate(effectRangeAttack, pivot.transform.position + new Vector3(0, 0.1f, 0), Quaternion.identity);                  // создаем эффект выстрела (если он есть)
+    }
+
+    void RangeAttack()
+    {        
         GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);              // создаем префаб снаряда с позицией и поворотом якоря
         bullet.GetComponent<Bullet>().damage = damage;                                                      // присваиваем урон снаряду
         bullet.GetComponent<Bullet>().pushForce = pushForce;                                                // присваиваем урон снаряду

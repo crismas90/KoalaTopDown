@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57bfff81076b41e49a197a73d4bd8167, type: 3}
-  m_Name: RocketLauncher
+  m_Name: Sniper
   m_EditorClassIdentifier: 
-  weaponName: "\u0420\u0430\u043A\u0435\u0442\u043D\u0438\u0446\u0430"
-  bullet: {fileID: 2609019957272575851, guid: a973d9f66c30a584396351f203d6b99c, type: 3}
-  damage: 75
-  pushForce: 20
-  bulletSpeed: 10
-  fireRate: 1
-  forceBackFire: 5
+  weaponName: "\u0412\u0438\u043D\u0442\u043E\u0432\u043A\u0430"
+  bullet: {fileID: 5170081587130710907, guid: eda020fbbf3cab346bc160658bcd2758, type: 3}
+  damage: 50
+  pushForce: 5
+  bulletSpeed: 20
+  fireRate: 2
+  forceBackFire: 0.5
