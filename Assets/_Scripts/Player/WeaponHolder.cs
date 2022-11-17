@@ -1,6 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// Держатель оружия, также поворачивается для поворота оружия
+/// </summary>
+
 public class WeaponHolder : MonoBehaviour
 {
     Player player;
@@ -12,18 +16,18 @@ public class WeaponHolder : MonoBehaviour
     [HideInInspector] public float aimAngle;            // угол поворота для вращения холдера с оружием и хитбоксПивота
     Vector3 mousePosition;                              // положение мыши
 
-    // Для флипа оружия
-    bool needFlip;                          // нужен флип (для правильного отображения оружия)    
-    bool leftFlip;                          // оружие слева
-    bool rightFlip = true;                  // оружие справа
-
-
     void Start()
     {
         player = GameManager.instance.player;
-        BuyWeapon(0);
+        //BuyWeapon(0);
         //BuyWeapon(1);
         //BuyWeapon(2);
+        int i = 0;
+        foreach (GameObject weapon in weapons)
+        {            
+            BuyWeapon(i);
+            i++;
+        }
         SelectWeapon();
     }
 
@@ -60,23 +64,7 @@ public class WeaponHolder : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, qua1, Time.fixedDeltaTime * 15);   // делаем Lerp между weaponHoder и нашим углом
         //Debug.Log(aimAngle);
 
-        // Флип спрайта игрока
-        if (Mathf.Abs(aimAngle) > 90 && rightFlip)
-        {
-            needFlip = true;
-            leftFlip = true;
-            rightFlip = false;
-        }
-        if (Mathf.Abs(aimAngle) <= 90 && leftFlip)
-        {
-            needFlip = true;
-            rightFlip = true;
-            leftFlip = false;
-        }
-        if (needFlip)
-        {
-            Flip();
-        }
+
 
         // Выбор оружия
         int previousWeapon = selectedWeapon;                                // присваиваем переменной индекс оружия
@@ -118,20 +106,6 @@ public class WeaponHolder : MonoBehaviour
             SelectWeapon();
         }
     }
-
-
-    void Flip()
-    {
-        if (leftFlip)                                   // разворот налево
-        {
-            player.spriteRenderer.flipX = true;         // поворачиваем спрайт игрока
-        }
-        if (rightFlip)
-        {            
-            player.spriteRenderer.flipX = false;
-        }
-        needFlip = false;
-    } 
 
     // Смена оружия
     public void SelectWeapon()

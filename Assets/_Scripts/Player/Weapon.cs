@@ -20,7 +20,7 @@ public class Weapon : MonoBehaviour
     float pushForce;                        // сила толчка (возможно нужно сделать на снаряде)
     [HideInInspector] public float fireRate;                // скорострельность оружия (10 - 0,1 выстрелов в секунду)
     [HideInInspector] public float nextTimeToFire;          // для стрельбы (когда стрелять в след раз)
-    float forceBackFire;             // отдача оружия
+    float forceBackFire;                    // отдача оружия
 
     // Для флипа оружия
     bool needFlip;                          // нужен флип (для правильного отображения оружия)    
@@ -69,7 +69,25 @@ public class Weapon : MonoBehaviour
 
         // Эффект флэш для мультиэффекта
         if (flashEffectAnimator != null && !singleFlash)        // если флэшэффект есть
-            Flash();        
+            Flash();
+
+        // Флип оружия
+        if (Mathf.Abs(weaponHolder.aimAngle) > 90 && rightFlip)
+        {
+            needFlip = true;
+            leftFlip = true;
+            rightFlip = false;
+        }
+        if (Mathf.Abs(weaponHolder.aimAngle) <= 90 && leftFlip)
+        {
+            needFlip = true;
+            rightFlip = true;
+            leftFlip = false;
+        }
+        if (needFlip)
+        {
+            Flip();
+        }
     }
 
     void Flash()
@@ -100,23 +118,7 @@ public class Weapon : MonoBehaviour
         //Quaternion qua1 = Quaternion.Euler(0, 0, aimAngle);                                 // создаем этот угол в Quaternion
         //weaponHolderGO.transform.rotation = Quaternion.Lerp(weaponHolderGO.transform.rotation, qua1, Time.fixedDeltaTime * 15); // делаем Lerp между weaponHoder и нашим углом
 
-        // Флип оружия и спрайта игрока
-        if (Mathf.Abs(weaponHolder.aimAngle) > 90 && rightFlip)
-        {
-            needFlip = true;
-            leftFlip = true;
-            rightFlip = false;
-        }
-        if (Mathf.Abs(weaponHolder.aimAngle) <= 90 && leftFlip)
-        {
-            needFlip = true;
-            rightFlip = true;
-            leftFlip = false;
-        }
-        if (needFlip)
-        {
-            Flip();
-        }
+
 
          // Отображение оружия перед или позади игрока
         /*        if (aimAngle > 0)

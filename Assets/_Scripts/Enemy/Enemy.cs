@@ -7,26 +7,23 @@ public class Enemy : Fighter
     NavMeshAgent agent;
     [HideInInspector] public Animator animator;
     SpriteRenderer spriteRenderer;
+    EnemyHitBoxPivot pivot;
 
     // Преследование
-    public bool isNeutral;                                   // не будет никого атаковать
+    public bool isNeutral;                                  // не будет никого атаковать
     [HideInInspector] public GameObject target;             // цель
-    [HideInInspector] public bool chasing;                  // статус преследования
+    public bool chasing;                                    // статус преследования
     public float triggerLenght;                             // дистанция тригера
-    public float distanceToAttack;                          // дистанция, с которой можно атаковать
+    public float distanceToAttack;                          // дистанция, с которой можно атаковать (0.8 для мелкого)
     [HideInInspector] public bool targetVisible;            // видим мы цель или нет
     [HideInInspector] public bool readyToAttack;            // можно атаковать
 
-    // Атака
-    [HideInInspector] public float lastAttack;              // время последнего удара (для перезарядки удара)
-    public float cooldown = 0.5f;                           // перезардяка атаки
-    public int attackDamage;                                // урон
-    public float pushForce;                                 // сила толчка
     
     //public float attackSpeed = 1;                           // скорость атаки
 
     // Для анимации
     public GameObject deathEffect;                          // эффект (потом сделать его в аниматоре (или  нет))
+    public float deathCameraShake;                          // мощность тряски камеры при убийстве
     bool flipLeft;                                          // для флипа
     bool flipRight;                                         //    
 
@@ -34,12 +31,16 @@ public class Enemy : Fighter
     float timerForColor;
     bool red;
 
+    // Дебаг
+    public bool debug;
+
     public override void Awake()
     {
         base.Awake();
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        pivot = GetComponentInChildren<EnemyHitBoxPivot>();
     }
 
     void Start()
@@ -52,20 +53,38 @@ public class Enemy : Fighter
 
     private void Update()
     {
-        // поворот спрайта (Flip)       (потом лучше заменить на более правильный)
-        if (agent.velocity.x < -0.2 && !flipLeft)
+        // поворот спрайта (Flip)       
+        if (chasing && targetVisible)                           // (потом chasing заменить на target и ещё это дублируется в хитбокспивот)
         {
-            FaceTargetLeft();
+            if (Mathf.Abs(pivot.aimAngle) > 90 && !flipLeft)
+            {
+                FaceTargetLeft();
+            }
+            if (Mathf.Abs(pivot.aimAngle) <= 90 && !flipRight)
+            {
+                FaceTargetRight();
+            }
         }
-        if (agent.velocity.x > 0.2 && !flipRight)
+        else
         {
-            FaceTargetRight();
+            if (agent.velocity.x < -0.2 && !flipLeft)
+            {
+                FaceTargetLeft();
+            }
+            if (agent.velocity.x > 0.2 && !flipRight)
+            {
+                FaceTargetRight();
+            }
         }
 
         animator.SetFloat("Speed", agent.velocity.magnitude);
 
         // Выбор цвета при получении урона и его сброс
         SetColorTimer();
+
+        // Дебаг
+        if (debug)
+            Debug.Log(targetVisible);
     }
 
     void FixedUpdate()
@@ -96,8 +115,6 @@ public class Enemy : Fighter
         if (chasing)                                                        // если преследуем
         {
             //agent.SetDestination(target.transform.position);                    // перемещаемся к цели
-
-
             float distance = Vector3.Distance(transform.position, target.transform.position);       // считаем дистанцию до цели
             if (distance < distanceToAttack && targetVisible)                                       // если дошли до цели и видим её
             {
@@ -111,7 +128,27 @@ public class Enemy : Fighter
                 readyToAttack = false;                                                              // не готов стрелять                
             }
         }
+
+        if (debug)
+        {
+            //Debug.Log(chasing);
+        }
     }
+
+
+
+    public void SayText(string text)
+    {
+        ChatBubble.Clear(gameObject);
+        ChatBubble.Create(transform, new Vector3(0.2f, 0.2f), text);
+    }
+
+    public void ForceBackFire(Vector3 forceDirection, float forceBack)
+    {
+        Vector2 vec2 = (transform.position - forceDirection).normalized;        // направление отдачи нормализированное
+        rb2D.AddForce(vec2 * forceBack, ForceMode2D.Impulse);                   // толкаем импульсом
+    }
+
 
     public override void TakeDamage(int dmg)
     {
@@ -119,6 +156,9 @@ public class Enemy : Fighter
         //animator.SetTrigger("TakeHit");
         ColorRed(0.05f);
     }
+
+
+
 
     // Смена цветов при уроне
     void SetColorTimer()
@@ -154,11 +194,14 @@ public class Enemy : Fighter
         flipLeft = true;
     }
 
+
+
     protected override void Death()
     {
         base.Death();
-        CMCameraShake.Instance.ShakeCamera(3, 0.2f);                                            // тряска камеры
-        GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);  // создаем эффект
+        CMCameraShake.Instance.ShakeCamera(deathCameraShake, 0.2f);                             // тряска камеры
+        GameObject effect = Instantiate(deathEffect, transform.position, Quaternion.identity);  // создаем эффект убийства
+        //effect.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
         Destroy(effect, 1);                                                                     // уничтожаем эффект через .. сек
         Destroy(gameObject);
     }
@@ -168,11 +211,5 @@ public class Enemy : Fighter
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, distanceToAttack);
-    }
-
-    public void SayText(string text)
-    {
-        ChatBubble.Clear(gameObject);
-        ChatBubble.Create(transform, new Vector3(0.2f, 0.2f), text);
     }
 }
