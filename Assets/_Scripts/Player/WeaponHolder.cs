@@ -69,14 +69,14 @@ public class WeaponHolder : MonoBehaviour
         // Выбор оружия
         int previousWeapon = selectedWeapon;                                // присваиваем переменной индекс оружия
 
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f)                        // управление колёсиком (для правого холдера)
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f)                        // управление колёсиком (для правого холдера)
         {
             if (selectedWeapon >= transform.childCount - 1)                 // сбрасываем в 0 индекс, если индекс равен кол-ву объекто в иерархии WeaponHolder - 1(?)
                 selectedWeapon = 0;
             else
                 selectedWeapon++;
         }
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f)                        // управление колёсиком (для левого холдера)
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f)                        // управление колёсиком (для левого холдера)
         {
             if (selectedWeapon <= 0)
                 selectedWeapon = transform.childCount - 1;
