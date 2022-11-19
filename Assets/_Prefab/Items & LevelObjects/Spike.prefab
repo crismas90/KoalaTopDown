@@ -146,8 +146,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb417599e81dbb34d8a9adcfe8fa7a0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSpikeWork: 0
   damage: 5
-  timeToActive: 0.5
+  cooldown: 3
+  timeToActive: 2
 --- !u!1001 &2173812721850751802
 PrefabInstance:
   m_ObjectHideFlags: 0
