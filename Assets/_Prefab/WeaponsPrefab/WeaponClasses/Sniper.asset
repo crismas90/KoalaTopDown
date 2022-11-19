@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: "\u0421\u043D\u0430\u0439\u043F\u0435\u0440\u043A\u0430"
   bullet: {fileID: 5170081587130710907, guid: eda020fbbf3cab346bc160658bcd2758, type: 3}
-  damage: 120
+  damage: 150
   pushForce: 5
   bulletSpeed: 20
   fireRate: 2

@@ -6,8 +6,10 @@ public class Spike : MonoBehaviour
 {
     Animator animator;
 
+    bool isInRange;                                         // в ренже мы или нет  
     public bool isSpikeWork;                                // шипы работают постоянно
     public int damage;                                      // урон
+    public float pushForce;
     public float cooldown = 3f;                             // перезардяка атаки
     public float timeToActive;                              // через сколько сработают
     bool isSpikeActive;                                     // активны сейчас или нет
@@ -53,11 +55,13 @@ public class Spike : MonoBehaviour
             if (isSpikeActive)
             {
                 fighter.TakeDamage(damage);
+/*                Vector2 vec2 = (fighter.transform.position - transform.position).normalized;
+                fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);*/
             }
             //Vector2 vec2 = (collision.transform.position - GameManager.instance.player.transform.position).normalized;
             //fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
         }
-    }    
+    }
 
     void DamageAll()
     {
@@ -72,7 +76,7 @@ public class Spike : MonoBehaviour
             if (coll.gameObject.TryGetComponent<Fighter>(out Fighter fighter))
             {
                 fighter.TakeDamage(damage);
-/*                Vector2 vec2 = (coll.transform.position - transform.position).normalized;
+/*                Vector2 vec2 = (fighter.transform.position - transform.position).normalized;
                 fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);*/
             }
             collidersHits = null;
