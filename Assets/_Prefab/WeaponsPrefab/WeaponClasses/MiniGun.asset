@@ -13,9 +13,14 @@ MonoBehaviour:
   m_Name: MiniGun
   m_EditorClassIdentifier: 
   weaponName: "\u041C\u0438\u043D\u0438\u0433\u0430\u043D"
-  bullet: {fileID: 5170081587130710907, guid: 0d3dfcc2a04953b4aae619782d0fae1e, type: 3}
-  damage: 6
-  pushForce: 3
+  bullet: {fileID: 2657864441510378518, guid: dcd6b0e171862f84bbf666140b6126d8, type: 3}
+  damage: 8
+  pushForce: 2
   bulletSpeed: 15
   fireRate: 20
-  forceBackFire: 0.1
+  forceBackFire: 0.2
+  recoil: 4
+  raycastWeapon: 0
+  layer:
+    serializedVersion: 2
+    m_Bits: 0

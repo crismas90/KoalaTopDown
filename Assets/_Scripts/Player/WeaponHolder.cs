@@ -9,7 +9,7 @@ public class WeaponHolder : MonoBehaviour
 {
     Player player;
     public List<GameObject> weapons;                    // Список оружий    
-    //Weapon currentWeapon;                               // текущее оружие
+    [HideInInspector] public Weapon currentWeapon;      // текущее оружие (пока что толька для текста ui)
     [HideInInspector] public int selectedWeapon = 0;    // индекс оружия (положение в иерархии WeaponHolder)
     [HideInInspector] public bool fireStart;            // начать стрельбу
     [HideInInspector] public bool attackHitBoxStart;    // начать атаку мечом
@@ -116,7 +116,7 @@ public class WeaponHolder : MonoBehaviour
             if (i == selectedWeapon)
             {
                 weapon.gameObject.SetActive(true);                                      // активируем оружие в иерархии
-                //currentWeapon = weapon.gameObject.GetComponentInChildren<Weapon>();     // получаем его скрипт
+                currentWeapon = weapon.gameObject.GetComponentInChildren<Weapon>();     // получаем его скрипт
             }
             else
                 weapon.gameObject.SetActive(false);                                     // остальные оружия дезактивируем

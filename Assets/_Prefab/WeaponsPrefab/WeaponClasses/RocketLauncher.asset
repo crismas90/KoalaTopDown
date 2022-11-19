@@ -19,3 +19,8 @@ MonoBehaviour:
   bulletSpeed: 10
   fireRate: 1
   forceBackFire: 5
+  recoil: 2
+  raycastWeapon: 0
+  layer:
+    serializedVersion: 2
+    m_Bits: 0

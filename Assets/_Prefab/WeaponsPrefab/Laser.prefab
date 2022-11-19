@@ -109,7 +109,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2496722168628502743}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -135,17 +135,13 @@ MonoBehaviour:
   weaponClass: {fileID: 11400000, guid: a03c367c12f5a1047b2896429f6d97dc, type: 2}
   firePoint: {fileID: 6932623333518079817}
   pivot: {fileID: 5263069249925988804}
-  rayCastWeapon: 1
+  weaponName: 
   fireRate: 15
   nextTimeToFire: 0
-  recoilX: 0
-  layerRayCast:
-    serializedVersion: 2
-    m_Bits: 4225
   flashEffectAnimator: {fileID: 2802771401264512540}
   singleFlash: 0
-  tracerEffect: {fileID: 2862349512899274176, guid: c64802122df91054fb9523e2d9f53ecf, type: 3}
   lineRenderer: {fileID: 5284901813468392028, guid: 19ed463347a9d4f43aa9dadd7d30e5c8, type: 3}
+  tracerEffect: {fileID: 2862349512899274176, guid: c64802122df91054fb9523e2d9f53ecf, type: 3}
   cameraAmplitudeShake: 0.3
   cameraTimedeShake: 0.1
 --- !u!1 &2834671515621810669
@@ -465,7 +461,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5422739479713911101, guid: cdb5f71daaf8b9b44a2acb415fdbc62e, type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8509495147137703318, guid: cdb5f71daaf8b9b44a2acb415fdbc62e, type: 3}
       propertyPath: m_Name

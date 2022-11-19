@@ -51,10 +51,13 @@ MonoBehaviour:
   weaponClass: {fileID: 11400000, guid: f21bf5a9ab11a954faa0539f6026552e, type: 2}
   firePoint: {fileID: 6932623333518079817}
   pivot: {fileID: 5263069249925988804}
+  weaponName: 
   fireRate: 15
   nextTimeToFire: 0
   flashEffectAnimator: {fileID: 2802771401264512540}
   singleFlash: 1
+  lineRenderer: {fileID: 0}
+  tracerEffect: {fileID: 0}
   cameraAmplitudeShake: 1
   cameraTimedeShake: 0.2
 --- !u!1 &2834671515621810669
@@ -130,12 +133,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 157496090, guid: a3b7bba093b24ce45a21b980f290ab12, type: 3}
+  m_Sprite: {fileID: -449549651, guid: a3b7bba093b24ce45a21b980f290ab12, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.03125, y: 0.34375}
+  m_Size: {x: 1.40625, y: 0.375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

@@ -51,12 +51,14 @@ MonoBehaviour:
   weaponClass: {fileID: 11400000, guid: fd8eafa00f756cb429630c56e94cd216, type: 2}
   firePoint: {fileID: 6932623333518079817}
   pivot: {fileID: 5263069249925988804}
+  weaponName: 
   fireRate: 15
   nextTimeToFire: 0
-  recoilX: 0
   flashEffectAnimator: {fileID: 2802771401264512540}
   singleFlash: 0
-  cameraAmplitudeShake: 1
+  lineRenderer: {fileID: 0}
+  tracerEffect: {fileID: 0}
+  cameraAmplitudeShake: 0.5
   cameraTimedeShake: 0.1
 --- !u!1 &2834671515621810669
 GameObject:
@@ -131,12 +133,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 1752519111, guid: a3b7bba093b24ce45a21b980f290ab12, type: 3}
+  m_Sprite: {fileID: 1924483431, guid: a3b7bba093b24ce45a21b980f290ab12, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.03125, y: 0.34375}
+  m_Size: {x: 1.1875, y: 0.46875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -269,7 +271,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5422739479713911101, guid: cdb5f71daaf8b9b44a2acb415fdbc62e, type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8509495147137703318, guid: cdb5f71daaf8b9b44a2acb415fdbc62e, type: 3}
       propertyPath: m_Name

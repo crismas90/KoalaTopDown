@@ -3,8 +3,7 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     [Header("Ссылки")]                      // почему-то не отображается
-    Player player;
-    SpriteRenderer spriteRenderer;
+    Player player;    
     public WeaponClass weaponClass;         // ссылка на класс оружия
     public Transform firePoint;             // якорь для снарядов
     public Transform pivot;                 // якорь weaponHolder (используется для прицеливания)
@@ -12,9 +11,9 @@ public class Weapon : MonoBehaviour
     //GameObject weaponHolderGO;              // ссылка на объект weaponHolder (для поворота)
     //Vector3 mousePosition;                  // положение мыши
 
-    // Параметры оружия (из класса оружия)
-    string weaponName;                      // название оружия
-    public bool rayCastWeapon;
+    [Header("Параметры оружия")]
+    bool rayCastWeapon;                     // рейкаст оружие
+    [HideInInspector] public string weaponName;     // название оружия
     GameObject bulletPrefab;                // префаб снаряда
     float bulletSpeed;                      // скорость снаряда
     int damage;                             // урон (возможно нужно сделать на снаряде)
@@ -22,8 +21,8 @@ public class Weapon : MonoBehaviour
     [HideInInspector] public float fireRate;                // скорострельность оружия (10 - 0,1 выстрелов в секунду)
     [HideInInspector] public float nextTimeToFire;          // для стрельбы (когда стрелять в след раз)
     float forceBackFire;                    // отдача оружия
-    public float recoilX;                   // разброс стрельбы
-    public LayerMask layerRayCast;          //
+    float recoilX;                          // разброс стрельбы
+    LayerMask layerRayCast;                 // слои для рейкастов
 
     // Для флипа оружия
     bool needFlip;                          // нужен флип (для правильного отображения оружия)    
@@ -31,37 +30,35 @@ public class Weapon : MonoBehaviour
     bool rightFlip = true;                  // оружие справа
 
     [Header("Эффекты")]
-    public Animator flashEffectAnimator;
-    public bool singleFlash;
-    bool flashEffectActive;
-    public TrailRenderer tracerEffect;
-    public LineRenderer lineRenderer;
+    public Animator flashEffectAnimator;    // флеш при стрельбе
+    public bool singleFlash;                // одиночный флеш
+    bool flashActive;                       // флеш активен (для мультифлеша)
+    public LineRenderer lineRenderer;       // линия для лазера (префаб)
+    LineRenderer lineRaycast;               // линия для лазера (создаём)
+    public TrailRenderer tracerEffect;      // трасер (пока не используется)
 
     [Header("Тряска камеры при выстреле")]
-    public float cameraAmplitudeShake = 1f;     // амплитуда
-    public float cameraTimedeShake = 0.1f;      // длительность
+    public float cameraAmplitudeShake = 1f; // амплитуда
+    public float cameraTimedeShake = 0.1f;  // длительность
 
 
     private void Start()
     {
-        player = GameManager.instance.player;
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        player = GameManager.instance.player;        
         //weaponHolderGO = GetComponentInParent<WeaponHolder>().gameObject;       // находим объект weaponHolder
         weaponHolder = GetComponentInParent<WeaponHolder>();                    // находим скрипт weaponHolder
-        weaponName = weaponClass.name;                                          // имя
-        bulletPrefab = weaponClass.bullet;                                      // тип снаряда
+        weaponName = weaponClass.weaponName;                                    // имя оружия
+        rayCastWeapon = weaponClass.raycastWeapon;                              // рейкаст оружие
+        layerRayCast = weaponClass.layer;                                       // слои к рейкастам
+        if(weaponClass.bullet)
+            bulletPrefab = weaponClass.bullet;                                  // тип снаряда (если не рейкаст оружие)
         bulletSpeed = weaponClass.bulletSpeed;                                  // скорость
         damage = weaponClass.damage;                                            // урон
         pushForce = weaponClass.pushForce;                                      // сила толчка
         fireRate = weaponClass.fireRate;                                        // скорострельность
         forceBackFire = weaponClass.forceBackFire;                              // сила отдачи
-        //flashEffect = weaponClass.flashEffect;                                  // эффект вспышки при выстреле (флэш)
-
-        if (lineRenderer)
-        {
-            lineRenderer = Instantiate(lineRenderer, firePoint.position, Quaternion.identity);
-        }
-       
+        recoilX = weaponClass.recoil;                                           // разброс стрельбы
+        //flashEffect = weaponClass.flashEffect;                                  // эффект вспышки при выстреле (флэш)       
     }
 
     private void Update()
@@ -85,53 +82,39 @@ public class Weapon : MonoBehaviour
         }
 
         // Стирать рендер лазера (возможно стоит переделать)
-        if (lineRenderer && Time.time >= nextTimeToFire + 0.1f)
+        if (!singleFlash && Time.time >= nextTimeToFire + 0.1f)
         {
-            lineRenderer.enabled = false;
+            flashEffectAnimator.SetBool("Fire", false);
+            flashActive = false;
+            if (lineRaycast)
+                lineRaycast.enabled = false;
         }
     }
 
-    void Flash()
-    {
-        if (weaponHolder.fireStart && !flashEffectActive)
-        {
-            flashEffectAnimator.SetBool("Fire", true);
-            flashEffectActive = true;
-        }
-        if (!weaponHolder.fireStart)
-        {
-            flashEffectAnimator.SetBool("Fire", false);
-            flashEffectActive = false;
-        }
-    }
-    void FlashSingle()
-    {
-        flashEffectAnimator.SetTrigger("Fire");
-    }
 
 
     private void FixedUpdate()
     {
         // Стрельба
-        if (weaponHolder.fireStart && Time.time >= nextTimeToFire)                          // если начинаем стрелять и кд готово
+        if (!weaponHolder.fireStart)                        // если не готовы стрелять
+        {
+            return;                                         // выходим
+        }
+
+        if (Time.time >= nextTimeToFire)                    // если начинаем стрелять и кд готово
         {
             nextTimeToFire = Time.time + 1f / fireRate;                                     // вычисляем кд
             if (!rayCastWeapon)
                 FireProjectile();                                                           // выстрел пулей
             if (rayCastWeapon)
                 FireRayCast();                                                              // выстрел рейкастом
-
-
             CMCameraShake.Instance.ShakeCamera(cameraAmplitudeShake, cameraTimedeShake);    // тряска камеры
-
-            // Эффект флэш для единичного эффекта (потом все так сделать наверное надо)
-            if (singleFlash)
-                FlashSingle();
+            if (flashEffectAnimator != null)                                                // если флэшэффект есть
+                Flash();
         }
 
-        // Эффект флэш для мультиэффекта
-        if (flashEffectAnimator != null && !singleFlash)        // если флэшэффект есть
-            Flash();
+
+
 
         // Находим угол для флипа холдера и спрайта игрока
         //mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);                // положение мыши                  
@@ -153,6 +136,25 @@ public class Weapon : MonoBehaviour
                 }*/
     }
 
+    // Флэш
+    void Flash()
+    {
+        if (!singleFlash)
+        {
+            if (!flashActive)
+            {
+                flashEffectAnimator.SetBool("Fire", true);
+                flashActive = true;
+            }
+        }
+        else
+        {
+            flashEffectAnimator.SetTrigger("Fire");
+        }
+    }
+
+
+    // Флип
     void Flip()                                                                                         
     {
         if (leftFlip)                                                                                   // разворот налево
@@ -169,13 +171,15 @@ public class Weapon : MonoBehaviour
 
     public void FireProjectile()
     {
-        float randomBulletX = Random.Range(-recoilX, recoilX);
+        float randomBulletX = Random.Range(-recoilX, recoilX);                                              // разброс стрельбы
+        firePoint.Rotate(0, 0, randomBulletX);                                                              // тупо вращаем
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);              // создаем префаб снаряда с позицией и поворотом якоря
         bullet.GetComponent<Bullet>().damage = damage;                                                      // присваиваем урон снаряду
         bullet.GetComponent<Bullet>().pushForce = pushForce;                                                // присваиваем силу толчка снаряду
         bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.right * bulletSpeed, ForceMode2D.Impulse);              // даём импульс
         //bullet.transform.Rotate(0.0f, 0.0f, -90.0f, Space.Self);                                             // поворачиваем снаряд
         player.ForceBackFire(firePoint.transform.position, forceBackFire);                                  // даём отдачу оружия
+        firePoint.Rotate(0, 0, -randomBulletX);                                                             // и тупо возвращаем поворот
     }
 
     public void FireRayCast()
@@ -199,9 +203,13 @@ public class Weapon : MonoBehaviour
                 fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
             }
             //tracer.transform.position = hit.point;                                                      // конечная позиция трасера рейкаста 
-            lineRenderer.enabled = true;
-            lineRenderer.SetPosition(0, firePoint.position);
-            lineRenderer.SetPosition(1, hit.point);
+            if (!lineRaycast)
+            {
+                lineRaycast = Instantiate(lineRenderer, firePoint.position, Quaternion.identity);
+            }
+            lineRaycast.enabled = true;
+            lineRaycast.SetPosition(0, firePoint.position);
+            lineRaycast.SetPosition(1, hit.point);
             //Debug.DrawRay(firePoint.position, firePoint.right * 100f, Color.yellow);
         }
         

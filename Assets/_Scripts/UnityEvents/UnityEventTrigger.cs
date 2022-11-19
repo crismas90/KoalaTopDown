@@ -9,7 +9,7 @@ public class UnityEventTrigger : MonoBehaviour
     public UnityEvent interactAction;
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (isEnemyTrigger)
         {
@@ -33,11 +33,9 @@ public class UnityEventTrigger : MonoBehaviour
                 }
             }
         }
-
-
     }
 
-    public void TextToSayPlayer(string text)
+    public virtual void TextToSayPlayer(string text)
     {
         GameManager.instance.player.SayText(text);
     }
