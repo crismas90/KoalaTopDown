@@ -42,4 +42,9 @@ public class EnemySpawner : MonoBehaviour
         if(chasePlayer)
             go.GetComponent<Enemy>().chasing = true;                // устанавливаем преследование за игроком
     }
+
+    public void ActivateSpawner()
+    {
+        active = !active;
+    }
 }

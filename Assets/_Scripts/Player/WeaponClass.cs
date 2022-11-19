@@ -10,5 +10,8 @@ public class WeaponClass : ScriptableObject
     public int bulletSpeed;
     public float fireRate;
     public float forceBackFire;
+    public float recoil;
+    public bool raycastWeapon;
+    public LayerMask layer;
     //public GameObject flashEffect;
 }
