@@ -100,18 +100,6 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -5442,10 +5430,10 @@ TextureImporter:
       0x72_DungeonTilesetII_v1.4_205: 795317412
       0x72_DungeonTilesetII_v1.4_237: -1175198547
       0x72_DungeonTilesetII_v1.4_201: -1527089027
-      0x72_DungeonTilesetII_v1.4_82: -2072983077
+      0x72_DungeonTilesetII_v1.4_45: -701446764
       0x72_DungeonTilesetII_v1.4_106: 244734731
       0x72_DungeonTilesetII_v1.4_109: -1600946224
-      0x72_DungeonTilesetII_v1.4_45: -701446764
+      0x72_DungeonTilesetII_v1.4_82: -2072983077
       0x72_DungeonTilesetII_v1.4_85: -1957247629
       0x72_DungeonTilesetII_v1.4_218: 12332526
       0x72_DungeonTilesetII_v1.4_31: 634778816

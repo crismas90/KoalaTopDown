@@ -14,16 +14,12 @@ public class Player : Fighter
     [HideInInspector] public Vector2 moveDirection;     // вектор для перемещения (направление)
     Vector2 movementVector;                             // вектор перещение (добавляем скорость)
     [Header("Параметры перемещения")]
-    public float moveSpeed = 5f;                        // скорость передвижения  
-
-    // Для флипа игрока
-    [HideInInspector] public bool needFlip;             // нужен флип (для игрока и оружия)    
-    [HideInInspector] public bool leftFlip;             // оружие слева
-    [HideInInspector] public bool rightFlip = true;     // оружие справа
+    public float moveSpeed = 5f;                        // скорость передвижения      
 
     // Таймер для цветов при уроне
     float timerForColor;
     bool red;
+
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------------\\
 
@@ -50,24 +46,6 @@ public class Player : Fighter
         animator.SetFloat("Speed", movementVector.magnitude);
         //Debug.Log(movementVector.magnitude);
 
-        // Флип спрайта игрока
-        if (Mathf.Abs(weaponHolder.aimAngle) > 90 && rightFlip)
-        {
-            needFlip = true;
-            leftFlip = true;
-            rightFlip = false;
-        }
-        if (Mathf.Abs(weaponHolder.aimAngle) <= 90 && leftFlip)
-        {
-            needFlip = true;
-            rightFlip = true;
-            leftFlip = false;
-        }
-        if (needFlip)
-        {
-            Flip();
-        }
-
         // Выбор цвета при получении урона и его сброс
         SetColorTimer();
     }
@@ -92,21 +70,6 @@ public class Player : Fighter
         /*movementVector = new Vector2(input.x * agent.speed, input.y * agent.speed);                      // создаем вектор куда нужно переместится        
         agent.Move(movementVector * Time.deltaTime);                                                        // перемещаем с учётом дельтаТайм
         Debug.Log(movementVector);*/
-    }
-
-
-    // Флип игрока
-    void Flip()
-    {
-        if (leftFlip)                               // разворот налево
-        {
-            spriteRenderer.flipX = true;            // поворачиваем спрайт игрока
-        }
-        if (rightFlip)
-        {
-            spriteRenderer.flipX = false;
-        }
-        needFlip = false;
     }
 
     // Отдача

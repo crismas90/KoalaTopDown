@@ -1,51 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2797869241570578454
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2797869241570578453}
-  - component: {fileID: 2797869241570578452}
-  m_Layer: 7
-  m_Name: HitBoxPivot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2797869241570578453
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2797869241570578454}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 9071452406684767524}
-  m_Father: {fileID: 8105260067676780283}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2797869241570578452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2797869241570578454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d13f115543223e4382e6b6fa3632af3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aimAngle: 0
 --- !u!1 &8105260067676780272
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,11 +30,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8105260067676780272}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 4.04, y: -1.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2797869241570578453}
+  - {fileID: 8105260069407886601}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -127,7 +81,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d86674473949ed943990637cd2a1dc74, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.32, y: 0.36}
@@ -203,7 +157,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -1372625422
   m_Radius: 0.3
-  m_Speed: 1.5
+  m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -229,20 +183,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAlive: 1
   currentHealth: 0
-  maxHealth: 60
-  rb2D: {fileID: 0}
+  maxHealth: 100
   animator: {fileID: 0}
-  isNeutral: 0
+  rb2D: {fileID: 0}
   target: {fileID: 0}
   chasing: 0
   triggerLenght: 5
-  distanceToAttack: 1
+  distanceToAttack: 1.1
   targetVisible: 0
   readyToAttack: 0
-  deathEffect: {fileID: 7845441016114820387, guid: 63da8428eacb2d64e834aa5b7bf5e82f, type: 3}
-  deathCameraShake: 3
-  debug: 0
---- !u!1 &9071452406684767527
+  lastAttack: 0
+  cooldown: 0.5
+  attackDamage: 2
+  pushForce: 15
+  deathEffect: {fileID: 7845441016114820387, guid: 87167e05437f7c844b845e558dc030aa, type: 3}
+--- !u!1 &8105260069407886602
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -250,8 +205,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 9071452406684767524}
-  - component: {fileID: 9071452406684767525}
+  - component: {fileID: 8105260069407886601}
+  - component: {fileID: 8105260069407886600}
   m_Layer: 7
   m_Name: HitBox
   m_TagString: Untagged
@@ -259,39 +214,31 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &9071452406684767524
+--- !u!4 &8105260069407886601
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9071452406684767527}
+  m_GameObject: {fileID: 8105260069407886602}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.2, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.09, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2797869241570578453}
+  m_Father: {fileID: 8105260067676780283}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9071452406684767525
+--- !u!114 &8105260069407886600
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9071452406684767527}
+  m_GameObject: {fileID: 8105260069407886602}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b03f2c74ed169fe4cabb684c22f4cfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastAttack: 0
-  hitBoxRadius: 0.4
-  cooldown: 1
-  damage: 10
-  pushForce: 10
-  isRange: 0
-  bulletPrefab: {fileID: 2609019957272575851, guid: c675c6819f034a14ca6c9a63f9865382, type: 3}
-  bulletSpeed: 10
-  forceBackFire: 10
+  attackRadius: 0.55

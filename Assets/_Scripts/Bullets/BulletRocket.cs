@@ -9,7 +9,7 @@ public class BulletRocket : Bullet
 
     private void Start()
     {
-        //Invoke("Explosion", 1);                   // взрыв после времени
+        Invoke("Explosion", 1);
     }
     public override void OnTriggerEnter2D(Collider2D collision)
     {
