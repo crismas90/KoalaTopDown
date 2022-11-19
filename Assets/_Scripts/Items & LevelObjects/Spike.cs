@@ -6,18 +6,35 @@ public class Spike : MonoBehaviour
 {
     Animator animator;
 
-    public int damage;
-    public float timeToActive;
-    bool isSpikeActive;
-    Fighter target;
+    public bool isSpikeWork;                                // шипы работают постоянно
+    public int damage;                                      // урон
+    public float cooldown = 3f;                             // перезардяка атаки
+    public float timeToActive;                              // через сколько сработают
+    bool isSpikeActive;                                     // активны сейчас или нет
+    float lastAttack;                                       // время последнего удара (для перезарядки удара)                                                               
+
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
     }
 
-    public void SpikeActiveEvent()                   // ивент запускает инвок
+
+    private void Update()
     {
+        if (isSpikeWork && Time.time - lastAttack > cooldown)
+        {
+            animator.SetTrigger("SpikeHit");
+            animator.SetBool("Disactive", true);
+            DamageAll();
+            lastAttack = Time.time;                         // присваиваем время атаки
+        }
+    }
+
+    public void SpikeActiveEvent()                          // ивент запускает инвок
+    {
+        if (isSpikeWork)
+            return;
         Invoke("SpikeActivate", timeToActive);
     }
 
