@@ -7,6 +7,7 @@ public class UnityEventInteract : MonoBehaviour
 {
     [Header("Параметры")]
     public bool withArrow;                      // со стрелкой или без   
+    public bool withButton;                      // со стрелкой или без   
     public UnityEvent interactAction;           // ивент
     bool isInRange;                             // в ренже или нет
     GameObject arrow;                           // стрелка
@@ -21,7 +22,7 @@ public class UnityEventInteract : MonoBehaviour
     {
         if (isInRange)
         {
-            if (Input.GetKeyDown(GameManager.instance.keyToUse))
+            if (Input.GetKeyDown(GameManager.instance.keyToUse) || !withButton)
             {
                 interactAction.Invoke();
             }
