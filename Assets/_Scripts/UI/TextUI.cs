@@ -27,6 +27,7 @@ public class TextUI : MonoBehaviour
         battery.text = GameManager.instance.battery.ToString("0");
 
         // Активное оружие
-        weaponName.text = GameManager.instance.player.weaponHolder.currentWeapon.weaponName;
+        if (GameManager.instance.player.weaponHolder.currentWeapon)
+            weaponName.text = GameManager.instance.player.weaponHolder.currentWeapon.weaponName;
     }
 }

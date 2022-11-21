@@ -39,11 +39,6 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void Start()
-    {
-        
-    }
-
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.H))

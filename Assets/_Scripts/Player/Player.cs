@@ -9,6 +9,7 @@ public class Player : Fighter
     NavMeshAgent agent;
     [HideInInspector] public SpriteRenderer spriteRenderer;
     [HideInInspector] public WeaponHolder weaponHolder;
+    HitBoxPivot hitBoxPivot;
 
     // Передвижение
     [HideInInspector] public Vector2 moveDirection;     // вектор для перемещения (направление)
@@ -34,6 +35,7 @@ public class Player : Fighter
         agent = GetComponent<NavMeshAgent>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         weaponHolder = GetComponentInChildren<WeaponHolder>();
+        hitBoxPivot = GetComponentInChildren<HitBoxPivot>();
 
         agent.updateRotation = false;               // для навМеш2д
         agent.updateUpAxis = false;                 //
@@ -66,6 +68,7 @@ public class Player : Fighter
         if (needFlip)
         {
             Flip();
+            hitBoxPivot.Flip();
         }
 
         // Выбор цвета при получении урона и его сброс
@@ -93,6 +96,24 @@ public class Player : Fighter
         agent.Move(movementVector * Time.deltaTime);                                                        // перемещаем с учётом дельтаТайм
         Debug.Log(movementVector);*/
     }
+
+
+
+
+    // Фукция для ивента анимации (потом как-нибудь сделать по нормальному и через ивент)
+/*    public void AttacHitBox()
+    {
+        hitBox.HitBoxAttack();
+    }
+
+    public void TrailHitbox(int isOn)
+    {
+        hitBox.TrailOn(isOn);
+    }
+*/
+
+
+
 
 
     // Флип игрока
