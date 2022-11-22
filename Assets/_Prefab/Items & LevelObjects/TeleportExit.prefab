@@ -420,7 +420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exitTeleport: {fileID: 0}
-  timeToTeleport: 2
+  timeToTeleport: 1
   actived: 0
   batteryToActivate: 0
 --- !u!1 &6352044622980041593

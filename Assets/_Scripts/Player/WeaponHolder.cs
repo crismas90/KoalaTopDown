@@ -11,13 +11,16 @@ public class WeaponHolder : MonoBehaviour
     public WeaponHolderMelee weaponHolderMelee;         // ссылка на холдер для мили оружия
 
     public List<GameObject> weapons;                    // Список оружий    
-    [HideInInspector] public Weapon currentWeapon;      // текущее оружие (пока что толька для текста ui)
+    [HideInInspector] public Weapon currentWeapon;      // текущее оружие 
     [HideInInspector] public int selectedWeapon = 0;    // индекс оружия (положение в иерархии WeaponHolder)
     [HideInInspector] public bool fireStart;            // начать стрельбу
     [HideInInspector] public bool attackHitBoxStart;    // начать атаку мечом
     [HideInInspector] public float aimAngle;            // угол поворота для вращения холдера с оружием и хитбоксПивота
     Vector3 mousePosition;                              // положение мыши
-    bool meleeWeapon;
+    bool meleeWeapon;                                   // мили оружие или ренж
+
+    [HideInInspector] public string currentWeaponName;  // для текста ui
+
 
     bool stopAiming;                                    // для дебага
 
@@ -39,14 +42,14 @@ public class WeaponHolder : MonoBehaviour
         //Debug.Log(weapons.Count - 1);
 
         // Стрельба
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             if (meleeWeapon)                        // если оружие ближнего боя
                 attackHitBoxStart = true;           // начинаем атаку хитбоксом
             else
                 fireStart = true;                   // стреляем
         }
-        if (Input.GetMouseButtonUp(0))
+        else
         {
             if (meleeWeapon)
                 attackHitBoxStart = false;
@@ -112,8 +115,6 @@ public class WeaponHolder : MonoBehaviour
             }
         }
 
-
-
         /*        if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
                     selectedWeapon = 0;
@@ -142,9 +143,13 @@ public class WeaponHolder : MonoBehaviour
             {
                 weapon.gameObject.SetActive(true);                                      // активируем оружие в иерархии
                 currentWeapon = weapon.gameObject.GetComponentInChildren<Weapon>();     // получаем его скрипт
+                currentWeaponName = currentWeapon.weaponName;                           // получаем имя оружия для ui
+                Debug.Log(currentWeapon.weaponName);
             }
             else
+            {
                 weapon.gameObject.SetActive(false);                                     // остальные оружия дезактивируем
+            }
             i++;
         }
     }

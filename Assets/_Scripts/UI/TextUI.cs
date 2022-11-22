@@ -28,6 +28,6 @@ public class TextUI : MonoBehaviour
 
         // Активное оружие
         if (GameManager.instance.player.weaponHolder.currentWeapon)
-            weaponName.text = GameManager.instance.player.weaponHolder.currentWeapon.weaponName;
+            weaponName.text = GameManager.instance.player.weaponHolder.currentWeaponName;
     }
 }

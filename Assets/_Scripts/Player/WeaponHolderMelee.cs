@@ -6,7 +6,9 @@ using System.Collections.Generic;
 /// </summary>
 
 public class WeaponHolderMelee : MonoBehaviour
-{    
+{
+    public WeaponHolder weaponHolder;
+
     public List<GameObject> weapons;                    // Список оружий
     [HideInInspector] public MeleeWeapon currentWeapon;      // текущее оружие (пока что толька для текста ui)
     [HideInInspector] public int selectedWeapon = 0;    // индекс оружия (положение в иерархии WeaponHolder)   
@@ -66,8 +68,9 @@ public class WeaponHolderMelee : MonoBehaviour
         {
             if (i == selectedWeapon)
             {
-                weapon.gameObject.SetActive(true);                                      // активируем оружие в иерархии
-                currentWeapon = weapon.gameObject.GetComponentInChildren<MeleeWeapon>();     // получаем его скрипт
+                weapon.gameObject.SetActive(true);                                          // активируем оружие в иерархии
+                currentWeapon = weapon.gameObject.GetComponentInChildren<MeleeWeapon>();    // получаем его скрипт
+                weaponHolder.currentWeaponName = currentWeapon.weaponName;                  // получаем имя оружия для ui
             }
             else
                 weapon.gameObject.SetActive(false);                                     // остальные оружия дезактивируем

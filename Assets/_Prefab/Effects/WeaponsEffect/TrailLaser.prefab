@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7381484261942866235}
   - component: {fileID: 2862349512899274176}
+  - component: {fileID: -4471177378746430469}
   m_Layer: 0
   m_Name: TrailLaser
   m_TagString: Untagged
@@ -74,7 +75,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Time: 0.1
+  m_Time: 0.04
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.1
@@ -95,8 +96,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.7678805, b: 0, a: 1}
-      key1: {r: 1, g: 0.051568158, b: 0, a: 1}
+      key0: {r: 1, g: 0.029075185, b: 0, a: 1}
+      key1: {r: 1, g: 0.6640479, b: 0, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -104,7 +105,7 @@ TrailRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 65342
+      ctime1: 65535
       ctime2: 0
       ctime3: 0
       ctime4: 0
@@ -129,5 +130,17 @@ TrailRenderer:
     shadowBias: 0.5
     generateLightingData: 0
   m_MinVertexDistance: 0.1
-  m_Autodestruct: 0
+  m_Autodestruct: 1
   m_Emitting: 1
+--- !u!114 &-4471177378746430469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4488303002141477000}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a567521eb53775841be3f3397e3d6c8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

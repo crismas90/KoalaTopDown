@@ -9,6 +9,7 @@ public class MeleeWeapon : MonoBehaviour
     Animator animator;
     public LayerMask layer;                             // слои для битья
 
+    public string weaponName;
     public Transform hitBox;
     public int damage = 10;                             // урон
     public float pushForce = 1;                         // сила толчка
