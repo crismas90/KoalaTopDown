@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3752eabdbdae2cf43870bc4319945e01, type: 3}
-  m_Name: SayHello
+  m_Name: Say Hello
   m_EditorClassIdentifier: 
   textToSay: Hello

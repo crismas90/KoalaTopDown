@@ -92,7 +92,9 @@ public class Enemy : Fighter
     void FixedUpdate()
     {
         if (!target)
+        {            
             return;
+        }
         if (isNeutral)
             return;
 
@@ -116,19 +118,7 @@ public class Enemy : Fighter
 
         if (chasing)                                                        // если преследуем
         {
-            //agent.SetDestination(target.transform.position);                    // перемещаемся к цели
-            float distance = Vector3.Distance(transform.position, target.transform.position);       // считаем дистанцию до цели
-            if (distance < distanceToAttack && targetVisible)                                       // если дошли до цели и видим её
-            {
-                agent.ResetPath();                                                                  // сбрасываем путь            
-                readyToAttack = true;                                                               // готов стрелять
-                //Debug.Log("Ready Attack");
-            }
-            else
-            {
-                agent.SetDestination(target.transform.position);                                    // перемещаемся к цели
-                readyToAttack = false;                                                              // не готов стрелять                
-            }
+            Chase(target);
         }
 
         if (debug)
@@ -136,6 +126,29 @@ public class Enemy : Fighter
             //Debug.Log(chasing);
         }
     }
+
+    public void Chase(GameObject target)
+    {
+        //agent.SetDestination(target.transform.position);                    // перемещаемся к цели
+        float distance = Vector3.Distance(transform.position, target.transform.position);       // считаем дистанцию до цели
+        if (distance < distanceToAttack && targetVisible)                                       // если дошли до цели и видим её
+        {
+            agent.ResetPath();                                                                  // сбрасываем путь            
+            readyToAttack = true;                                                               // готов стрелять
+            //Debug.Log("Ready Attack");
+        }
+        else
+        {
+            agent.SetDestination(target.transform.position);                                    // перемещаемся к цели
+            readyToAttack = false;                                                              // не готов стрелять                
+        }
+    }
+
+    public void SetDestination(Vector3 destination)
+    {
+        agent.SetDestination(destination);
+    }
+
 
     // Фукция для ивента анимации (потом как-нибудь сделать по нормальному)
     public void AttacHitBox()               

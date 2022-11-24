@@ -5,30 +5,39 @@ using UnityEngine;
 public class EnemyThinker : MonoBehaviour
 {
     public Brain[] brains;
-    [HideInInspector] public Enemy enemy;
+    [HideInInspector] public Enemy botAI;
     bool findTarget;
+    public bool targetPlayer;
+    public bool retreat;
 
     private void Awake()
     {        
-        enemy = GetComponent<Enemy>();
-    }
-
-    private void Start()
-    {
-        brains[0].ThinkStart();
+        botAI = GetComponent<Enemy>();
     }
 
     private void Update()
     {
-        if (!enemy.target)
+        if (retreat)
         {
-            brains[0].Think(this);
+            brains[3].Think(this);
+            findTarget = false;
+            return;
         }
 
-        if (enemy.target && !findTarget)
+        if (!botAI.target)
         {
-            brains[1].Think(this);
+            if (targetPlayer)
+                brains[1].Think(this);
+            if (!targetPlayer)
+                brains[0].Think(this);
+        }
+                
+        if (botAI.target && !findTarget)
+        {
+            brains[2].Think(this);
             findTarget = true;
         }
+        Debug.Log(botAI.target);
+
     }
 }

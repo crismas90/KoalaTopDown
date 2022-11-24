@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1608d8a479a909f4185b848958172a79, type: 3}
-  m_Name: ChaseBrainPlayer
+  m_Script: {fileID: 11500000, guid: 9f8f741b5d0a87944bd6717b9c3884eb, type: 3}
+  m_Name: Find Target Disco
   m_EditorClassIdentifier: 
-  targetTag: Player
+  tagTarget: Disco
