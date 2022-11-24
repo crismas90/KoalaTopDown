@@ -13,7 +13,7 @@ public class Enemy : Fighter
     // Преследование
     public bool isNeutral;                                  // не будет никого атаковать
     [HideInInspector] public GameObject target;             // цель
-    public bool chasing;                                    // статус преследования
+    [HideInInspector] public bool chasing;                  // статус преследования
     public float triggerLenght;                             // дистанция тригера
     public float distanceToAttack;                          // дистанция, с которой можно атаковать (0.8 для мелкого)
     [HideInInspector] public bool targetVisible;            // видим мы цель или нет
@@ -47,7 +47,7 @@ public class Enemy : Fighter
 
     void Start()
     {
-        target = GameManager.instance.player.gameObject;    // пока что цель только игрок
+        //target = GameManager.instance.player.gameObject;    // пока что цель только игрок
 
         agent.updateRotation = false;                       // для навмеш2д
         agent.updateUpAxis = false;                         //
