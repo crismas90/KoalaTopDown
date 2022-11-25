@@ -4,25 +4,25 @@ using UnityEngine.AI;
 public class Enemy : Fighter
 {
     // —сылки
-    NavMeshAgent agent;
+    [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public Animator animator;
-    SpriteRenderer spriteRenderer;
+    [HideInInspector] public SpriteRenderer spriteRenderer;
     EnemyHitBoxPivot pivot;
-    EnemyHitbox hitBox;
+    [HideInInspector] public EnemyHitbox hitBox;
 
     // ѕреследование
     public bool isNeutral;                                  // не будет никого атаковать
     [HideInInspector] public GameObject target;             // цель
     [HideInInspector] public bool chasing;                  // статус преследовани€
+    Vector3 startPosition;                                  // позици€ дл€ охраны
+    public float chaseLeght;                                // дальность преследовани€    
     public float triggerLenght;                             // дистанци€ тригера
-    public float distanceToAttack;                          // дистанци€, с которой можно атаковать (0.8 дл€ мелкого)
     [HideInInspector] public bool targetVisible;            // видим мы цель или нет
     [HideInInspector] public bool readyToAttack;            // можно атаковать
-
-    
-    //public float attackSpeed = 1;                           // скорость атаки
+    public float distanceToAttack;                          // дистанци€, с которой можно атаковать (0.8 дл€ мелкого)    
 
     // ƒл€ анимации
+    [HideInInspector] public float aimAnglePivot;           // угол поворота хитбокспивота
     public GameObject deathEffect;                          // эффект (потом сделать его в аниматоре (или  нет))
     public float deathCameraShake;                          // мощность тр€ски камеры при убийстве
     bool flipLeft;                                          // дл€ флипа
@@ -47,7 +47,7 @@ public class Enemy : Fighter
 
     void Start()
     {
-        //target = GameManager.instance.player.gameObject;    // пока что цель только игрок
+        startPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 
         agent.updateRotation = false;                       // дл€ навмеш2д
         agent.updateUpAxis = false;                         //
@@ -55,14 +55,23 @@ public class Enemy : Fighter
 
     private void Update()
     {
+        // ѕоворот хитбокса
+        if (target && chasing && targetVisible)
+        {
+            Vector3 aimDirection = target.transform.position - pivot.transform.position;                        // угол между положением мыши и pivot оружи€          
+            aimAnglePivot = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;                       // находим угол в градусах             
+            Quaternion qua1 = Quaternion.Euler(0, 0, aimAnglePivot);                                                 // создаем этот угол в Quaternion
+            pivot.transform.rotation = Quaternion.Lerp(pivot.transform.rotation, qua1, Time.fixedDeltaTime * 15);     // делаем Lerp между weaponHoder и нашим углом
+        }
+
         // поворот спрайта (Flip)       
         if (chasing && targetVisible)                           // (потом chasing заменить на target и ещЄ это дублируетс€ в хитбокспивот)
         {
-            if (Mathf.Abs(pivot.aimAngle) > 90 && !flipLeft)
+            if (Mathf.Abs(aimAnglePivot) > 90 && !flipLeft)
             {
                 FaceTargetLeft();
             }
-            if (Mathf.Abs(pivot.aimAngle) <= 90 && !flipRight)
+            if (Mathf.Abs(aimAnglePivot) <= 90 && !flipRight)
             {
                 FaceTargetRight();
             }
@@ -89,58 +98,40 @@ public class Enemy : Fighter
             Debug.Log(targetVisible);
     }
 
-    void FixedUpdate()
-    {
-        if (!target)
-        {            
-            return;
-        }
-        if (isNeutral)
-            return;
 
+    public void NavMeshRayCast(GameObject target)
+    {
         NavMeshHit hit;
         if (!agent.Raycast(target.transform.position, out hit))
         {
             //Debug.Log("Visible");            
-            targetVisible = true;                                           // Target is "visible" from our position.
+            targetVisible = true;                                           // цели видима из нашей позиции
         }
         else
         {
             // тут добавить проверку какой объект попал под рейкаст (стена или снар€д например или враг)
             targetVisible = false;
         }
-
-        // ѕреследование
-        if (Vector3.Distance(target.transform.position, transform.position) < triggerLenght && targetVisible)       // если дистанци€ до игрока < тригер дистанции
-        {
-            chasing = true;                                                 // преследование включено 
-        }
-
-        if (chasing)                                                        // если преследуем
-        {
-            Chase(target);
-        }
-
-        if (debug)
-        {
-            //Debug.Log(chasing);
-        }
     }
 
+
     public void Chase(GameObject target)
-    {
-        //agent.SetDestination(target.transform.position);                    // перемещаемс€ к цели
+    {        
         float distance = Vector3.Distance(transform.position, target.transform.position);       // считаем дистанцию до цели
         if (distance < distanceToAttack && targetVisible)                                       // если дошли до цели и видим еЄ
         {
-            agent.ResetPath();                                                                  // сбрасываем путь            
-            readyToAttack = true;                                                               // готов стрел€ть
-            //Debug.Log("Ready Attack");
+            if (!readyToAttack)
+            {
+                agent.ResetPath();                                                              // сбрасываем путь            
+                readyToAttack = true;                                                           // готов стрел€ть
+                //Debug.Log("Ready Attack");
+            }
         }
-        else
+        else 
         {
             agent.SetDestination(target.transform.position);                                    // перемещаемс€ к цели
-            readyToAttack = false;                                                              // не готов стрел€ть                
+            if (readyToAttack)
+                readyToAttack = false;                                                              // не готов стрел€ть                
         }
     }
 
@@ -148,6 +139,14 @@ public class Enemy : Fighter
     {
         agent.SetDestination(destination);
     }
+
+    public void SayText(string text)
+    {
+        ChatBubble.Clear(gameObject);
+        ChatBubble.Create(transform, new Vector3(0.2f, 0.2f), text);
+    }
+
+
 
 
     // ‘укци€ дл€ ивента анимации (потом как-нибудь сделать по нормальному)
@@ -163,18 +162,13 @@ public class Enemy : Fighter
 
 
 
-    public void SayText(string text)
-    {
-        ChatBubble.Clear(gameObject);
-        ChatBubble.Create(transform, new Vector3(0.2f, 0.2f), text);
-    }
+
 
     public void ForceBackFire(Vector3 forceDirection, float forceBack)
     {
         Vector2 vec2 = (transform.position - forceDirection).normalized;        // направление отдачи нормализированное
         rb2D.AddForce(vec2 * forceBack, ForceMode2D.Impulse);                   // толкаем импульсом
     }
-
 
     public override void TakeDamage(int dmg)
     {

@@ -10,6 +10,7 @@ public class FindTargetBrain : Brain
     public override void Think(EnemyThinker thinker)
     {
         GameObject target = GameObject.FindGameObjectWithTag(tagTarget);
-        thinker.botAI.target = target;
+        thinker.target = target;
+        thinker.botAI.target = target;      // (потом убрать)
     }
 }

@@ -8,7 +8,7 @@ public class EnemyHitbox : MonoBehaviour
     EnemyHitBoxPivot pivot;
 
     [Header("Параметры атаки")]
-    public LayerMask layer;
+    [HideInInspector] public LayerMask layer;
     [HideInInspector] public float lastAttack;              // время последнего удара (для перезарядки удара)
     public float hitBoxRadius;                              // радиус атаки                                                               
     public float cooldown = 0.5f;                           // перезардяка атаки
@@ -36,7 +36,7 @@ public class EnemyHitbox : MonoBehaviour
 
     void Start()
     {
-
+        layer = LayerMask.GetMask("Player", "ObjectsDestroyble", "Default");
     }
 
     
@@ -52,13 +52,13 @@ public class EnemyHitbox : MonoBehaviour
         }
 
         // Флип оружия
-        if (Mathf.Abs(pivot.aimAngle) > 90 && rightFlip)
+        if (Mathf.Abs(enemy.aimAnglePivot) > 90 && rightFlip)
         {
             needFlip = true;
             leftFlip = true;
             rightFlip = false;
         }
-        if (Mathf.Abs(pivot.aimAngle) <= 90 && leftFlip)
+        if (Mathf.Abs(enemy.aimAnglePivot) <= 90 && leftFlip)
         {
             needFlip = true;
             rightFlip = true;
@@ -92,11 +92,11 @@ public class EnemyHitbox : MonoBehaviour
                 continue;
             }
 
-            if (enObjectBox.gameObject.TryGetComponent<Fighter>(out Fighter fighter))                  // ищем скрипт плеера
+            if (enObjectBox.gameObject.TryGetComponent<Fighter>(out Fighter fighter))               // ищем скрипт файтер
             {
-                fighter.TakeDamage(damage);                                                          // наносим урон
-                Vector2 vec2 = (fighter.transform.position - transform.position).normalized;         // вычисляем вектор направления удара
-                fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);                        // даём импульс                                                                                                                  
+                fighter.TakeDamage(damage);                                                         // наносим урон
+                Vector2 vec2 = (fighter.transform.position - transform.position).normalized;        // вычисляем вектор направления удара
+                fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);                       // даём импульс                                                                                                                  
             }
             collidersHitbox = null;                                                                 // сбрасываем все найденные объекты (на самом деле непонятно как это работает)
         }
