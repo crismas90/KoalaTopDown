@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d13f115543223e4382e6b6fa3632af3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aimAngle: 0
 --- !u!1 &8105260067676780272
 GameObject:
   m_ObjectHideFlags: 0
@@ -77,8 +76,8 @@ Transform:
   m_GameObject: {fileID: 8105260067676780272}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2797869241570578453}
   - {fileID: 6765966069161299017}
@@ -232,14 +231,18 @@ MonoBehaviour:
   currentHealth: 0
   maxHealth: 60
   rb2D: {fileID: 0}
+  agent: {fileID: 0}
   animator: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  hitBox: {fileID: 0}
   isNeutral: 0
-  target: {fileID: 0}
   chasing: 0
+  chaseLeght: 0
   triggerLenght: 5
-  distanceToAttack: 5
   targetVisible: 0
   readyToAttack: 0
+  distanceToAttack: 5
+  aimAnglePivot: 0
   deathEffect: {fileID: 7845441016114820387, guid: 63da8428eacb2d64e834aa5b7bf5e82f, type: 3}
   deathCameraShake: 3
   debug: 0
@@ -287,6 +290,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b03f2c74ed169fe4cabb684c22f4cfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
   lastAttack: 0
   hitBoxRadius: 0.4
   cooldown: 3

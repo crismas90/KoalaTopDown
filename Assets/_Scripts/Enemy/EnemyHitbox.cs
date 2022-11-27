@@ -15,7 +15,7 @@ public class EnemyHitbox : MonoBehaviour
     public int damage = 1;                                  // урон
     public float pushForce = 10;                            // сила толчка
     // Если ренж
-    public bool isRange;                                    // ренж атака
+    [HideInInspector] public bool isRange;                                    // ренж атака
     public GameObject bulletPrefab;
     public GameObject effectRangeAttack;                    // эффект ренж атаки
     public float bulletSpeed = 10;                          // скорость снаряда
@@ -36,7 +36,7 @@ public class EnemyHitbox : MonoBehaviour
 
     void Start()
     {
-        layer = LayerMask.GetMask("Player", "ObjectsDestroyble", "Default");
+        layer = LayerMask.GetMask("Player", "ObjectsDestroyble", "Default", "NPC");
     }
 
     

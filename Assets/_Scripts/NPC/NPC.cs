@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class NPC : MonoBehaviour
+public class NPC : Fighter
 {    
     public string[] textToSay;      // текст для диалога
     int dialogeNumber;              // номер диалога
@@ -34,12 +34,18 @@ public class NPC : MonoBehaviour
         ChatBubble.Create(transform, new Vector3(-1f, 0.2f), text);        
     }
 
-/*    void ClearDialoge()
+    protected override void Death()
     {
-        ChatBubble[] chats = GetComponentsInChildren<ChatBubble>();
-        foreach (ChatBubble chat in chats)
+        base.Death();
+        Destroy(gameObject);
+    }
+
+    /*    void ClearDialoge()
         {
-            chat.gameObject.SetActive(false);
-        }
-    }*/
+            ChatBubble[] chats = GetComponentsInChildren<ChatBubble>();
+            foreach (ChatBubble chat in chats)
+            {
+                chat.gameObject.SetActive(false);
+            }
+        }*/
 }

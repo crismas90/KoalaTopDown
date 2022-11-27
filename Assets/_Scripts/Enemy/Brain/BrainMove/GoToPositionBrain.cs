@@ -10,7 +10,7 @@ public class GoToPositionBrain : Brain
     public override void Think(EnemyThinker thinker)
     {
         thinker.botAI.SetDestination(destination);
-        thinker.botAI.target = null;
-        thinker.botAI.chasing = false;
+        //thinker.botAI.target = null;
+        //thinker.botAI.chasing = false;
     }
 }

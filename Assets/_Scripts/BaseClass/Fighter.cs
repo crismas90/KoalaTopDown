@@ -47,6 +47,6 @@ public class Fighter : MonoBehaviour
     protected virtual void Death()
     {
         isAlive = false;
-        Debug.Log(transform.name + " died.");
+        //Debug.Log(transform.name + " died.");
     }
 }

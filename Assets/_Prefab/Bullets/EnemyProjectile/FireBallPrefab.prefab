@@ -250,7 +250,7 @@ MonoBehaviour:
   expRadius: 1.5
   layer:
     serializedVersion: 2
-    m_Bits: 4160
+    m_Bits: 20545
 --- !u!96 &6759844036914890781
 TrailRenderer:
   serializedVersion: 2

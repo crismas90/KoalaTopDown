@@ -7,18 +7,20 @@ public class Enemy : Fighter
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public Animator animator;
     [HideInInspector] public SpriteRenderer spriteRenderer;
-    EnemyHitBoxPivot pivot;
     [HideInInspector] public EnemyHitbox hitBox;
+    EnemyHitBoxPivot pivot;
+    EnemyThinker enemyThinker;
+
 
     // Преследование
     public bool isNeutral;                                  // не будет никого атаковать
-    [HideInInspector] public GameObject target;             // цель
+    //[HideInInspector] public GameObject target;             // цель
     [HideInInspector] public bool chasing;                  // статус преследования
     Vector3 startPosition;                                  // позиция для охраны
     public float chaseLeght;                                // дальность преследования    
     public float triggerLenght;                             // дистанция тригера
     [HideInInspector] public bool targetVisible;            // видим мы цель или нет
-    [HideInInspector] public bool readyToAttack;            // можно атаковать
+    public bool readyToAttack;            // можно атаковать
     public float distanceToAttack;                          // дистанция, с которой можно атаковать (0.8 для мелкого)    
 
     // Для анимации
@@ -43,6 +45,7 @@ public class Enemy : Fighter
         spriteRenderer = GetComponent<SpriteRenderer>();
         pivot = GetComponentInChildren<EnemyHitBoxPivot>();
         hitBox = GetComponentInChildren<EnemyHitbox>();
+        enemyThinker = GetComponentInChildren<EnemyThinker>();
     }
 
     void Start()
@@ -51,21 +54,22 @@ public class Enemy : Fighter
 
         agent.updateRotation = false;                       // для навмеш2д
         agent.updateUpAxis = false;                         //
+        agent.ResetPath();                                  // сбрасываем путь, потому что он при старте есть
     }
 
     private void Update()
     {
         // Поворот хитбокса
-        if (target && chasing && targetVisible)
+        if (enemyThinker.target && chasing && targetVisible)
         {
-            Vector3 aimDirection = target.transform.position - pivot.transform.position;                        // угол между положением мыши и pivot оружия          
-            aimAnglePivot = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;                       // находим угол в градусах             
-            Quaternion qua1 = Quaternion.Euler(0, 0, aimAnglePivot);                                                 // создаем этот угол в Quaternion
-            pivot.transform.rotation = Quaternion.Lerp(pivot.transform.rotation, qua1, Time.fixedDeltaTime * 15);     // делаем Lerp между weaponHoder и нашим углом
+            Vector3 aimDirection = enemyThinker.target.transform.position - pivot.transform.position;               // угол между положением мыши и pivot оружия          
+            aimAnglePivot = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;                            // находим угол в градусах             
+            Quaternion qua1 = Quaternion.Euler(0, 0, aimAnglePivot);                                                // создаем этот угол в Quaternion
+            pivot.transform.rotation = Quaternion.Lerp(pivot.transform.rotation, qua1, Time.fixedDeltaTime * 15);   // делаем Lerp между weaponHoder и нашим углом
         }
 
         // поворот спрайта (Flip)       
-        if (chasing && targetVisible)                           // (потом chasing заменить на target и ещё это дублируется в хитбокспивот)
+        if (enemyThinker.target && targetVisible)                           // (потом chasing заменить на target и ещё это дублируется в хитбокспивот)
         {
             if (Mathf.Abs(aimAnglePivot) > 90 && !flipLeft)
             {
@@ -115,7 +119,7 @@ public class Enemy : Fighter
     }
 
 
-    public void Chase(GameObject target)
+/*    public void ChaseAndAttack(GameObject target)
     {        
         float distance = Vector3.Distance(transform.position, target.transform.position);       // считаем дистанцию до цели
         if (distance < distanceToAttack && targetVisible)                                       // если дошли до цели и видим её
@@ -131,9 +135,9 @@ public class Enemy : Fighter
         {
             agent.SetDestination(target.transform.position);                                    // перемещаемся к цели
             if (readyToAttack)
-                readyToAttack = false;                                                              // не готов стрелять                
+                readyToAttack = false;                                                          // не готов стрелять                
         }
-    }
+    }*/
 
     public void SetDestination(Vector3 destination)
     {
@@ -172,8 +176,6 @@ public class Enemy : Fighter
 
     public override void TakeDamage(int dmg)
     {
-        if (currentHealth == maxHealth)             // если получили урон, но жизни были полные
-            chasing = true;
         base.TakeDamage(dmg);
         //animator.SetTrigger("TakeHit");
         ColorRed(0.05f);

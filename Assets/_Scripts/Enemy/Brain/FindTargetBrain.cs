@@ -11,6 +11,6 @@ public class FindTargetBrain : Brain
     {
         GameObject target = GameObject.FindGameObjectWithTag(tagTarget);
         thinker.target = target;
-        thinker.botAI.target = target;      // (потом убрать)
+        //thinker.botAI.target = target;      // (потом убрать)
     }
 }
