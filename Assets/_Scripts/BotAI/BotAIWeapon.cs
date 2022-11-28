@@ -1,13 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeWeapon : MonoBehaviour
+public class BotAIWeapon : MonoBehaviour
 {
-    Player player;
-    WeaponHolder weaponHolder;                          // ссылка на скрипт weaponHolder (для удара)    
+    BotAI botAI;      
     Animator animator;
-    public LayerMask layer;                             // слои для битья
 
     public string weaponName;
     public Transform hitBox;
@@ -16,21 +12,22 @@ public class MeleeWeapon : MonoBehaviour
     public float radius = 1;                            // радиус
     public float cooldown = 1f;                         // перезардяка атаки
     float lastAttack;                                   // время последнего удара (для перезарядки удара)
+    [HideInInspector] public LayerMask layerHit;        // слои для битья (берем из ботАИ)
 
     // Треил 
     public TrailRenderer trail;
 
     void Start()
     {
-        player = GameManager.instance.player;
-        weaponHolder = GameManager.instance.player.weaponHolder;            // находим скрипт weaponHolder
-        animator = GetComponentInParent<Animator>();        
+        botAI = GetComponentInParent<BotAI>();        
+        animator = GetComponentInParent<Animator>();
+        layerHit = botAI.layerHit;
     }
 
-    
+
     void Update()
     {
-        if (weaponHolder.attackHitBoxStart && Time.time - lastAttack > cooldown)          // если готовы атаковать и кд готово
+        if (botAI.readyToAttack && Time.time - lastAttack > cooldown)          // если готовы атаковать и кд готово
         {
             //Debug.Log("Attack!");
             lastAttack = Time.time;                             // присваиваем время атаки
@@ -40,7 +37,7 @@ public class MeleeWeapon : MonoBehaviour
 
     public void MeleeAttack()
     {
-        Collider2D[] collidersHits = Physics2D.OverlapCircleAll(hitBox.position, radius, layer);     // создаем круг в позиции объекта с радиусом
+        Collider2D[] collidersHits = Physics2D.OverlapCircleAll(hitBox.position, radius, layerHit);     // создаем круг в позиции объекта с радиусом
         foreach (Collider2D coll in collidersHits)
         {
             if (coll == null)
@@ -51,7 +48,7 @@ public class MeleeWeapon : MonoBehaviour
             if (coll.gameObject.TryGetComponent<Fighter>(out Fighter fighter))
             {
                 fighter.TakeDamage(damage);
-                Vector2 vec2 = (coll.transform.position - player.transform.position).normalized;
+                Vector2 vec2 = (coll.transform.position - botAI.transform.position).normalized;
                 fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
             }
             collidersHits = null;

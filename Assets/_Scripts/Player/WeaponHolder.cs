@@ -6,10 +6,8 @@ using System.Collections.Generic;
 /// </summary>
 
 public class WeaponHolder : MonoBehaviour
-{
-    Player player;
+{    
     public WeaponHolderMelee weaponHolderMelee;         // ссылка на холдер для мили оружия
-
     public List<GameObject> weapons;                    // Список оружий    
     [HideInInspector] public Weapon currentWeapon;      // текущее оружие 
     [HideInInspector] public int selectedWeapon = 0;    // индекс оружия (положение в иерархии WeaponHolder)
@@ -26,8 +24,6 @@ public class WeaponHolder : MonoBehaviour
 
     void Start()
     {
-        player = GameManager.instance.player;
-
         int i = 0;
         foreach (GameObject weapon in weapons)          // покупаем все оружия из списка оружий при старте
         {            

@@ -103,8 +103,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.06}
-  m_Size: {x: 0.5, y: 0.64}
+  m_Offset: {x: 0.01639533, y: -0.058178425}
+  m_Size: {x: 0.58379793, y: 0.7237978}
   m_Direction: 0
 --- !u!50 &5050810750539317258
 Rigidbody2D:
@@ -190,7 +190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2700092461160804965, guid: 4b3501f71eef5584f9c3068b86ec1706, type: 3}
       propertyPath: m_Layer
-      value: 14
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5845611322103851242, guid: 4b3501f71eef5584f9c3068b86ec1706, type: 3}
       propertyPath: m_RootOrder
@@ -368,7 +368,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8504479325719746448, guid: 08fefb9514cbc5b418c729b5f3fcd9c6, type: 3}
       propertyPath: m_Layer
-      value: 14
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8504479325719746448, guid: 08fefb9514cbc5b418c729b5f3fcd9c6, type: 3}
       propertyPath: m_IsActive
@@ -376,7 +376,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8526230229399481001, guid: 08fefb9514cbc5b418c729b5f3fcd9c6, type: 3}
       propertyPath: m_Layer
-      value: 14
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08fefb9514cbc5b418c729b5f3fcd9c6, type: 3}
@@ -398,7 +398,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3237850732736583336, guid: e8a09d50e0ff3c44ca6f33a0379cf56d, type: 3}
       propertyPath: m_Layer
-      value: 14
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3237850732736583336, guid: e8a09d50e0ff3c44ca6f33a0379cf56d, type: 3}
       propertyPath: m_IsActive

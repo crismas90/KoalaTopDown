@@ -5,13 +5,13 @@ using System.Collections.Generic;
 /// ƒержатель оружи€, также поворачиваетс€ дл€ поворота оружи€
 /// </summary>
 
-public class WeaponHolderMelee : MonoBehaviour
+public class BotAIWeaponHolder : MonoBehaviour
 {
-    public WeaponHolder weaponHolder;
+    //public WeaponHolder weaponHolder;
     public List<GameObject> weapons;                        // список оружий
-    [HideInInspector] public MeleeWeapon currentWeapon;     // текущее оружие (пока что толька дл€ текста ui)
+    [HideInInspector] public BotAIWeapon currentWeapon;     // текущее оружие 
     [HideInInspector] public int selectedWeapon = 0;        // индекс оружи€ (положение в иерархии WeaponHolder)   
-    [HideInInspector] public bool rangeWeapon = true;       // мили или ренж оружие
+    [HideInInspector] public bool rangeWeapon;       // мили или ренж оружие
 
     void Start()
     {
@@ -22,7 +22,7 @@ public class WeaponHolderMelee : MonoBehaviour
             i++;
         }
         SelectWeapon();
-        HideWeapons();                      // пр€чем оружие
+        //HideWeapons();                      // пр€чем оружие
     }
 
     private void Update()
@@ -34,20 +34,20 @@ public class WeaponHolderMelee : MonoBehaviour
         {
             int previousWeapon = selectedWeapon;                                // присваиваем переменной индекс оружи€
 
-            if (Input.GetAxis("Mouse ScrollWheel") < 0f)                        // управление колЄсиком (дл€ правого холдера)
+            if (Input.GetKeyDown(KeyCode.J))                                    // управление колЄсиком (дл€ правого холдера)
             {
                 if (selectedWeapon >= transform.childCount - 1)                 // сбрасываем в 0 индекс, если индекс равен кол-ву объекто в иерархии WeaponHolder - 1(?)
                     selectedWeapon = 0;
                 else
                     selectedWeapon++;
             }
-            if (Input.GetAxis("Mouse ScrollWheel") > 0f)                        // управление колЄсиком (дл€ левого холдера)
+/*            if (Input.GetAxis("Mouse ScrollWheel") > 0f)                        // управление колЄсиком (дл€ левого холдера)
             {
                 if (selectedWeapon <= 0)
                     selectedWeapon = transform.childCount - 1;
                 else
                     selectedWeapon--;
-            }
+            }*/
             if (previousWeapon != selectedWeapon)               // если индекс оружи€ изменилс€ - вызываем функцию
             {
                 SelectWeapon();
@@ -65,8 +65,8 @@ public class WeaponHolderMelee : MonoBehaviour
             if (i == selectedWeapon)
             {
                 weapon.gameObject.SetActive(true);                                          // активируем оружие в иерархии
-                currentWeapon = weapon.gameObject.GetComponentInChildren<MeleeWeapon>();    // получаем его скрипт
-                weaponHolder.currentWeaponName = currentWeapon.weaponName;                  // получаем им€ оружи€ дл€ ui
+                currentWeapon = weapon.gameObject.GetComponentInChildren<BotAIWeapon>();    // получаем его скрипт
+                //weaponHolder.currentWeaponName = currentWeapon.weaponName;                  // получаем им€ оружи€ дл€ ui
             }
             else
                 weapon.gameObject.SetActive(false);                                     // остальные оружи€ дезактивируем
