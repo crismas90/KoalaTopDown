@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class BotAIWeapon : MonoBehaviour
+public class BotAIWeaponMelee : MonoBehaviour
 {
-    BotAI botAI;      
+    BotAI botAI;
+    BotAIMeleeWeaponHolder weaponHolderMelee;   // ссылка на скрипт weaponHolder (для стрельбы)
     Animator animator;
 
     public string weaponName;
@@ -14,6 +15,8 @@ public class BotAIWeapon : MonoBehaviour
     float lastAttack;                                   // время последнего удара (для перезарядки удара)
     [HideInInspector] public LayerMask layerHit;        // слои для битья (берем из ботАИ)
 
+    public GameObject bulletPrefab;
+
     // Треил 
     public TrailRenderer trail;
 
@@ -21,13 +24,20 @@ public class BotAIWeapon : MonoBehaviour
     {
         botAI = GetComponentInParent<BotAI>();        
         animator = GetComponentInParent<Animator>();
+        weaponHolderMelee = GetComponentInParent<BotAIMeleeWeaponHolder>();
         layerHit = botAI.layerHit;
     }
 
 
     void Update()
     {
-        if (botAI.readyToAttack && Time.time - lastAttack > cooldown)          // если готовы атаковать и кд готово
+        // Атака
+        if (!weaponHolderMelee.fireStart)                        // если не готовы стрелять
+        {
+            return;                                         // выходим
+        }
+
+        if (Time.time - lastAttack > cooldown)          // если готовы атаковать и кд готово
         {
             //Debug.Log("Attack!");
             lastAttack = Time.time;                             // присваиваем время атаки
@@ -54,6 +64,24 @@ public class BotAIWeapon : MonoBehaviour
             collidersHits = null;
         }
     }
+
+    public void RangeAttack()
+    {
+        //float randomBulletX = Random.Range(-recoilX, recoilX);                                              // разброс стрельбы
+        //firePoint.Rotate(0, 0, randomBulletX);                                                              // тупо вращаем
+        GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);              // создаем префаб снаряда с позицией и поворотом якоря
+        bullet.GetComponent<Bullet>().damage = damage;                                                      // присваиваем урон снаряду
+        bullet.GetComponent<Bullet>().pushForce = pushForce;                                                // присваиваем силу толчка снаряду
+        bullet.GetComponent<Rigidbody2D>().AddForce(transform.right * 5, ForceMode2D.Impulse);    // даём импульс        
+        //botAI.ForceBackFire(firePoint.transform.position, forceBackFire);                                   // даём отдачу оружия
+        //firePoint.Rotate(0, 0, -randomBulletX);                                                             // и тупо возвращаем поворот
+        if (botAI.isFriendly)
+        {
+            bullet.layer = LayerMask.NameToLayer("BulletPlayer");           // слой пули
+            bullet.GetComponent<Bullet>().layerExplousion = LayerMask.GetMask("Enemy", "ObjectsDestroyble", "Default");
+        }
+    }
+
 
     public void TrailOn(int number)
     {

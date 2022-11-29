@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class BotAIAnimator : MonoBehaviour
 {
-    BotAIWeaponHolder botAIWeaponHolder;
+    BotAIMeleeWeaponHolder botAIWeaponHolder;
     private void Start()
     {
-        botAIWeaponHolder = GetComponentInChildren<BotAIWeaponHolder>();
+        botAIWeaponHolder = GetComponentInChildren<BotAIMeleeWeaponHolder>();
     }
 
     public void TrailStatus(int number)

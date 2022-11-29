@@ -9,26 +9,36 @@ public class BotAI : Fighter
     [HideInInspector] public Animator animator;
     [HideInInspector] public SpriteRenderer spriteRenderer;    
     BotAIHitBoxPivot pivot;
-    [HideInInspector] public BotAIWeaponHolder botAIWeaponHolder;
+    [HideInInspector] public BotAIMeleeWeaponHolder botAIWeaponHolder;
+
+    // Тип бота
+    public bool isNeutral;                                  // не будет никого атаковать
+    public bool isFriendly;                                 // союзный бот
 
     // Преследование
-    public bool isNeutral;                                  // не будет никого атаковать
-    //[HideInInspector] public GameObject target;             // цель
+    [HideInInspector] public LayerMask layerTarget;         // слой для поиска 
+    [HideInInspector] public LayerMask layerHit;            // слой для оружия
     [HideInInspector] public bool chasing;                  // статус преследования
     Vector3 startPosition;                                  // позиция для охраны
     public float chaseLeght;                                // дальность преследования    
     public float triggerLenght;                             // дистанция тригера
     [HideInInspector] public bool targetVisible;            // видим мы цель или нет
     public bool readyToAttack;                              // можно атаковать
-    public float distanceToAttack;                          // дистанция, с которой можно атаковать (0.8 для мелкого)    
-    [HideInInspector] public LayerMask layerHit;
+    public float distanceToAttackMelee;                     // дистанция для атакой мили
+    public float distanceToAttackRange;                     // дистанция для атаки ренж
+    [HideInInspector] public float distanceToAttack;        // дистанция, с которой можно атаковать
+
+    public bool meleeAttackType;                            // устанавливаем тип атаки мили
+    public bool rangeAttackType;                            // ... ренж
+    public bool withGun;
+    public bool switchMelee;
 
     // Для анимации
     [HideInInspector] public float aimAnglePivot;           // угол поворота хитбокспивота
     public GameObject deathEffect;                          // эффект (потом сделать его в аниматоре (или  нет))
     public float deathCameraShake;                          // мощность тряски камеры при убийстве
-    [HideInInspector] public bool flipLeft;                                          // для флипа
-    [HideInInspector] public bool flipRight;                                         //    
+    [HideInInspector] public bool flipLeft;                  // для флипа
+    [HideInInspector] public bool flipRight;                 //    
 
     // Таймер для цветов при уроне
     float timerForColor;
@@ -45,8 +55,16 @@ public class BotAI : Fighter
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         pivot = GetComponentInChildren<BotAIHitBoxPivot>();
-        botAIWeaponHolder = GetComponentInChildren<BotAIWeaponHolder>();
-        //hitBox = GetComponentInChildren<EnemyHitbox>();
+        botAIWeaponHolder = GetComponentInChildren<BotAIMeleeWeaponHolder>();
+
+        layerTarget = LayerMask.GetMask("Player", "NPC");
+        layerHit = LayerMask.GetMask("Player", "NPC", "ObjectsDestroyble", "Default");
+        if (isFriendly)
+        {
+            layerTarget = LayerMask.GetMask("Enemy");                                   // слой поиска цели
+            gameObject.layer = LayerMask.NameToLayer("NPC");                            // слой самого бота
+            layerHit = LayerMask.GetMask("Enemy", "ObjectsDestroyble", "Default");      // слой для оружия
+        }
     }
 
     void Start()
@@ -57,7 +75,12 @@ public class BotAI : Fighter
         agent.updateUpAxis = false;                         //
         agent.ResetPath();                                  // сбрасываем путь, потому что он при старте есть
 
-        layerHit = LayerMask.GetMask("Player", "NPC", "ObjectsDestroyble", "Default");
+
+
+        if (meleeAttackType)
+            SwitchAttackType(1);
+        if (rangeAttackType)
+            SwitchAttackType(2);
     }
 
     private void Update()
@@ -105,6 +128,37 @@ public class BotAI : Fighter
         // Дебаг
         if (debug)
             Debug.Log(targetVisible);
+    }
+
+    public void SwitchAttackType(int type)
+    {
+        if (withGun)
+        {
+            if (type == 1)          // мили
+            {
+                meleeAttackType = true;
+                rangeAttackType = false;
+                distanceToAttack = distanceToAttackMelee;
+            }
+            if (type == 2)          // ренж
+            {
+                meleeAttackType = false;
+                rangeAttackType = true;
+                distanceToAttack = distanceToAttackRange;
+            }
+        }
+        else
+        {
+            if (type == 1)          // мили
+            {                
+                distanceToAttack = distanceToAttackMelee;
+            }
+            if (type == 2)          // ренж
+            {
+                distanceToAttack = distanceToAttackRange;
+            }
+            switchMelee = true;
+        }
     }
 
 

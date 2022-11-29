@@ -1,5 +1,55 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &718120140
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 718120141}
+  - component: {fileID: 718120142}
+  m_Layer: 6
+  m_Name: BotAIRangeWeaponHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &718120141
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718120140}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7882060007139792075}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &718120142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718120140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a964c950110244ca0f265284f3f103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapons:
+  - {fileID: 2496722168628502743, guid: 11249bff8c0a04a4c9e3a311154be895, type: 3}
+  - {fileID: 2496722168628502743, guid: 85dbf235304f7c54abf982d2e1473bc9, type: 3}
+  currentWeapon: {fileID: 0}
+  selectedWeapon: 0
+  fireStart: 0
 --- !u!1 &6680555727942464644
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,22 +234,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAlive: 1
   currentHealth: 0
-  maxHealth: 300
+  maxHealth: 3000
   rb2D: {fileID: 0}
   agent: {fileID: 0}
   animator: {fileID: 0}
   spriteRenderer: {fileID: 0}
   botAIWeaponHolder: {fileID: 0}
   isNeutral: 0
+  isFriendly: 0
+  layerTarget:
+    serializedVersion: 2
+    m_Bits: 0
+  layerHit:
+    serializedVersion: 2
+    m_Bits: 0
   chasing: 0
   chaseLeght: 0
   triggerLenght: 5
   targetVisible: 0
   readyToAttack: 0
+  distanceToAttackMelee: 1.25
+  distanceToAttackRange: 5
   distanceToAttack: 1.25
-  layerHit:
-    serializedVersion: 2
-    m_Bits: 0
+  meleeAttackType: 0
+  rangeAttackType: 1
   aimAnglePivot: 0
   deathEffect: {fileID: 7845441016114820387, guid: 87167e05437f7c844b845e558dc030aa, type: 3}
   deathCameraShake: 5
@@ -223,7 +281,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5579917536f4b9945a53027f322ccbb1, type: 2}
   - {fileID: 11400000, guid: dd346c7a0908bda448534cc0cdb2b942, type: 2}
   target: {fileID: 0}
-  isFriendly: 0
   patrolPoints: []
   i: 0
 --- !u!1 &7882060007139792076
@@ -256,6 +313,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7882060007892174800}
+  - {fileID: 718120141}
   m_Father: {fileID: 6680555727942464655}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -299,8 +357,7 @@ Transform:
   m_LocalPosition: {x: 0.4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4539895635839316}
+  m_Children: []
   m_Father: {fileID: 7882060007892174800}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -321,7 +378,7 @@ MonoBehaviour:
   - {fileID: 5674012138522298798, guid: 66f1810aeddd7384fbfe8e8355a71413, type: 3}
   currentWeapon: {fileID: 0}
   selectedWeapon: 0
-  rangeWeapon: 0
+  fireStart: 0
 --- !u!1 &7882060007892174801
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,69 +445,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d1d6c0b25a77404e952e28f6ca7352d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1484199277809987111
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 7882060007372273315}
-    m_Modifications:
-    - target: {fileID: 1479659406406739827, guid: b535d0417ca0a16428a091f19ada3c3e, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1479659406406739827, guid: b535d0417ca0a16428a091f19ada3c3e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1479659406406739827, guid: b535d0417ca0a16428a091f19ada3c3e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1479659406406739827, guid: b535d0417ca0a16428a091f19ada3c3e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1479659406406739827, guid: b535d0417ca0a16428a091f19ada3c3e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1479659406406739827, guid: b535d0417ca0a16428a091f19ada3c3e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1479659406406739827, guid: b535d0417ca0a16428a091f19ada3c3e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1479659406406739827, guid: b535d0417ca0a16428a091f19ada3c3e, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1479659406406739827, guid: b535d0417ca0a16428a091f19ada3c3e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1479659406406739827, guid: b535d0417ca0a16428a091f19ada3c3e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1479659406406739827, guid: b535d0417ca0a16428a091f19ada3c3e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5674012138522298798, guid: b535d0417ca0a16428a091f19ada3c3e, type: 3}
-      propertyPath: m_Name
-      value: SwoardTest
-      objectReference: {fileID: 0}
-    - target: {fileID: 5674012138522298798, guid: b535d0417ca0a16428a091f19ada3c3e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b535d0417ca0a16428a091f19ada3c3e, type: 3}
---- !u!4 &4539895635839316 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1479659406406739827, guid: b535d0417ca0a16428a091f19ada3c3e, type: 3}
-  m_PrefabInstance: {fileID: 1484199277809987111}
-  m_PrefabAsset: {fileID: 0}

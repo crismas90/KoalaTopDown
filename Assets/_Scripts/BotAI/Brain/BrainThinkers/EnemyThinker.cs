@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
+//using UnityEngine.AI;
 
 public class EnemyThinker : MonoBehaviour
 {
@@ -12,8 +12,7 @@ public class EnemyThinker : MonoBehaviour
     bool isFindTarget;
     float distanceToTarget;                         // дистанция до цели
 
-
-    public bool isFriendly;
+    //public bool isFriendly;
     public GameObject[] patrolPoints;
     [HideInInspector] public int i = 0;    
 
@@ -21,12 +20,14 @@ public class EnemyThinker : MonoBehaviour
     //public float targetFindRadius = 5f;                 // радиус поиска цели                                                               
     float lastTargetFind;                               // время последнего удара (для перезарядки удара)
     float cooldownFind = 0.5f;                          // перезардяка атаки
-    LayerMask layerTarget;                              // слой для поиска цели
+
+    bool type_1;
+    bool type_2;
+    
 
     private void Awake()
     {        
-        botAI = GetComponent<BotAI>();
-        layerTarget = LayerMask.GetMask("Player", "NPC");
+        botAI = GetComponent<BotAI>();        
     }
 
     private void Start()
@@ -50,8 +51,7 @@ public class EnemyThinker : MonoBehaviour
         if (isFindTarget && !target)
         {
             isFindTarget = false;
-            botAI.chasing = false;                  // преследование отключено
-            //botAI.target = null;
+            botAI.chasing = false;                  // преследование отключено            
             botAI.targetVisible = false;
             botAI.readyToAttack = false;
             botAI.agent.ResetPath();
@@ -72,10 +72,22 @@ public class EnemyThinker : MonoBehaviour
             distanceToTarget = Vector3.Distance(target.transform.position, botAI.transform.position);   // считаем дистанцию 
         }
 
-
         // Логика если нашли цель и она видима        
         if (distanceToTarget < botAI.triggerLenght && botAI.targetVisible)       // если дистанция до игрока < тригер дистанции
         {
+            if (distanceToTarget < 2 && !type_1)
+            {
+                botAI.SwitchAttackType(1);
+                type_1 = true;
+                type_2 = false;
+            }
+            if (distanceToTarget > botAI.triggerLenght - 1 && !type_2)
+            {
+                botAI.SwitchAttackType(2);
+                type_1 = false;
+                type_2 = true;
+            }
+
             if (!botAI.chasing)
             {
                 botAI.chasing = true;                   // преследование включено
@@ -94,11 +106,11 @@ public class EnemyThinker : MonoBehaviour
         //Debug.Log(botAI.readyToAttack);
 
 
-        if (isFriendly)
+/*        if (isFriendly)
         {
             MakeFriendly();
             isFriendly = false;
-        }
+        }*/
     }
 
 
@@ -107,7 +119,7 @@ public class EnemyThinker : MonoBehaviour
         if (!target && Time.time - lastTargetFind > cooldownFind)                       // если готовы атаковать и кд готово
         {
             lastTargetFind = Time.time;                                                 // присваиваем время атаки
-            Collider2D[] collidersHitbox = Physics2D.OverlapCircleAll(transform.position, botAI.triggerLenght, layerTarget);    // создаем круг в позиции объекта с радиусом 
+            Collider2D[] collidersHitbox = Physics2D.OverlapCircleAll(transform.position, botAI.triggerLenght, botAI.layerTarget);    // создаем круг в позиции объекта с радиусом 
             foreach (Collider2D enObjectBox in collidersHitbox)
             {
                 if (enObjectBox == null)
@@ -117,12 +129,17 @@ public class EnemyThinker : MonoBehaviour
 
                 if (enObjectBox.gameObject.TryGetComponent(out Fighter fighter))        // ищем скрипт файтер
                 {
-                    NavMeshHit hit;
-                    if (!botAI.agent.Raycast(fighter.transform.position, out hit))      // делаем рейкаст
+                    botAI.NavMeshRayCast(fighter.gameObject);
+                    if (botAI.targetVisible)
                     {
                         target = fighter.gameObject;
-                        //botAI.target = target;
                     }
+
+/*                    NavMeshHit hit;
+                    if (!botAI.agent.Raycast(fighter.transform.position, out hit))      // делаем рейкаст
+                    {
+                                                
+                    }*/
                 }
                 collidersHitbox = null;                                                 // сбрасываем все найденные объекты (на самом деле непонятно как это работает)
             }
@@ -131,15 +148,15 @@ public class EnemyThinker : MonoBehaviour
 
     void MakeFriendly()
     {
-        layerTarget = LayerMask.GetMask("Enemy");               // слой поиска цели
+        
         botAI.gameObject.layer = LayerMask.NameToLayer("NPC");  // слой самого бота
         botAI.layerHit = LayerMask.GetMask("Enemy", "ObjectsDestroyble", "Default");    // слой для оружия
-        foreach (GameObject weaponGO in botAI.botAIWeaponHolder.weapons)                // слой для каждого оружия у бота
+        
+/*        foreach (GameObject weaponGO in botAI.botAIWeaponHolder.weapons)                // слой для каждого оружия у бота
         {
             var weapon = weaponGO.GetComponent<BotAIWeapon>();
             weapon.layerHit = botAI.layerHit;
-        }        
-        //botAI.hitBox.layer = LayerMask.GetMask("Enemy", "ObjectsDestroyble", "Default");
-        //botAI.spriteRenderer.color = Color.yellow;        
+        }  */      
+       
     }
 }

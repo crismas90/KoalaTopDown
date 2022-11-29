@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9161582950827863253}
   - component: {fileID: 233882981908730981}
   - component: {fileID: 2532879698953476004}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: FlyRocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,12 +115,13 @@ GameObject:
   m_Component:
   - component: {fileID: 2085243733580016274}
   - component: {fileID: 2797304384200470418}
-  - component: {fileID: 6536658652282384471}
+  - component: {fileID: 7930827028404786986}
   - component: {fileID: 7894423798937864002}
   - component: {fileID: 1138520931969325991}
   - component: {fileID: 6759844036914890781}
-  m_Layer: 8
-  m_Name: Rocket
+  - component: {fileID: 746699606941226674}
+  m_Layer: 13
+  m_Name: FireBallPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,9 +135,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2609019957272575851}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.95, y: -1.45, z: 0}
-  m_LocalScale: {x: 1.2, y: 0.7, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 9161582950827863253}
   m_Father: {fileID: 0}
@@ -183,9 +184,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 547777f2341cac94e95443de41de829f, type: 2}
+  m_Sprite: {fileID: 21300000, guid: 7d3f8e83c79f9de4b95a2882af489736, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.53125, y: 0.53125}
@@ -194,8 +195,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!70 &6536658652282384471
-CapsuleCollider2D:
+--- !u!58 &7930827028404786986
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -207,9 +208,9 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 0.3}
-  m_Direction: 1
+  m_Offset: {x: 0.35145804, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.42979196
 --- !u!50 &7894423798937864002
 Rigidbody2D:
   serializedVersion: 4
@@ -245,11 +246,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   pushForce: 0
-  expEffect: {fileID: 3263829405623792208, guid: 44a16ea2ff4687f4cb651db3a8c41e10, type: 3}
-  expRadius: 1.5
-  layer:
+  expEffect: {fileID: 7845441016114820387, guid: 2b6d17c4c74f584428431454946bf0b7, type: 3}
+  layerExplousion:
     serializedVersion: 2
-    m_Bits: 4224
+    m_Bits: 20545
+  expRadius: 1.5
 --- !u!96 &6759844036914890781
 TrailRenderer:
   serializedVersion: 2
@@ -358,3 +359,23 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!95 &746699606941226674
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2609019957272575851}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c731043c2a0781946b32d5c1c7247c95, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
