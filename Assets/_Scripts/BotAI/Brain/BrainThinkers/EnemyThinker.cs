@@ -62,7 +62,9 @@ public class EnemyThinker : MonoBehaviour
         if (!isFindTarget)                              // если нет цели 
         {            
             brains[0].Think(this);                      // патрулирование                     
-            FindTarget();                               // поиск цели  
+            FindTarget();                               // поиск цели
+            if (botAI.currentHealth != botAI.maxHealth) // (переделать потом)
+                botAI.triggerLenght = 25;
         }
 
         // Если нашли цель делаем рейкасты и меряем дистанцию
@@ -75,18 +77,22 @@ public class EnemyThinker : MonoBehaviour
         // Логика если нашли цель и она видима        
         if (distanceToTarget < botAI.triggerLenght && botAI.targetVisible)       // если дистанция до игрока < тригер дистанции
         {
-            if (distanceToTarget < 2 && !type_1)
+            if (botAI.twoWeapons)
             {
-                botAI.SwitchAttackType(1);
-                type_1 = true;
-                type_2 = false;
-            }
-            if (distanceToTarget > botAI.triggerLenght - 1 && !type_2)
-            {
-                botAI.SwitchAttackType(2);
-                type_1 = false;
-                type_2 = true;
-            }
+                if (distanceToTarget < 2 && !type_1)
+                {
+                    botAI.SwitchAttackType(1);
+                    type_1 = true;
+                    type_2 = false;
+                }
+                if (distanceToTarget > botAI.triggerLenght - 1 && !type_2)
+                {
+                    botAI.SwitchAttackType(2);
+                    type_1 = false;
+                    type_2 = true;
+                }
+            }                
+ 
 
             if (!botAI.chasing)
             {

@@ -15,6 +15,7 @@ public class BotAIWeaponMelee : MonoBehaviour
     float lastAttack;                                   // врем€ последнего удара (дл€ перезар€дки удара)
     [HideInInspector] public LayerMask layerHit;        // слои дл€ бить€ (берем из ботј»)
 
+    public bool demon;
     public GameObject bulletPrefab;
 
     // “реил 

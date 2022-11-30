@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1867085149982464140
+--- !u!1 &2331419122113047204
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,44 +8,215 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1867085149982464143}
-  - component: {fileID: 1867085149982464142}
-  m_Layer: 7
-  m_Name: HitBoxPivot
+  - component: {fileID: 2959379694324027970}
+  - component: {fileID: 5487403540602643713}
+  m_Layer: 0
+  m_Name: BotAIHitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1867085149982464143
+--- !u!4 &2959379694324027970
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1867085149982464140}
+  m_GameObject: {fileID: 2331419122113047204}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4817016155008671166}
-  m_Father: {fileID: 4817016154119956044}
-  m_RootOrder: 0
+  m_Children: []
+  m_Father: {fileID: 3989206907784215775}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1867085149982464142
+--- !u!114 &5487403540602643713
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1867085149982464140}
+  m_GameObject: {fileID: 2331419122113047204}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d13f115543223e4382e6b6fa3632af3, type: 3}
+  m_Script: {fileID: 11500000, guid: b03f2c74ed169fe4cabb684c22f4cfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aimAngle: 0
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
+  lastAttack: 0
+  hitBoxRadius: 0.3
+  cooldown: 1
+  damage: 1
+  pushForce: 2
+  bulletPrefab: {fileID: 0}
+  effectRangeAttack: {fileID: 0}
+  bulletSpeed: 0
+  forceBackFire: 0
+--- !u!1 &3989206907784215768
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3989206907784215775}
+  - component: {fileID: 3989206907784215774}
+  m_Layer: 0
+  m_Name: BotAIHitBoxPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3989206907784215775
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3989206907784215768}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 3989206908578541508}
+  - {fileID: 6502689187189214425}
+  - {fileID: 2959379694324027970}
+  m_Father: {fileID: 4817016154119956044}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3989206907784215774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3989206907784215768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ea80b62cc284b54493b85e95b92142d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &3989206908025102000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3989206908025102007}
+  - component: {fileID: 3989206908025102006}
+  m_Layer: 6
+  m_Name: BotAIMeleeWeaponHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3989206908025102007
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3989206908025102000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.3, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3989206908578541508}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3989206908025102006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3989206908025102000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f76607e74d39444b0a395291f1a385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapons: []
+  currentWeapon: {fileID: 0}
+  selectedWeapon: 0
+  fireStart: 0
+--- !u!1 &3989206908578541509
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3989206908578541508}
+  - component: {fileID: 3989206908578541514}
+  - component: {fileID: 3989206908578541513}
+  m_Layer: 0
+  m_Name: BotAIAnimator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3989206908578541508
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3989206908578541509}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3989206908025102007}
+  m_Father: {fileID: 3989206907784215775}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &3989206908578541514
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3989206908578541509}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 74673098675032246b2abb79bbe8fe86, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3989206908578541513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3989206908578541509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d1d6c0b25a77404e952e28f6ca7352d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4817016154119956039
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,6 +232,7 @@ GameObject:
   - component: {fileID: 4817016154119956041}
   - component: {fileID: 4817016154119956040}
   - component: {fileID: 4817016154119956045}
+  - component: {fileID: 3558181207535806481}
   m_Layer: 7
   m_Name: Enemy_Imp
   m_TagString: Untagged
@@ -80,7 +252,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1867085149982464143}
+  - {fileID: 3989206907784215775}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -231,18 +403,55 @@ MonoBehaviour:
   currentHealth: 0
   maxHealth: 10
   rb2D: {fileID: 4817016154119956041}
+  agent: {fileID: 0}
   animator: {fileID: 4817016154119956046}
+  spriteRenderer: {fileID: 0}
+  botAIMeleeWeaponHolder: {fileID: 0}
   isNeutral: 0
-  target: {fileID: 0}
+  isFriendly: 0
+  layerTarget:
+    serializedVersion: 2
+    m_Bits: 0
+  layerHit:
+    serializedVersion: 2
+    m_Bits: 0
   chasing: 0
+  chaseLeght: 0
   triggerLenght: 5
-  distanceToAttack: 0.7
   targetVisible: 1
   readyToAttack: 0
+  distanceToAttackMelee: 0.8
+  distanceToAttackRange: 0
+  distanceToAttack: 0.7
+  meleeAttackType: 1
+  rangeAttackType: 0
+  twoWeapons: 0
+  aimAnglePivot: 0
   deathEffect: {fileID: 7845441016114820387, guid: 589cf92f27daa084fbbf475b1eea02bf, type: 3}
   deathCameraShake: 0.5
+  flipLeft: 0
+  flipRight: 0
   debug: 0
---- !u!1 &4817016155008671165
+--- !u!114 &3558181207535806481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4817016154119956039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce88678462afcdf44806a606e113cccb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  botAI: {fileID: 0}
+  brains:
+  - {fileID: 11400000, guid: 5579917536f4b9945a53027f322ccbb1, type: 2}
+  - {fileID: 11400000, guid: dd346c7a0908bda448534cc0cdb2b942, type: 2}
+  target: {fileID: 0}
+  patrolPoints: []
+  i: 0
+--- !u!1 &6502689187189214424
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -250,48 +459,43 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4817016155008671166}
-  - component: {fileID: 4817016155008671167}
-  m_Layer: 7
-  m_Name: HitBox
+  - component: {fileID: 6502689187189214425}
+  - component: {fileID: 6502689187189214426}
+  m_Layer: 6
+  m_Name: BotAIRangeWeaponHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4817016155008671166
+--- !u!4 &6502689187189214425
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4817016155008671165}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.2, y: 0, z: 0}
+  m_GameObject: {fileID: 6502689187189214424}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1867085149982464143}
-  m_RootOrder: 0
+  m_Father: {fileID: 3989206907784215775}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4817016155008671167
+--- !u!114 &6502689187189214426
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4817016155008671165}
+  m_GameObject: {fileID: 6502689187189214424}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b03f2c74ed169fe4cabb684c22f4cfe8, type: 3}
+  m_Script: {fileID: 11500000, guid: a4a964c950110244ca0f265284f3f103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastAttack: 0
-  hitBoxRadius: 0.3
-  cooldown: 1
-  damage: 2
-  pushForce: 0
-  isRange: 0
-  bulletPrefab: {fileID: 2609019957272575851, guid: c675c6819f034a14ca6c9a63f9865382, type: 3}
-  bulletSpeed: 5
-  forceBackFire: 0
+  weapons: []
+  currentWeapon: {fileID: 0}
+  selectedWeapon: 0
+  fireStart: 0

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyHitbox : MonoBehaviour
+public class BotAIHitbox : MonoBehaviour
 {    
-    BotAI enemy;
+    BotAI botAI;
     BotAIHitBoxPivot pivot;
 
     [Header("Параметры атаки")]
@@ -15,22 +15,22 @@ public class EnemyHitbox : MonoBehaviour
     public int damage = 1;                                  // урон
     public float pushForce = 10;                            // сила толчка
     // Если ренж
-    [HideInInspector] public bool isRange;                                    // ренж атака
+    //public bool isRange;                                    // ренж атака
     public GameObject bulletPrefab;
     public GameObject effectRangeAttack;                    // эффект ренж атаки
     public float bulletSpeed = 10;                          // скорость снаряда
     public float forceBackFire = 10;                        // отдача
 
-    // Для флипа оружия
+/*    // Для флипа оружия
     bool needFlip;                          // нужен флип (для правильного отображения оружия)    
     bool leftFlip;                          // оружие слева
-    bool rightFlip = true;                  // оружие справа
+    bool rightFlip = true;                  // оружие справа*/
 
 
 
     private void Awake()
     {
-        enemy = GetComponentInParent<BotAI>();
+        botAI = GetComponentInParent<BotAI>();
         pivot = GetComponentInParent<BotAIHitBoxPivot>();
     }
 
@@ -45,13 +45,13 @@ public class EnemyHitbox : MonoBehaviour
         //Debug.Log(enemy.lastAttack);
 
         // Атака
-        if (enemy.readyToAttack && Time.time - lastAttack > cooldown)               // если готовы атаковать и кд готово
+        if (botAI.readyToAttack && Time.time - lastAttack > cooldown)               // если готовы атаковать и кд готово
         {
             lastAttack = Time.time;                                                 // присваиваем время атаки
-            enemy.animator.SetTrigger("Attack");                                    // начинаем анимацию атаки
+            botAI.animator.SetTrigger("Attack");                                    // начинаем анимацию атаки
         }
 
-        // Флип оружия
+/*        // Флип оружия
         if (Mathf.Abs(enemy.aimAnglePivot) > 90 && rightFlip)
         {
             needFlip = true;
@@ -67,16 +67,16 @@ public class EnemyHitbox : MonoBehaviour
         if (needFlip)
         {
             Flip();
-        }
+        }*/
     }
 
     public void Attack()
     {
-        if (!isRange)
+        if (botAI.meleeAttackType)
         {
             MeleeAttack();                                                      // мили атака
         }
-        else if (isRange)
+        else if (botAI.rangeAttackType)
         {
             RangeAttack();                                                      // ренж атака
         }        
@@ -105,7 +105,7 @@ public class EnemyHitbox : MonoBehaviour
 
     public void EffectRangeAttack()
     {
-        if (effectRangeAttack && isRange)
+        if (effectRangeAttack && botAI.rangeAttackType)
         {
             GameObject effect = Instantiate(effectRangeAttack, pivot.transform.position + new Vector3(0, 0.1f, 0), Quaternion.identity);                  // создаем эффект выстрела (если он есть)
             Destroy(effect, 1);
@@ -119,10 +119,10 @@ public class EnemyHitbox : MonoBehaviour
         bullet.GetComponent<Bullet>().pushForce = pushForce;                                                // присваиваем урон снаряду
         bullet.GetComponent<Rigidbody2D>().AddForce(transform.right * bulletSpeed, ForceMode2D.Impulse);    // даём импульс
         //bullet.transform.Rotate(0.0f, 0.0f, -90.0f, Space.Self);                                          // поворачиваем снаряд
-        enemy.ForceBackFire(transform.position, forceBackFire);                                             // даём отдачу         
+        botAI.ForceBackFire(transform.position, forceBackFire);                                             // даём отдачу         
     }
 
-    void Flip()
+/*    void Flip()
     {
         if (leftFlip)                                                                                   // разворот налево
         {
@@ -133,7 +133,7 @@ public class EnemyHitbox : MonoBehaviour
             transform.localScale = new Vector3(transform.localScale.x, 1, transform.localScale.z);
         }
         needFlip = false;
-    }
+    }*/
 
     void OnDrawGizmosSelected()
     {

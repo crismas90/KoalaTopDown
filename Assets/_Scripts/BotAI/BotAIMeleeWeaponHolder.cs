@@ -64,16 +64,17 @@ public class BotAIMeleeWeaponHolder : MonoBehaviour
 
 
         // Выбор оружия
-        int previousWeapon = selectedWeapon;                                // присваиваем переменной индекс оружия
+        int previousWeapon = selectedWeapon;                    // присваиваем переменной индекс оружия
 
-        if (botAI.switchMelee)                                    // управление колёсиком (для правого холдера)
+/*        if (botAI.switchMelee)                                  // сменить оружие
         {
-            if (selectedWeapon >= transform.childCount - 1)                 // сбрасываем в 0 индекс, если индекс равен кол-ву объекто в иерархии WeaponHolder - 1(?)
+            if (selectedWeapon >= transform.childCount - 1)     // сбрасываем в 0 индекс, если индекс равен кол-ву объекто в иерархии WeaponHolder - 1(?)
                 selectedWeapon = 0;
             else
                 selectedWeapon++;
             botAI.switchMelee = false;
-        }
+        }*/
+
 
         if (previousWeapon != selectedWeapon)               // если индекс оружия изменился - вызываем функцию
         {
@@ -81,6 +82,12 @@ public class BotAIMeleeWeaponHolder : MonoBehaviour
         }        
     }
 
+
+    public void SelectCurrentWeapon(int i)
+    {
+        selectedWeapon = i;
+        SelectWeapon();
+    }
 
     // Смена оружия
     public void SelectWeapon()

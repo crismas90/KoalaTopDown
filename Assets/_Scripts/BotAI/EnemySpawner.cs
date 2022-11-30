@@ -10,6 +10,7 @@ public class EnemySpawner : MonoBehaviour
 
     public bool active;                     // активен или нет
     public bool chasePlayer;                // триггер врагов срабатывает сразу
+    public float chaseDistance;             // дистанци€ триггера врагов
     public float cooldown = 1f;             // перезар€дка спауна    
     //public int enemyTriggerDistance;        // установить дистанцию тригера врагов
     private float lastSpawn;
@@ -40,7 +41,7 @@ public class EnemySpawner : MonoBehaviour
         agent = go.GetComponent<NavMeshAgent>();                    // находим Ќавћешјгент
         agent.Warp(transform.position);                             // перемещаем префаб к спавнеру
         if(chasePlayer)
-            go.GetComponent<BotAI>().chasing = true;                // устанавливаем преследование за игроком
+            go.GetComponent<BotAI>().triggerLenght = chaseDistance;                // устанавливаем преследование за игроком
     }
 
     public void ActivateSpawner()

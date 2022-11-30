@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: f85765ffda352d34fbeff7cd34108bde, type: 2}
+  m_Motion: {fileID: 7400000, guid: e60603fb386ef904787ef3a54c631e66, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -48,7 +48,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 3b9f55bd7513884448610f452838b537, type: 2}
+  m_Motion: {fileID: 7400000, guid: 8c6eeb80ab0935f439dd33926646e012, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -107,7 +107,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Enemy_Demon
+  m_Name: NPC_Knight
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Speed
@@ -181,7 +181,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 8fc2dee2e3df6cc40890c26e79945b5f, type: 2}
+  m_Motion: {fileID: 7400000, guid: f367545eb75961442ba7477038b5df17, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -229,7 +229,7 @@ AnimatorStateMachine:
     m_Position: {x: 400, y: 130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8165145514339898598}
-    m_Position: {x: 410, y: -30, z: 0}
+    m_Position: {x: 460, y: -20, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 3513056242239226711}
