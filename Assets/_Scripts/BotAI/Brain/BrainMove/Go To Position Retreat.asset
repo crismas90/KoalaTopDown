@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1608d8a479a909f4185b848958172a79, type: 3}
   m_Name: Go To Position Retreat
   m_EditorClassIdentifier: 
-  destination: {x: -1, y: -2, z: 0}
+  destination: {x: -25, y: -9, z: 0}

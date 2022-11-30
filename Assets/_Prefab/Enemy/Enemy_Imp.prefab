@@ -417,7 +417,7 @@ MonoBehaviour:
     m_Bits: 0
   chasing: 0
   chaseLeght: 0
-  triggerLenght: 5
+  triggerLenght: 2
   targetVisible: 1
   readyToAttack: 0
   distanceToAttackMelee: 0.8

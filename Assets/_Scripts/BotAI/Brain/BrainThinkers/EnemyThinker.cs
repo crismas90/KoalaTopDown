@@ -23,6 +23,8 @@ public class EnemyThinker : MonoBehaviour
 
     bool type_1;
     bool type_2;
+
+    public bool debug;
     
 
     private void Awake()
@@ -63,8 +65,6 @@ public class EnemyThinker : MonoBehaviour
         {            
             brains[0].Think(this);                      // патрулирование                     
             FindTarget();                               // поиск цели
-            if (botAI.currentHealth != botAI.maxHealth) // (переделать потом)
-                botAI.triggerLenght = 25;
         }
 
         // ≈сли нашли цель делаем рейкасты и мер€ем дистанцию
@@ -106,10 +106,13 @@ public class EnemyThinker : MonoBehaviour
             brains[1].Think(this);                      // преследуем и аттакуем           
         }
 
-        //Debug.Log(target);
-        //Debug.Log(isFindTarget);
-        //Debug.Log(botAI.chasing);
-        //Debug.Log(botAI.readyToAttack);
+        if(debug)
+        {
+            Debug.Log(target);
+            //Debug.Log(isFindTarget);
+            //Debug.Log(botAI.chasing);
+            //Debug.Log(botAI.readyToAttack);
+        }
 
 
 /*        if (isFriendly)

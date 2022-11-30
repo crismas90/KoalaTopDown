@@ -31,7 +31,7 @@ public class BotAI : Fighter
 
     public bool meleeAttackType;                            // устанавливаем тип атаки мили
     public bool rangeAttackType;                            // ... ренж
-    public bool twoWeapons;
+    public bool twoWeapons;                                 // если есть 2 оружи€
     //public bool switchMelee;
 
     // ƒл€ анимации
@@ -93,6 +93,13 @@ public class BotAI : Fighter
             Quaternion qua1 = Quaternion.Euler(0, 0, aimAnglePivot);                                                // создаем этот угол в Quaternion
             pivot.transform.rotation = Quaternion.Lerp(pivot.transform.rotation, qua1, Time.fixedDeltaTime * 15);   // делаем Lerp между weaponHoder и нашим углом
         }
+        else 
+        {
+            if (flipRight)
+                pivot.transform.rotation = Quaternion.Lerp(pivot.transform.rotation, Quaternion.Euler(0, 0, 0), Time.fixedDeltaTime * 15);   // делаем Lerp между weaponHoder и нашим углом
+            if (flipLeft)
+                pivot.transform.rotation = Quaternion.Lerp(pivot.transform.rotation, Quaternion.Euler(0, 0, 180), Time.fixedDeltaTime * 15);   // делаем Lerp между weaponHoder и нашим углом
+        }
 
         // поворот спрайта (Flip)       
         if (enemyThinker.target && targetVisible)                           // (потом chasing заменить на target и ещЄ это дублируетс€ в хитбокспивот)
@@ -113,10 +120,12 @@ public class BotAI : Fighter
             if (agent.velocity.x < -0.2 && !flipLeft)
             {
                 FaceTargetLeft();
+                pivot.Flip();
             }
             if (agent.velocity.x > 0.2 && !flipRight)
             {
                 FaceTargetRight();
+                pivot.Flip();
             }
         }
 
@@ -217,7 +226,6 @@ public class BotAI : Fighter
     {
         hitBox.Attack();
     }
-
     public void EffectRangeAttackHitBox()
     {
         hitBox.EffectRangeAttack();
@@ -238,9 +246,9 @@ public class BotAI : Fighter
         base.TakeDamage(dmg);
         //animator.SetTrigger("TakeHit");
         ColorRed(0.05f);
+        if (!isFriendly)
+            triggerLenght = 25;                     // добавл€ем длину триггера, чтобы агрилс€ если получил урон
     }
-
-
 
 
     // —мена цветов при уроне
@@ -256,6 +264,7 @@ public class BotAI : Fighter
         timerForColor = time;
         spriteRenderer.color = Color.red;
         red = true;
+        
     }
     void ColorWhite()
     {
@@ -264,7 +273,7 @@ public class BotAI : Fighter
     }
 
     // ѕоворот спрайта
-    void FaceTargetRight()                                          // поворот направо
+    void FaceTargetRight()                                  // поворот направо
     {
         spriteRenderer.flipX = false;
         flipLeft = false;
