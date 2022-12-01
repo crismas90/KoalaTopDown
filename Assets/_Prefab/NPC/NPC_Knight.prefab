@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1443058829916809956}
   - component: {fileID: 1443058829916809959}
-  m_Layer: 6
+  m_Layer: 14
   m_Name: BotAIRangeWeaponHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,9 +62,9 @@ GameObject:
   - component: {fileID: 2818694411222979285}
   - component: {fileID: 2818694411222979286}
   - component: {fileID: 2818694411222979287}
-  - component: {fileID: 2818694411222979282}
+  - component: {fileID: 1497639919}
   - component: {fileID: 6297625147953556815}
-  m_Layer: 7
+  m_Layer: 14
   m_Name: NPC_Knight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ Transform:
   m_GameObject: {fileID: 2818694411222979288}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -19.190466, y: -10.650043, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8747245624140913378}
@@ -206,7 +206,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -1372625422
   m_Radius: 0.2
-  m_Speed: 2
+  m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -218,7 +218,7 @@ NavMeshAgent:
   m_BaseOffset: 0.45
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2818694411222979282
+--- !u!114 &1497639919
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -227,7 +227,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2818694411222979288}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08aa8eb2e12c5d34fa7aae811e482a9b, type: 3}
+  m_Script: {fileID: 11500000, guid: 59c7dfd47dd5bf844bd20f4a82c2261b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isAlive: 1
@@ -236,6 +236,7 @@ MonoBehaviour:
   rb2D: {fileID: 0}
   agent: {fileID: 0}
   animator: {fileID: 0}
+  animatorWeapon: {fileID: 0}
   spriteRenderer: {fileID: 0}
   botAIMeleeWeaponHolder: {fileID: 0}
   isNeutral: 0
@@ -248,21 +249,22 @@ MonoBehaviour:
     m_Bits: 0
   chasing: 0
   chaseLeght: 0
-  triggerLenght: 5
+  triggerLenght: 4
   targetVisible: 0
   readyToAttack: 0
   distanceToAttackMelee: 1
-  distanceToAttackRange: 4
-  distanceToAttack: 1
+  distanceToAttackRange: 0
+  distanceToAttack: 0
   meleeAttackType: 1
   rangeAttackType: 0
   twoWeapons: 0
   aimAnglePivot: 0
-  deathEffect: {fileID: 7845441016114820387, guid: 63da8428eacb2d64e834aa5b7bf5e82f, type: 3}
-  deathCameraShake: 3
+  deathEffect: {fileID: 0}
+  deathCameraShake: 0
   flipLeft: 0
   flipRight: 0
   debug: 0
+  textToSay: []
 --- !u!114 &6297625147953556815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,11 +279,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   botAI: {fileID: 0}
   brains:
-  - {fileID: 11400000, guid: 5579917536f4b9945a53027f322ccbb1, type: 2}
+  - {fileID: 11400000, guid: ed742d644d9dde94cad35e93212226f7, type: 2}
   - {fileID: 11400000, guid: dd346c7a0908bda448534cc0cdb2b942, type: 2}
   target: {fileID: 0}
-  patrolPoints: []
+  positionsPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   i: 0
+  nextPosition: 0
+  debug: 0
 --- !u!1 &7953966440881097881
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,7 +299,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7433511313981142143}
   - component: {fileID: 153082197255258940}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BotAIHitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -348,7 +355,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8747245623845042314}
   - component: {fileID: 8747245623845042315}
-  m_Layer: 6
+  m_Layer: 14
   m_Name: BotAIMeleeWeaponHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -363,9 +370,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8747245623845042317}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.331, y: -0.004, z: 0}
+  m_LocalPosition: {x: 0.351, y: -0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8747245624398367225}
   m_RootOrder: 0
@@ -397,7 +404,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8747245624140913378}
   - component: {fileID: 8747245624140913379}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BotAIHitBoxPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -413,7 +420,7 @@ Transform:
   m_GameObject: {fileID: 8747245624140913381}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8747245624398367225}
@@ -445,7 +452,7 @@ GameObject:
   - component: {fileID: 8747245624398367225}
   - component: {fileID: 8747245624398367223}
   - component: {fileID: 8747245624398367220}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BotAIAnimator
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class NPC : Fighter
+public class NPC : BotAI
 {    
     public string[] textToSay;      // текст для диалога
     int dialogeNumber;              // номер диалога
@@ -28,17 +28,11 @@ public class NPC : Fighter
         }
     }
 
-    public void SpeakText(string text)
-    {
-        ChatBubble.Clear(gameObject);
-        ChatBubble.Create(transform, new Vector3(-1f, 0.2f), text);        
-    }
-
-    protected override void Death()
+/*    protected override void Death()
     {
         base.Death();
         Destroy(gameObject);
-    }
+    }*/
 
     /*    void ClearDialoge()
         {

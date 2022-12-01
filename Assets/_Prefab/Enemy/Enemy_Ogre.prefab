@@ -236,6 +236,7 @@ MonoBehaviour:
   rb2D: {fileID: 0}
   agent: {fileID: 0}
   animator: {fileID: 0}
+  animatorWeapon: {fileID: 0}
   spriteRenderer: {fileID: 0}
   botAIMeleeWeaponHolder: {fileID: 0}
   isNeutral: 0
@@ -248,7 +249,7 @@ MonoBehaviour:
     m_Bits: 0
   chasing: 0
   chaseLeght: 0
-  triggerLenght: 5
+  triggerLenght: 4
   targetVisible: 0
   readyToAttack: 0
   distanceToAttackMelee: 1.25
@@ -280,8 +281,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5579917536f4b9945a53027f322ccbb1, type: 2}
   - {fileID: 11400000, guid: dd346c7a0908bda448534cc0cdb2b942, type: 2}
   target: {fileID: 0}
-  patrolPoints: []
-  i: 0
+  positionsPoints: []
+  nextPosition: 0
+  letsGo: 0
+  debug: 0
 --- !u!1 &7882060007139792076
 GameObject:
   m_ObjectHideFlags: 0

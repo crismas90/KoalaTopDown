@@ -4,6 +4,7 @@ using UnityEngine.Events;
 public class UnityEventTrigger : MonoBehaviour
 {
     [Header("Параметры")]
+    public bool isNPCTrigger;
     public bool isEnemyTrigger;
     public bool isSingleTrigger;
     public UnityEvent interactAction;
@@ -14,6 +15,17 @@ public class UnityEventTrigger : MonoBehaviour
         if (isEnemyTrigger)
         {
             if (collision.gameObject.TryGetComponent<Fighter>(out Fighter fighter))
+            {
+                interactAction.Invoke();
+                if (isSingleTrigger)
+                {
+                    Destroy(gameObject);
+                }
+            }
+        }
+        else if (isNPCTrigger)
+        {
+            if (collision.gameObject.TryGetComponent(out NPC npc))
             {
                 interactAction.Invoke();
                 if (isSingleTrigger)

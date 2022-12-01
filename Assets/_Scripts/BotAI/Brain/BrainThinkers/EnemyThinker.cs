@@ -9,20 +9,24 @@ public class EnemyThinker : MonoBehaviour
     public Brain[] brains;
 
     [HideInInspector] public GameObject target;     // цель
-    bool isFindTarget;
+    bool isFindTarget;                              // нашли цель
     float distanceToTarget;                         // дистанци€ до цели
 
-    //public bool isFriendly;
-    public GameObject[] patrolPoints;
+    public Transform[] positionsPoints;
     [HideInInspector] public int i = 0;    
+    public bool nextPosition;
+    public bool letsGo;
 
     // ѕоиск цели
     //public float targetFindRadius = 5f;                 // радиус поиска цели                                                               
     float lastTargetFind;                               // врем€ последнего удара (дл€ перезар€дки удара)
     float cooldownFind = 0.5f;                          // перезард€ка атаки
 
-    bool type_1;
-    bool type_2;
+    bool type_1;        // тип оружи€ мили
+    bool type_2;        // тип оружи€ ренж
+
+
+    //public bool isFriendly;
 
     public bool debug;
     
@@ -46,19 +50,19 @@ public class EnemyThinker : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (botAI.isNeutral)                        // если бот нейтрален
+        // ≈сли бот нейтрален
+        if (botAI.isNeutral)                        
             return;
 
         // —брасываем вс€кие штуки, если цели нет
         if (isFindTarget && !target)
         {
             isFindTarget = false;
-            botAI.chasing = false;                  // преследование отключено            
+            botAI.chasing = false;                      // преследование отключено            
             botAI.targetVisible = false;
             botAI.readyToAttack = false;
             botAI.agent.ResetPath();
         }
-
 
         // Ћогика дл€ поиска цели и патрулировани€ 
         if (!isFindTarget)                              // если нет цели 
@@ -75,7 +79,7 @@ public class EnemyThinker : MonoBehaviour
         }
 
         // Ћогика если нашли цель и она видима        
-        if (distanceToTarget < botAI.triggerLenght && botAI.targetVisible)       // если дистанци€ до игрока < тригер дистанции
+        if (botAI.targetVisible)       // если дистанци€ до игрока < тригер дистанции       (distanceToTarget < botAI.triggerLenght &&)
         {
             if (botAI.twoWeapons)
             {
@@ -108,8 +112,8 @@ public class EnemyThinker : MonoBehaviour
 
         if(debug)
         {
-            Debug.Log(target);
-            //Debug.Log(isFindTarget);
+            //Debug.Log(target);
+            Debug.Log(isFindTarget);
             //Debug.Log(botAI.chasing);
             //Debug.Log(botAI.readyToAttack);
         }
@@ -153,6 +157,16 @@ public class EnemyThinker : MonoBehaviour
                 collidersHitbox = null;                                                 // сбрасываем все найденные объекты (на самом деле непон€тно как это работает)
             }
         }
+    }
+
+    public void GoNextPosition()
+    {
+        nextPosition = true;
+    }
+
+    public void LetsGo()
+    {
+        letsGo = true;
     }
 
     void MakeFriendly()

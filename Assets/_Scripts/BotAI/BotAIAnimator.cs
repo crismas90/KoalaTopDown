@@ -2,19 +2,28 @@ using UnityEngine;
 
 public class BotAIAnimator : MonoBehaviour
 {
-    BotAIMeleeWeaponHolder botAIWeaponHolder;
+    //BotAI botAi;
+    Animator animator;
+    BotAIMeleeWeaponHolder botAIMeleeWeaponHolder;
     private void Start()
     {
-        botAIWeaponHolder = GetComponentInChildren<BotAIMeleeWeaponHolder>();
+        //botAi = GetComponentInParent<BotAI>();
+        animator = GetComponent<Animator>();
+        botAIMeleeWeaponHolder = GetComponentInChildren<BotAIMeleeWeaponHolder>();
     }
 
     public void TrailStatus(int number)
     {
-        botAIWeaponHolder.currentWeapon.TrailOn(number);
+        botAIMeleeWeaponHolder.currentWeapon.TrailOn(number);
     }
 
     public void CurrentWeaponAttack()
     {
-        botAIWeaponHolder.currentWeapon.MeleeAttack();
+        botAIMeleeWeaponHolder.currentWeapon.MeleeAttack();
+    }
+
+    public void ResetTriggerAttack()
+    {
+        animator.ResetTrigger("Hit");
     }
 }

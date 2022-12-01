@@ -10,6 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1608d8a479a909f4185b848958172a79, type: 3}
-  m_Name: Go To Position Retreat
+  m_Name: New Go To Position Brain
   m_EditorClassIdentifier: 
-  destination: {x: -25, y: -9, z: 0}
+  destinations:
+  - {x: -15, y: -6, z: 0}
+  - {x: -19, y: -12, z: 0}
+  - {x: -22, y: -6, z: 0}
+  go: 1
+  i: 0
