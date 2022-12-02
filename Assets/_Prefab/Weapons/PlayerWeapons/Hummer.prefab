@@ -322,7 +322,7 @@ MonoBehaviour:
     \u0427\u0415\u0420\u0415\u041F\u041E\u0412"
   hitBox: {fileID: 1630045362412420869}
   damage: 50
-  pushForce: 40
+  pushForce: 20
   radius: 0.8
   cooldown: 0.8
   trail: {fileID: 3786651681873589342}

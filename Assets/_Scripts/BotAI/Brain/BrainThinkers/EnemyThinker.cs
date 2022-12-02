@@ -66,8 +66,8 @@ public class EnemyThinker : MonoBehaviour
 
         // Логика для поиска цели и патрулирования 
         if (!isFindTarget)                              // если нет цели 
-        {            
-            brains[0].Think(this);                      // патрулирование                     
+        {
+            brains[0].Think(this);                      // патрулирование            
             FindTarget();                               // поиск цели
         }
 
@@ -159,14 +159,21 @@ public class EnemyThinker : MonoBehaviour
         }
     }
 
-    public void GoNextPosition()
+    public void GoToPosition(int positionNumber)
     {
-        nextPosition = true;
+        /*        if (nextPosition && positionsPoints.Length > 0)
+                {
+
+                }*/
+        i = positionNumber;
     }
 
-    public void LetsGo()
+    public void LetsGo(int go)
     {
-        letsGo = true;
+        if (go == 0)
+            letsGo = false;
+        if (go == 1)
+            letsGo = true;
     }
 
     void MakeFriendly()

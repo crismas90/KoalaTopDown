@@ -51,7 +51,7 @@ MonoBehaviour:
   hitBoxRadius: 0.5
   cooldown: 3
   damage: 10
-  pushForce: 15
+  pushForce: 10
   bulletPrefab: {fileID: 2609019957272575851, guid: c675c6819f034a14ca6c9a63f9865382, type: 3}
   effectRangeAttack: {fileID: 5054126191899019494, guid: f17d94ee6a43b8d4d972e7a779ba5f46, type: 3}
   bulletSpeed: 5
@@ -452,6 +452,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dd346c7a0908bda448534cc0cdb2b942, type: 2}
   target: {fileID: 0}
   positionsPoints: []
+  i: 0
   nextPosition: 0
   letsGo: 0
   debug: 0
