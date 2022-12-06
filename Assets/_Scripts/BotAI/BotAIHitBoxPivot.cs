@@ -28,10 +28,11 @@ public class BotAIHitBoxPivot : MonoBehaviour
         {
             transform.localScale = new Vector3(transform.localScale.y, -1, transform.localScale.z);     // поворачиваем оружие через scale
         }
-        if (botAI.flipRight)
+        else if (botAI.flipRight)
         {
             transform.localScale = new Vector3(transform.localScale.x, 1, transform.localScale.z);     // поворачиваем оружие через scale
         }
-
+        else
+            return;
     }
 }

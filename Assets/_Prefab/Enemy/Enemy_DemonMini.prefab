@@ -337,7 +337,7 @@ MonoBehaviour:
   hitBoxRadius: 0.3
   cooldown: 1
   damage: 2
-  pushForce: 0
+  pushForce: 3
   bulletPrefab: {fileID: 0}
   effectRangeAttack: {fileID: 0}
   bulletSpeed: 0

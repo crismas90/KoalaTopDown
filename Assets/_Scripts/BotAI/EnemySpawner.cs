@@ -41,7 +41,7 @@ public class EnemySpawner : MonoBehaviour
         agent = go.GetComponent<NavMeshAgent>();                    // находим НавМешАгент
         agent.Warp(transform.position);                             // перемещаем префаб к спавнеру
         if(chasePlayer)
-            go.GetComponent<BotAI>().triggerLenght = chaseDistance;                // устанавливаем преследование за игроком
+            go.GetComponent<BotAI>().triggerLenght = chaseDistance; // устанавливаем преследование за игроком
     }
 
     public void ActivateSpawner()

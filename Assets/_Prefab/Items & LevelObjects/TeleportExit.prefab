@@ -594,6 +594,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: UnityEventKeyCircleArrow
       objectReference: {fileID: 0}
+    - target: {fileID: 8526230229399481000, guid: 08fefb9514cbc5b418c729b5f3fcd9c6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8526230229399481001, guid: 08fefb9514cbc5b418c729b5f3fcd9c6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08fefb9514cbc5b418c729b5f3fcd9c6, type: 3}
 --- !u!4 &9150589969257320843 stripped
