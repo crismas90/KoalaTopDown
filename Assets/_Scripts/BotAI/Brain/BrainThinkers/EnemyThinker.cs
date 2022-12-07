@@ -77,7 +77,16 @@ public class EnemyThinker : MonoBehaviour
             {
                 FindTarget();                               // поиск цели
             }
-            brains[0].Think(this);                          // патрулирование 
+            if (letsGo)
+            {
+                brains[0].Think(this);                          // патрулирование                 
+                
+            }
+            if (!letsGo)
+            {
+                //brains[0].Think(this);                          // патрулирование 
+                
+            }
         }
         else
         {
@@ -177,7 +186,7 @@ public class EnemyThinker : MonoBehaviour
                 }
                 else
                 {
-                    if (botAI.targetVisible && distance < 10)
+                    if (botAI.targetVisible && distance < 3)
                     {
                         targets.Add(fighter.gameObject);                            
                     }
@@ -205,6 +214,19 @@ public class EnemyThinker : MonoBehaviour
             letsGo = false;
         if (go == 1)
             letsGo = true;
+    }
+
+    public void StayGo()
+    {
+        letsGo = !letsGo;
+        if (letsGo)
+        {
+            botAI.SayText("Я за тобой");
+        }
+        if (!letsGo)
+        {
+            botAI.SayText("Жду здесь");
+        }
     }
 
 
