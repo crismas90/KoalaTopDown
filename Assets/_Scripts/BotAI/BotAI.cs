@@ -243,9 +243,9 @@ public class BotAI : Fighter
         rb2D.AddForce(vec2 * forceBack, ForceMode2D.Impulse);                   // толкаем импульсом
     }
 
-    public override void TakeDamage(int dmg)
+    public override void TakeDamage(int dmg, Vector2 vec2, float pushForce)
     {
-        base.TakeDamage(dmg);
+        base.TakeDamage(dmg, vec2, pushForce);
         //animator.SetTrigger("TakeHit");
         ColorRed(0.05f);
         if (!isFriendly)

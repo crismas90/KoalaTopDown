@@ -9,9 +9,9 @@ public class ColorBox : Fighter
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public override void TakeDamage(int dmg)
+    public override void TakeDamage(int dmg, Vector2 vec2, float pushForce)
     {
-        base.TakeDamage(dmg);
+        base.TakeDamage(dmg, vec2, pushForce);
         SetColor();
     }
    public void SetColor()

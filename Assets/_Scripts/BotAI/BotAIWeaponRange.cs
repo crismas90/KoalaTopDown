@@ -205,9 +205,8 @@ public class BotAIWeaponRange : MonoBehaviour
             //Debug.Log("Hit!");
             if (hit.collider.TryGetComponent<Fighter>(out Fighter fighter))
             {
-                fighter.TakeDamage(damage);
                 Vector2 vec2 = (fighter.transform.position - botAI.transform.position).normalized;
-                fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
+                fighter.TakeDamage(damage, vec2, pushForce);
             }
 
             tracer.transform.position = hit.point;                      // конечная позиция трасера рейкаста             

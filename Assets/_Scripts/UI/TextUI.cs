@@ -5,6 +5,7 @@ public class TextUI : MonoBehaviour
 {
     Player player;                  // ссылка на игрока
     public Text hp;                 // кол-во хп
+    public Text shield;             // щит
     public Text key;                // кол-во ключей
     public Text battery;            // кол-во батарей
     public Text weaponName;         // им€ оружи€
@@ -19,6 +20,12 @@ public class TextUI : MonoBehaviour
     {
         // HP
         hp.text = player.currentHealth.ToString("0");
+
+        // ўит
+        if (player.shield.shieldOn)
+            shield.text = player.shield.shieldHp.ToString("0");
+        else
+            shield.text = "OFF";
 
         //  лючи
         key.text = GameManager.instance.keys.ToString("0");

@@ -54,9 +54,9 @@ public class Spike : MonoBehaviour
         {            
             if (isSpikeActive)
             {
-                fighter.TakeDamage(damage);
-/*                Vector2 vec2 = (fighter.transform.position - transform.position).normalized;
-                fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);*/
+                fighter.TakeDamage(damage, new Vector2(0, 0), 0);
+                /*                Vector2 vec2 = (fighter.transform.position - transform.position).normalized;
+                                fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);*/
             }
             //Vector2 vec2 = (collision.transform.position - GameManager.instance.player.transform.position).normalized;
             //fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
@@ -75,9 +75,9 @@ public class Spike : MonoBehaviour
 
             if (coll.gameObject.TryGetComponent<Fighter>(out Fighter fighter))
             {
-                fighter.TakeDamage(damage);
-/*                Vector2 vec2 = (fighter.transform.position - transform.position).normalized;
-                fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);*/
+                fighter.TakeDamage(damage, new Vector2(0, 0), 0);
+                /*                Vector2 vec2 = (fighter.transform.position - transform.position).normalized;
+                                fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);*/
             }
             collidersHits = null;
         }

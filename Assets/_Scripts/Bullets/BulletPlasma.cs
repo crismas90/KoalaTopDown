@@ -12,11 +12,11 @@ public class BulletPlasma : Bullet
     }
     public override void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent<Fighter>(out Fighter fighter))
+/*        if (collision.gameObject.TryGetComponent<Fighter>(out Fighter fighter))
         {
             Vector2 vec2 = (collision.transform.position - transform.position).normalized;
             fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
-        }
+        }*/
         base.OnTriggerEnter2D(collision);           // там пусто пока что
         Explosion();
     }
@@ -33,9 +33,8 @@ public class BulletPlasma : Bullet
 
             if (coll.gameObject.TryGetComponent<Fighter>(out Fighter fighter))
             {
-                fighter.TakeDamage(damage);
                 Vector2 vec2 = (coll.transform.position - transform.position).normalized;
-                fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
+                fighter.TakeDamage(damage, vec2, pushForce);                
             }
             collidersHits = null;
         }
