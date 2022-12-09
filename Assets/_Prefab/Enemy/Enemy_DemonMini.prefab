@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2411289485797020915}
   - component: {fileID: 2411289485797020918}
   - component: {fileID: 3140556547057668604}
+  - component: {fileID: -6598591734863098280}
   m_Layer: 7
   m_Name: Enemy_DemonMini
   m_TagString: Untagged
@@ -182,10 +183,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08aa8eb2e12c5d34fa7aae811e482a9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb2D: {fileID: 2411289485797020914}
   isAlive: 1
   currentHealth: 0
   maxHealth: 50
-  rb2D: {fileID: 2411289485797020914}
+  isPlayerOrNPC: 0
   agent: {fileID: 0}
   animator: {fileID: 2411289485797020917}
   animatorWeapon: {fileID: 0}
@@ -200,8 +202,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   chasing: 0
+  startPosition: {x: 0, y: 0, z: 0}
   chaseLeght: 0
-  triggerLenght: 4
+  triggerLenght: 5
   targetVisible: 1
   readyToAttack: 0
   distanceToAttackMelee: 0.9
@@ -236,8 +239,26 @@ MonoBehaviour:
   positionsPoints: []
   i: 0
   nextPosition: 0
-  letsGo: 0
+  letsGo: 1
+  textTrigger: 
+  patrolingRandomPosition: 0
   debug: 0
+--- !u!114 &-6598591734863098280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2411289485797020924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85648e4e9bc5f1e408c0a6755226c2b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lastChange: 0
+  cooldownChange: 2
+  distancePatrol: 2
+  maxDistancePatrol: 5
 --- !u!1 &3509407596432613556
 GameObject:
   m_ObjectHideFlags: 0

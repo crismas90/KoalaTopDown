@@ -12,3 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9231e93573e13ca4393cf846396fc50a, type: 3}
   m_Name: PatrolBrain
   m_EditorClassIdentifier: 
+  lastChange: 27.3
+  cooldownChange: 4
+  distancePatrol: 3
+  maxDistancePatrol: 6

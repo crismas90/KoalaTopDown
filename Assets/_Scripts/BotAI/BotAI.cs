@@ -21,7 +21,7 @@ public class BotAI : Fighter
     [HideInInspector] public LayerMask layerTarget;         // слой для поиска 
     [HideInInspector] public LayerMask layerHit;            // слой для оружия
     [HideInInspector] public bool chasing;                  // статус преследования
-    Vector3 startPosition;                                  // позиция для охраны
+    [HideInInspector] public Vector3 startPosition;         // позиция для охраны
     public float chaseLeght;                                // дальность преследования    
     public float triggerLenght;                             // дистанция тригера
     [HideInInspector] public bool targetVisible;            // видим мы цель или нет

@@ -28,6 +28,9 @@ public class EnemyThinker : MonoBehaviour
 
     public string textTrigger;
     bool sayTriggerText;
+    
+    [Header("Поведение")]
+    public bool patrolingRandomPosition;
 
 
     //public bool isFriendly;
@@ -67,7 +70,6 @@ public class EnemyThinker : MonoBehaviour
             botAI.readyToAttack = false;
             botAI.agent.ResetPath();
         }
-
         
 
         // Логика для поиска цели и патрулирования 
@@ -77,20 +79,19 @@ public class EnemyThinker : MonoBehaviour
             {
                 FindTarget();                               // поиск цели
             }
+
             if (letsGo)
             {
-                brains[0].Think(this);                          // патрулирование                 
-                
+                patrolingRandomPosition = true;                 // патрулирование            
             }
             if (!letsGo)
             {
                 //brains[0].Think(this);                          // патрулирование 
-                
             }
         }
         else
         {
-            if (Time.time - lastTargetFind > Random.Range(cooldownChangeTarget, cooldownChangeTarget + 2f))  // если кд готово
+            if (Time.time - lastTargetFind > Random.Range(cooldownChangeTarget, cooldownChangeTarget + 2f))  // сменяем цель, если больше одной цели
             {
                 FindTarget();                               // поиск цели
             }
@@ -124,6 +125,7 @@ public class EnemyThinker : MonoBehaviour
 
             if (!botAI.chasing)
             {
+                patrolingRandomPosition = false;        // патрулирование 
                 botAI.chasing = true;                   // преследование включено
                 isFindTarget = true;
             }

@@ -19,7 +19,7 @@ public class EnergyShield : MonoBehaviour
 
     private void Update()
     {
-        if (shieldHp > 25 && !shieldOn)
+        if (shieldHp >= 25 && !shieldOn)
         {
             ShieldOnOff(true);
         }       
