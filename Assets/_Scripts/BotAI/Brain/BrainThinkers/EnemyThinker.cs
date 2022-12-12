@@ -82,11 +82,11 @@ public class EnemyThinker : MonoBehaviour
 
             if (letsGo)
             {
-                patrolingRandomPosition = true;                 // патрулирование            
+                brains[0].Think(this);                          // патрулирование 
             }
             if (!letsGo)
             {
-                //brains[0].Think(this);                          // патрулирование 
+                patrolingRandomPosition = true;                 // патрулирование            
             }
         }
         else

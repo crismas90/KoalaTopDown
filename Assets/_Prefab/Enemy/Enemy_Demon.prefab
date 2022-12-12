@@ -504,7 +504,7 @@ MonoBehaviour:
   positionsPoints: []
   i: 0
   nextPosition: 0
-  letsGo: 1
+  letsGo: 0
   textTrigger: 
   patrolingRandomPosition: 0
   debug: 0
