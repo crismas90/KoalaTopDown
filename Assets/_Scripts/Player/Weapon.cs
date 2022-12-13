@@ -8,21 +8,23 @@ public class Weapon : MonoBehaviour
     public Transform firePoint;             // якорь для снарядов
     public Transform pivot;                 // якорь weaponHolder (используется для прицеливания)
     WeaponHolder weaponHolder;              // ссылка на скрипт weaponHolder (для стрельбы)
+
     //GameObject weaponHolderGO;              // ссылка на объект weaponHolder (для поворота)
     //Vector3 mousePosition;                  // положение мыши
 
     [Header("Параметры оружия")]
     bool rayCastWeapon;                     // рейкаст оружие
     [HideInInspector] public string weaponName;     // название оружия
-    GameObject bulletPrefab;                // префаб снаряда
+    [HideInInspector] public float fireRate;                // скорострельность оружия (10 - 0,1 выстрелов в секунду)
+    [HideInInspector] public float nextTimeToFire;          // для стрельбы (когда стрелять в след раз)
+
+/*    GameObject bulletPrefab;                // префаб снаряда
     float bulletSpeed;                      // скорость снаряда
     int damage;                             // урон (возможно нужно сделать на снаряде)
     float pushForce;                        // сила толчка (возможно нужно сделать на снаряде)
-    [HideInInspector] public float fireRate;                // скорострельность оружия (10 - 0,1 выстрелов в секунду)
-    [HideInInspector] public float nextTimeToFire;          // для стрельбы (когда стрелять в след раз)
     float forceBackFire;                    // отдача оружия
-    float recoilX;                          // разброс стрельбы
-    LayerMask layerRayCast;                 // слои для рейкастов
+    float recoil;                          // разброс стрельбы
+    LayerMask layerRayCast;                 // слои для рейкастов*/
 
     // Для флипа оружия
     bool needFlip;                          // нужен флип (для правильного отображения оружия)    
@@ -44,18 +46,19 @@ public class Weapon : MonoBehaviour
     void Awake()
     {
         player = GameManager.instance.player;
-        //weaponHolderGO = GetComponentInParent<WeaponHolder>().gameObject;       // находим объект weaponHolder
+        
         weaponName = weaponClass.weaponName;                                    // имя оружия
-        rayCastWeapon = weaponClass.raycastWeapon;                              // рейкаст оружие
-        layerRayCast = weaponClass.layer;                                       // слои к рейкастам
-        if (weaponClass.bullet)
-            bulletPrefab = weaponClass.bullet;                                  // тип снаряда (если не рейкаст оружие)
+        rayCastWeapon = weaponClass.rayCastWeapon;                              // рейкаст оружие
+
+/*        layerRayCast = weaponClass.layerRayCast;                                       // слои к рейкастам
+        if (weaponClass.bulletPrefab)
+            bulletPrefab = weaponClass.bulletPrefab;                                  // тип снаряда (если не рейкаст оружие)
         bulletSpeed = weaponClass.bulletSpeed;                                  // скорость
         damage = weaponClass.damage;                                            // урон
         pushForce = weaponClass.pushForce;                                      // сила толчка
         fireRate = weaponClass.fireRate;                                        // скорострельность
         forceBackFire = weaponClass.forceBackFire;                              // сила отдачи
-        recoilX = weaponClass.recoil;                                           // разброс стрельбы
+        recoil = weaponClass.recoil;                                           // разброс стрельбы*/
         //flashEffect = weaponClass.flashEffect;                                  // эффект вспышки при выстреле (флэш) 
     }
 
@@ -95,7 +98,6 @@ public class Weapon : MonoBehaviour
     }
 
 
-
     private void FixedUpdate()
     {
         // Стрельба
@@ -106,7 +108,7 @@ public class Weapon : MonoBehaviour
 
         if (Time.time >= nextTimeToFire)                    // если начинаем стрелять и кд готово
         {
-            nextTimeToFire = Time.time + 1f / fireRate;                                     // вычисляем кд
+            nextTimeToFire = Time.time + 1f / weaponClass.fireRate;                                     // вычисляем кд
             if (!rayCastWeapon)
                 FireProjectile();                                                           // выстрел пулей
             if (rayCastWeapon)
@@ -115,9 +117,6 @@ public class Weapon : MonoBehaviour
             if (flashEffectAnimator != null)                                                // если флэшэффект есть
                 Flash();
         }
-
-
-
 
         // Находим угол для флипа холдера и спрайта игрока
         //mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);                // положение мыши                  
@@ -174,15 +173,14 @@ public class Weapon : MonoBehaviour
 
     public void FireProjectile()
     {
-        float randomBulletX = Random.Range(-recoilX, recoilX);                                              // разброс стрельбы
-        firePoint.Rotate(0, 0, randomBulletX);                                                              // тупо вращаем
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);              // создаем префаб снаряда с позицией и поворотом якоря
-        bullet.GetComponent<Bullet>().damage = damage;                                                      // присваиваем урон снаряду
-        bullet.GetComponent<Bullet>().pushForce = pushForce;                                                // присваиваем силу толчка снаряду
-        bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.right * bulletSpeed, ForceMode2D.Impulse);              // даём импульс
-        //bullet.transform.Rotate(0.0f, 0.0f, -90.0f, Space.Self);                                             // поворачиваем снаряд
-        player.ForceBackFire(firePoint.transform.position, forceBackFire);                                  // даём отдачу оружия
-        firePoint.Rotate(0, 0, -randomBulletX);                                                             // и тупо возвращаем поворот
+        float randomBulletX = Random.Range(-weaponClass.recoil, weaponClass.recoil);                            // разброс стрельбы
+        firePoint.Rotate(0, 0, randomBulletX);                                                                  // тупо вращаем
+        GameObject bullet = Instantiate(weaponClass.bulletPrefab, firePoint.position, firePoint.rotation);      // создаем префаб снаряда с позицией и поворотом якоря
+        bullet.GetComponent<Bullet>().damage = weaponClass.damage;                                              // присваиваем урон снаряду
+        bullet.GetComponent<Bullet>().pushForce = weaponClass.pushForce;                                        // присваиваем силу толчка снаряду
+        bullet.GetComponent<Rigidbody2D>().AddForce(firePoint.right * weaponClass.bulletSpeed, ForceMode2D.Impulse);    // даём импульс
+        player.ForceBackFire(firePoint.transform.position, weaponClass.forceBackFire);                          // даём отдачу оружия
+        firePoint.Rotate(0, 0, -randomBulletX);                                                                 // и тупо возвращаем поворот
     }
 
     public void FireRayCast()
@@ -193,17 +191,17 @@ public class Weapon : MonoBehaviour
         //tracer.transform.SetParent(transform, true); 
 
         // Разброс
-        float randomBulletX = Random.Range(-recoilX, recoilX);
+        float randomBulletX = Random.Range(-weaponClass.recoil, weaponClass.recoil);
         
         // Рейкаст2Д
-        RaycastHit2D hit = Physics2D.Raycast(firePoint.position, firePoint.right + new Vector3(randomBulletX, 0, 0), Mathf.Infinity, layerRayCast);        
+        RaycastHit2D hit = Physics2D.Raycast(firePoint.position, firePoint.right + new Vector3(randomBulletX, 0, 0), Mathf.Infinity, weaponClass.layerRayCast);        
         if (hit.collider != null)
         {
             //Debug.Log("Hit!");
             if (hit.collider.TryGetComponent<Fighter>(out Fighter fighter))
             {
                 Vector2 vec2 = (fighter.transform.position - player.transform.position).normalized;
-                fighter.TakeDamage(damage, vec2, pushForce);                
+                fighter.TakeDamage(weaponClass.damage, vec2, weaponClass.pushForce);                
             }
 
             tracer.transform.position = hit.point;                      // конечная позиция трасера рейкаста             
