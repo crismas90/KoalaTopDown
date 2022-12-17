@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class BulletRocket : Bullet
 {
-    public float expRadius = 3;
-    public LayerMask layer;
+    public float expRadius = 3;    
 
     private void Start()
     {
@@ -24,7 +23,7 @@ public class BulletRocket : Bullet
 
     public override void Explosion()
     {
-        Collider2D[] collidersHits = Physics2D.OverlapCircleAll(transform.position, expRadius, layer);     // создаем круг в позиции объекта с радиусом
+        Collider2D[] collidersHits = Physics2D.OverlapCircleAll(transform.position, expRadius, layerExplousion);     // создаем круг в позиции объекта с радиусом
         foreach (Collider2D coll in collidersHits)
         {
             if (coll == null)

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2411289485797020914}
   - component: {fileID: 2411289485797020915}
   - component: {fileID: 2411289485797020918}
+  - component: {fileID: 3140556547057668604}
   m_Layer: 7
   m_Name: Enemy_DemonMini
   m_TagString: Untagged
@@ -30,11 +31,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2411289485797020924}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.71, y: -7.1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8810973424390187572}
+  - {fileID: 6760281605144613043}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -183,20 +184,60 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAlive: 1
   currentHealth: 0
-  maxHealth: 30
+  maxHealth: 50
   rb2D: {fileID: 2411289485797020914}
+  agent: {fileID: 0}
   animator: {fileID: 2411289485797020917}
+  animatorWeapon: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  botAIMeleeWeaponHolder: {fileID: 0}
   isNeutral: 0
-  target: {fileID: 0}
+  isFriendly: 0
+  layerTarget:
+    serializedVersion: 2
+    m_Bits: 0
+  layerHit:
+    serializedVersion: 2
+    m_Bits: 0
   chasing: 0
-  triggerLenght: 5
-  distanceToAttack: 0.8
+  chaseLeght: 0
+  triggerLenght: 4
   targetVisible: 1
   readyToAttack: 0
+  distanceToAttackMelee: 0.9
+  distanceToAttackRange: 0
+  distanceToAttack: 0.8
+  meleeAttackType: 1
+  rangeAttackType: 0
+  twoWeapons: 0
+  aimAnglePivot: 0
   deathEffect: {fileID: 7845441016114820387, guid: cc0d24c4e3ed73e4e8969772c7851414, type: 3}
   deathCameraShake: 2
+  flipLeft: 0
+  flipRight: 0
   debug: 0
---- !u!1 &2411289487761977094
+--- !u!114 &3140556547057668604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2411289485797020924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce88678462afcdf44806a606e113cccb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  botAI: {fileID: 0}
+  brains:
+  - {fileID: 11400000, guid: 5579917536f4b9945a53027f322ccbb1, type: 2}
+  - {fileID: 11400000, guid: dd346c7a0908bda448534cc0cdb2b942, type: 2}
+  target: {fileID: 0}
+  positionsPoints: []
+  nextPosition: 0
+  letsGo: 0
+  debug: 0
+--- !u!1 &3509407596432613556
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -204,52 +245,103 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2411289487761977093}
-  - component: {fileID: 2411289487761977092}
-  m_Layer: 7
-  m_Name: HitBox
+  - component: {fileID: 3509407596432613557}
+  - component: {fileID: 3509407596432613558}
+  m_Layer: 6
+  m_Name: BotAIRangeWeaponHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2411289487761977093
+--- !u!4 &3509407596432613557
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2411289487761977094}
+  m_GameObject: {fileID: 3509407596432613556}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6760281605144613043}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3509407596432613558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3509407596432613556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a964c950110244ca0f265284f3f103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapons: []
+  currentWeapon: {fileID: 0}
+  selectedWeapon: 0
+  fireStart: 0
+--- !u!1 &5392787427114501832
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4871785279556664878}
+  - component: {fileID: 2786310568990263661}
+  m_Layer: 0
+  m_Name: BotAIHitBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4871785279556664878
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5392787427114501832}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8810973424390187572}
-  m_RootOrder: 0
+  m_Father: {fileID: 6760281605144613043}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2411289487761977092
+--- !u!114 &2786310568990263661
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2411289487761977094}
+  m_GameObject: {fileID: 5392787427114501832}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b03f2c74ed169fe4cabb684c22f4cfe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
   lastAttack: 0
-  hitBoxRadius: 0.35
+  hitBoxRadius: 0.3
   cooldown: 1
-  damage: 5
+  damage: 2
   pushForce: 5
-  isRange: 0
-  bulletPrefab: {fileID: 2609019957272575851, guid: c675c6819f034a14ca6c9a63f9865382, type: 3}
-  bulletSpeed: 5
+  bulletPrefab: {fileID: 0}
+  effectRangeAttack: {fileID: 0}
+  bulletSpeed: 0
   forceBackFire: 0
---- !u!1 &8810973424390187575
+--- !u!1 &6760281604923851689
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -257,41 +349,156 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8810973424390187572}
-  - component: {fileID: 8810973424390187573}
-  m_Layer: 7
-  m_Name: HitBoxPivot
+  - component: {fileID: 6760281604923851688}
+  - component: {fileID: 6760281604923851686}
+  - component: {fileID: 6760281604923851685}
+  m_Layer: 0
+  m_Name: BotAIAnimator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8810973424390187572
+--- !u!4 &6760281604923851688
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8810973424390187575}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 6760281604923851689}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2411289487761977093}
-  m_Father: {fileID: 2411289485797020919}
+  - {fileID: 6760281605444301531}
+  m_Father: {fileID: 6760281605144613043}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8810973424390187573
+--- !u!95 &6760281604923851686
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6760281604923851689}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 74673098675032246b2abb79bbe8fe86, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6760281604923851685
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8810973424390187575}
+  m_GameObject: {fileID: 6760281604923851689}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d13f115543223e4382e6b6fa3632af3, type: 3}
+  m_Script: {fileID: 11500000, guid: 8d1d6c0b25a77404e952e28f6ca7352d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aimAngle: 0
+--- !u!1 &6760281605144613044
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6760281605144613043}
+  - component: {fileID: 6760281605144613042}
+  m_Layer: 0
+  m_Name: BotAIHitBoxPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6760281605144613043
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6760281605144613044}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 6760281604923851688}
+  - {fileID: 3509407596432613557}
+  - {fileID: 4871785279556664878}
+  m_Father: {fileID: 2411289485797020919}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6760281605144613042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6760281605144613044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ea80b62cc284b54493b85e95b92142d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &6760281605444301532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6760281605444301531}
+  - component: {fileID: 6760281605444301530}
+  m_Layer: 6
+  m_Name: BotAIMeleeWeaponHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6760281605444301531
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6760281605444301532}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.3, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6760281604923851688}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6760281605444301530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6760281605444301532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f76607e74d39444b0a395291f1a385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapons: []
+  currentWeapon: {fileID: 0}
+  selectedWeapon: 0
+  fireStart: 0

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class BulletPlasma : Bullet
 {
-    public float expRadius = 1;
-    public LayerMask layer;
+    public float expRadius = 1;    
 
     private void Start()
     {
@@ -15,7 +14,7 @@ public class BulletPlasma : Bullet
     {
         if (collision.gameObject.TryGetComponent<Fighter>(out Fighter fighter))
         {
-            Vector2 vec2 = (collision.transform.position - GameManager.instance.player.transform.position).normalized;
+            Vector2 vec2 = (collision.transform.position - transform.position).normalized;
             fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
         }
         base.OnTriggerEnter2D(collision);           // там пусто пока что
@@ -24,7 +23,7 @@ public class BulletPlasma : Bullet
 
     public override void Explosion()
     {
-        Collider2D[] collidersHits = Physics2D.OverlapCircleAll(transform.position, expRadius, layer);     // создаем круг в позиции объекта с радиусом
+        Collider2D[] collidersHits = Physics2D.OverlapCircleAll(transform.position, expRadius, layerExplousion);     // создаем круг в позиции объекта с радиусом
         foreach (Collider2D coll in collidersHits)
         {
             if (coll == null)

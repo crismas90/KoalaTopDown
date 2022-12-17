@@ -41,16 +41,14 @@ public class Weapon : MonoBehaviour
     public float cameraAmplitudeShake = 1f; // амплитуда
     public float cameraTimedeShake = 0.1f;  // длительность
 
-
-    private void Start()
+    void Awake()
     {
-        player = GameManager.instance.player;        
+        player = GameManager.instance.player;
         //weaponHolderGO = GetComponentInParent<WeaponHolder>().gameObject;       // находим объект weaponHolder
-        weaponHolder = GetComponentInParent<WeaponHolder>();                    // находим скрипт weaponHolder
         weaponName = weaponClass.weaponName;                                    // имя оружия
         rayCastWeapon = weaponClass.raycastWeapon;                              // рейкаст оружие
         layerRayCast = weaponClass.layer;                                       // слои к рейкастам
-        if(weaponClass.bullet)
+        if (weaponClass.bullet)
             bulletPrefab = weaponClass.bullet;                                  // тип снаряда (если не рейкаст оружие)
         bulletSpeed = weaponClass.bulletSpeed;                                  // скорость
         damage = weaponClass.damage;                                            // урон
@@ -58,7 +56,12 @@ public class Weapon : MonoBehaviour
         fireRate = weaponClass.fireRate;                                        // скорострельность
         forceBackFire = weaponClass.forceBackFire;                              // сила отдачи
         recoilX = weaponClass.recoil;                                           // разброс стрельбы
-        //flashEffect = weaponClass.flashEffect;                                  // эффект вспышки при выстреле (флэш)       
+        //flashEffect = weaponClass.flashEffect;                                  // эффект вспышки при выстреле (флэш) 
+    }
+
+    private void Start()
+    {
+        weaponHolder = GetComponentInParent<WeaponHolder>();                    // находим скрипт weaponHolder      
     }
 
     private void Update()
@@ -186,7 +189,8 @@ public class Weapon : MonoBehaviour
     {
         // Настройки для трасеров
         TrailRenderer tracer = Instantiate(tracerEffect, firePoint.position, Quaternion.identity);          // создаем трасер
-        tracer.AddPosition(firePoint.position);                                                             // начальная позиция 
+        tracer.AddPosition(firePoint.position);                                                             // начальная позиция
+        //tracer.transform.SetParent(transform, true); 
 
         // Разброс
         float randomBulletX = Random.Range(-recoilX, recoilX);
@@ -202,14 +206,17 @@ public class Weapon : MonoBehaviour
                 Vector2 vec2 = (fighter.transform.position - player.transform.position).normalized;
                 fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
             }
-            //tracer.transform.position = hit.point;                                                      // конечная позиция трасера рейкаста 
-            if (!lineRaycast)
-            {
-                lineRaycast = Instantiate(lineRenderer, firePoint.position, Quaternion.identity);
-            }
-            lineRaycast.enabled = true;
-            lineRaycast.SetPosition(0, firePoint.position);
-            lineRaycast.SetPosition(1, hit.point);
+
+            tracer.transform.position = hit.point;                      // конечная позиция трасера рейкаста             
+
+            /*            if (!lineRaycast)
+                        {
+                            lineRaycast = Instantiate(lineRenderer, firePoint.position, Quaternion.identity);
+                        }
+                        lineRaycast.enabled = true;
+                        lineRaycast.SetPosition(0, firePoint.position);
+                        lineRaycast.SetPosition(1, hit.point);*/
+
             //Debug.DrawRay(firePoint.position, firePoint.right * 100f, Color.yellow);
         }
         

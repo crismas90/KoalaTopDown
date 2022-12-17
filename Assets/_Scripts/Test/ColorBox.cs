@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ColorBox : MonoBehaviour
+public class ColorBox : Fighter
 {
     SpriteRenderer spriteRenderer;
 
@@ -11,11 +9,11 @@ public class ColorBox : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public override void TakeDamage(int dmg)
     {
+        base.TakeDamage(dmg);
         SetColor();
     }
-
    public void SetColor()
     {
         Color randomColor = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
