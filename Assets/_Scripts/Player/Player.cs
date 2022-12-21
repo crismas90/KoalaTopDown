@@ -29,11 +29,13 @@ public class Player : Fighter
     public EnergyShield shield;
 
 
+
     //---------------------------------------------------------------------------------------------------------------------------------------------------------\\
 
 
-    private void Start()
-    {        
+    public override void Start()
+    {
+        base.Start();
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -41,7 +43,7 @@ public class Player : Fighter
         hitBoxPivot = GetComponentInChildren<HitBoxPivot>();
 
         agent.updateRotation = false;               // для навМеш2д
-        agent.updateUpAxis = false;                 //
+        agent.updateUpAxis = false;                 //        
     }
 
     void Update()

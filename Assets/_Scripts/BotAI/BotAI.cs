@@ -71,8 +71,9 @@ public class BotAI : Fighter
         }
     }
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
         startPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 
         agent.updateRotation = false;                       // для навмеш2д

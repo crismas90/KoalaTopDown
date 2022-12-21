@@ -4,8 +4,9 @@ public class ColorBox : Fighter
 {
     SpriteRenderer spriteRenderer;
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 

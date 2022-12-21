@@ -7,26 +7,38 @@ public class Fighter : MonoBehaviour
     [HideInInspector] public Rigidbody2D rb2D;
 
     [Header("Параметры")]
-    public bool isAlive = true;
-    public int currentHealth;
+    public bool isAlive = true;     // жив
+    public int currentHealth;       
     public int maxHealth;    
-    GameObject floatinText;
-    public bool isPlayerOrNPC;
+    GameObject floatinText;         // текст чата
+    public bool isPlayerOrNPC;      // игрок или нпс (для отображение урона)
+
+    public bool hpBarOn;            // хп бар включен
+    HpBar hpBar;             // хп бар
+    
 
     public virtual void Awake()
     {
         currentHealth = maxHealth;
         rb2D = GetComponent<Rigidbody2D>();
         floatinText = GameAssets.instance.floatingText;
+        if (hpBarOn)
+        {
+            hpBar = GetComponentInChildren<HpBar>();
+        }
     }
 
-    private void Start()
+    public virtual void Start()
     {
-/*        if (gameObject.TryGetComponent(out Player player))
+        if (gameObject.TryGetComponent(out Player player) || gameObject.TryGetComponent(out NPC npc))
         {
-            isPlayer = true;
-        }*/
-        //Debug.Log(isPlayer);
+            isPlayerOrNPC = true;
+        }
+
+        if (hpBarOn)
+        {
+            hpBar.SetMaxHealth(maxHealth);            
+        }
     }
 
        
@@ -46,7 +58,10 @@ public class Fighter : MonoBehaviour
             {
                 currentHealth = 0;                
                 Death();
-            }       
+            }
+
+        if (hpBarOn)
+            hpBar.SetHealth(currentHealth);
     }
 
 
