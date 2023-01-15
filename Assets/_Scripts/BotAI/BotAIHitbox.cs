@@ -94,9 +94,8 @@ public class BotAIHitbox : MonoBehaviour
 
             if (enObjectBox.gameObject.TryGetComponent<Fighter>(out Fighter fighter))               // ищем скрипт файтер
             {
-                fighter.TakeDamage(damage);                                                         // наносим урон
                 Vector2 vec2 = (fighter.transform.position - transform.position).normalized;        // вычисляем вектор направления удара
-                fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);                       // даём импульс                                                                                                                  
+                fighter.TakeDamage(damage, vec2, pushForce);                                        // наносим урон                                                                                                                                  
             }
             collidersHitbox = null;                                                                 // сбрасываем все найденные объекты (на самом деле непонятно как это работает)
         }

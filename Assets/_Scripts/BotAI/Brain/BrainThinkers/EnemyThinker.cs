@@ -20,10 +20,17 @@ public class EnemyThinker : MonoBehaviour
     // Поиск цели
     //public float targetFindRadius = 5f;                 // радиус поиска цели                                                               
     float lastTargetFind;                               // время последнего удара (для перезарядки удара)
-    float cooldownFind = 0.5f;                          // перезардяка атаки
+    float cooldownFind = 0.5f;                          // перезардяка поиска цели
+    float cooldownChangeTarget = 2f;                    // перезарядка смена цели
 
     bool type_1;        // тип оружия мили
     bool type_2;        // тип оружия ренж
+
+    public string textTrigger;
+    bool sayTriggerText;
+    
+    [Header("Поведение")]
+    public bool patrolingRandomPosition;
 
 
     //public bool isFriendly;
@@ -63,12 +70,31 @@ public class EnemyThinker : MonoBehaviour
             botAI.readyToAttack = false;
             botAI.agent.ResetPath();
         }
+        
 
         // Логика для поиска цели и патрулирования 
-        if (!isFindTarget)                              // если нет цели 
-        {            
-            brains[0].Think(this);                      // патрулирование                     
-            FindTarget();                               // поиск цели
+        if (!isFindTarget)                                  // если нет цели 
+        {
+            if (Time.time - lastTargetFind > cooldownFind)  // если кд готово
+            {
+                FindTarget();                               // поиск цели
+            }
+
+            if (letsGo)
+            {
+                brains[0].Think(this);                          // патрулирование 
+            }
+            if (!letsGo)
+            {
+                patrolingRandomPosition = true;                 // патрулирование            
+            }
+        }
+        else
+        {
+            if (Time.time - lastTargetFind > Random.Range(cooldownChangeTarget, cooldownChangeTarget + 2f))  // сменяем цель, если больше одной цели
+            {
+                FindTarget();                               // поиск цели
+            }
         }
 
         // Если нашли цель делаем рейкасты и меряем дистанцию
@@ -95,11 +121,11 @@ public class EnemyThinker : MonoBehaviour
                     type_1 = false;
                     type_2 = true;
                 }
-            }                
- 
+            }              
 
             if (!botAI.chasing)
             {
+                patrolingRandomPosition = false;        // патрулирование 
                 botAI.chasing = true;                   // преследование включено
                 isFindTarget = true;
             }
@@ -110,10 +136,20 @@ public class EnemyThinker : MonoBehaviour
             brains[1].Think(this);                      // преследуем и аттакуем           
         }
 
+
+
+        if (sayTriggerText && !isFindTarget)
+        {
+            botAI.SayText(textTrigger);
+            sayTriggerText = false;
+        }
+
+
+
         if(debug)
         {
-            //Debug.Log(target);
-            Debug.Log(isFindTarget);
+            Debug.Log(target);
+            //Debug.Log(isFindTarget);
             //Debug.Log(botAI.chasing);
             //Debug.Log(botAI.readyToAttack);
         }
@@ -129,44 +165,77 @@ public class EnemyThinker : MonoBehaviour
 
     void FindTarget()
     {
-        if (!target && Time.time - lastTargetFind > cooldownFind)                       // если готовы атаковать и кд готово
+        lastTargetFind = Time.time;                                                 // присваиваем время атаки
+        Collider2D[] collidersHitbox = Physics2D.OverlapCircleAll(transform.position, botAI.triggerLenght, botAI.layerTarget);    // создаем круг в позиции объекта с радиусом 
+        List<GameObject> targets = new List<GameObject>(); 
+        foreach (Collider2D enObjectBox in collidersHitbox)
         {
-            lastTargetFind = Time.time;                                                 // присваиваем время атаки
-            Collider2D[] collidersHitbox = Physics2D.OverlapCircleAll(transform.position, botAI.triggerLenght, botAI.layerTarget);    // создаем круг в позиции объекта с радиусом 
-            foreach (Collider2D enObjectBox in collidersHitbox)
+            if (enObjectBox == null)
             {
-                if (enObjectBox == null)
-                {
-                    continue;
-                }
+                continue;
+            }
 
-                if (enObjectBox.gameObject.TryGetComponent(out Fighter fighter))        // ищем скрипт файтер
+            if (enObjectBox.gameObject.TryGetComponent(out Fighter fighter))        // ищем скрипт файтер
+            {
+                botAI.NavMeshRayCast(fighter.gameObject);
+                float distance = Vector3.Distance(fighter.transform.position, botAI.transform.position);   // считаем дистанцию 
+                if (!target)
                 {
-                    botAI.NavMeshRayCast(fighter.gameObject);
                     if (botAI.targetVisible)
                     {
-                        target = fighter.gameObject;
+                        targets.Add(fighter.gameObject);
                     }
-
-/*                    NavMeshHit hit;
-                    if (!botAI.agent.Raycast(fighter.transform.position, out hit))      // делаем рейкаст
-                    {
-                                                
-                    }*/
                 }
-                collidersHitbox = null;                                                 // сбрасываем все найденные объекты (на самом деле непонятно как это работает)
+                else
+                {
+                    if (botAI.targetVisible && distance < 3)
+                    {
+                        targets.Add(fighter.gameObject);                            
+                    }
+                }       
             }
+            collidersHitbox = null;                         // сбрасываем все найденные объекты (на самом деле непонятно как это работает)
+        }
+        if (targets.Count > 0)
+            target = targets[Random.Range(0, targets.Count)];            
+        
+    }
+
+    public void GoToPosition(int positionNumber)
+    {
+        /*        if (nextPosition && positionsPoints.Length > 0)
+                {
+
+                }*/
+        i = positionNumber;
+    }
+
+    public void LetsGo(int go)
+    {
+        if (go == 0)
+            letsGo = false;
+        if (go == 1)
+            letsGo = true;
+    }
+
+    public void StayGo()
+    {
+        letsGo = !letsGo;
+        if (letsGo)
+        {
+            botAI.SayText("Я за тобой");
+        }
+        if (!letsGo)
+        {
+            botAI.SayText("Жду здесь");
         }
     }
 
-    public void GoNextPosition()
-    {
-        nextPosition = true;
-    }
 
-    public void LetsGo()
+    public void TriggerSayText(string text)
     {
-        letsGo = true;
+        textTrigger = text;
+        sayTriggerText = true;
     }
 
     void MakeFriendly()

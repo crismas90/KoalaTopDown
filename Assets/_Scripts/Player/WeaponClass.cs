@@ -4,14 +4,14 @@ using UnityEngine;
 public class WeaponClass : ScriptableObject
 {
     public string weaponName;
-    public GameObject bullet;
+    public GameObject bulletPrefab;
     public int damage;
     public float pushForce;
     public int bulletSpeed;
     public float fireRate;
     public float forceBackFire;
     public float recoil;
-    public bool raycastWeapon;
-    public LayerMask layer;
+    public bool rayCastWeapon;
+    public LayerMask layerRayCast;
     //public GameObject flashEffect;
 }

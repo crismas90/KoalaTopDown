@@ -242,7 +242,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -303,15 +303,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e316a652a1da66349b568b4ae34bc6af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb2D: {fileID: 0}
   isAlive: 1
   currentHealth: 0
   maxHealth: 100
-  rb2D: {fileID: 0}
+  isPlayerOrNPC: 0
   animator: {fileID: 0}
   spriteRenderer: {fileID: 0}
   weaponHolder: {fileID: 0}
   moveDirection: {x: 0, y: 0}
   moveSpeed: 5
+  needFlip: 0
+  leftFlip: 0
+  rightFlip: 1
+  shield: {fileID: 0}
 --- !u!70 &63706634
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -582,8 +587,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: {fileID: 860279072}
+  shield: {fileID: 0}
   key: {fileID: 619352514}
   battery: {fileID: 232245000}
+  weaponName: {fileID: 0}
 --- !u!4 &175614568
 Transform:
   m_ObjectHideFlags: 0
@@ -780,6 +787,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59c7dfd47dd5bf844bd20f4a82c2261b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb2D: {fileID: 0}
+  isAlive: 1
+  currentHealth: 0
+  maxHealth: 0
+  isPlayerOrNPC: 0
+  agent: {fileID: 0}
+  animator: {fileID: 0}
+  animatorWeapon: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  botAIMeleeWeaponHolder: {fileID: 0}
+  isNeutral: 0
+  isFriendly: 0
+  layerTarget:
+    serializedVersion: 2
+    m_Bits: 0
+  layerHit:
+    serializedVersion: 2
+    m_Bits: 0
+  chasing: 0
+  startPosition: {x: 0, y: 0, z: 0}
+  chaseLeght: 0
+  triggerLenght: 0
+  targetVisible: 0
+  readyToAttack: 0
+  distanceToAttackMelee: 0
+  distanceToAttackRange: 0
+  distanceToAttack: 0
+  meleeAttackType: 0
+  rangeAttackType: 0
+  twoWeapons: 0
+  aimAnglePivot: 0
+  deathEffect: {fileID: 0}
+  deathCameraShake: 0
+  flipLeft: 0
+  flipRight: 0
+  debug: 0
   textToSay:
   - "\u041F\u0435\u0440\u0435\u0434 \u0432\u0430\u043C\u0438 \u0447\u0443\u0434\u043E
     \u0442\u0435\u0445\u043D\u0438\u043A\u0438 "
@@ -822,7 +865,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7045,7 +7088,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7591,7 +7634,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7677,6 +7720,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21c2f8f33ded1d44eb2cb4a58f23cf3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb2D: {fileID: 0}
+  isAlive: 1
+  currentHealth: 0
+  maxHealth: 0
+  isPlayerOrNPC: 0
 --- !u!1 &860279071
 GameObject:
   m_ObjectHideFlags: 0
@@ -8804,7 +8852,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.06666667
+  m_VoxelSize: 0.1
   m_BuildHeightMesh: 0
   m_HideEditorLogs: 0
   m_NavMeshData: {fileID: 23800000, guid: 7325f72f005306f4e9e86f2f20e563ff, type: 2}
@@ -9365,6 +9413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chatBubblePrefab: {fileID: 5242830040618600346, guid: d0aae9fc72b3e1347a339a019732354c, type: 3}
+  floatingText: {fileID: 0}
 --- !u!4 &1589013192
 Transform:
   m_ObjectHideFlags: 0
@@ -9538,14 +9587,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4572912850c1ea43b3b39d593f61d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponHolder: {fileID: 1755907653}
   layer:
     serializedVersion: 2
     m_Bits: 4224
+  weaponName: 
+  hitBox: {fileID: 0}
   damage: 20
   pushForce: 40
   radius: 0.6
   cooldown: 0.3
+  trail: {fileID: 0}
 --- !u!4 &1701658784 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3941453669616193608, guid: 25ec1fbb2fce91944bf0d30910942179, type: 3}
@@ -9595,12 +9646,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc2392a326072654fb7f6ff02246bbdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponHolderMelee: {fileID: 0}
   weapons:
   - {fileID: 2496722168628502743, guid: 1c28be433ee20cf47aa630506e416977, type: 3}
+  currentWeapon: {fileID: 0}
   selectedWeapon: 0
   fireStart: 0
   attackHitBoxStart: 0
   aimAngle: 0
+  currentWeaponName: 
 --- !u!1 &1763189862
 GameObject:
   m_ObjectHideFlags: 3
@@ -12348,7 +12402,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15228,6 +15282,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2049601953, guid: 74191566ad7ce7942bb47b1308716d80, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4689769345750624073, guid: 74191566ad7ce7942bb47b1308716d80, type: 3}
       propertyPath: m_RootOrder
       value: 26

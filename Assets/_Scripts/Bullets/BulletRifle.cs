@@ -8,15 +8,11 @@ public class BulletRifle : Bullet
     {
         if (collision.gameObject.TryGetComponent<Fighter>(out Fighter fighter))
         {
-            fighter.TakeDamage(damage);
             Vector2 vec2 = (collision.transform.position - transform.position).normalized;
-            fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
+            fighter.TakeDamage(damage, vec2, pushForce);            
         }
         base.OnTriggerEnter2D(collision);               // там пусто пока что
         Explosion();
     }
-    public override void Explosion()
-    {
-        base.Explosion();
-    }
+
 }

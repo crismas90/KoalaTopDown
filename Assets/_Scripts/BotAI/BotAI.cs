@@ -21,7 +21,7 @@ public class BotAI : Fighter
     [HideInInspector] public LayerMask layerTarget;         // слой для поиска 
     [HideInInspector] public LayerMask layerHit;            // слой для оружия
     [HideInInspector] public bool chasing;                  // статус преследования
-    Vector3 startPosition;                                  // позиция для охраны
+    [HideInInspector] public Vector3 startPosition;         // позиция для охраны
     public float chaseLeght;                                // дальность преследования    
     public float triggerLenght;                             // дистанция тригера
     [HideInInspector] public bool targetVisible;            // видим мы цель или нет
@@ -71,8 +71,9 @@ public class BotAI : Fighter
         }
     }
 
-    void Start()
+    public override void Start()
     {
+        base.Start();
         startPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 
         agent.updateRotation = false;                       // для навмеш2д
@@ -93,7 +94,7 @@ public class BotAI : Fighter
             Vector3 aimDirection = enemyThinker.target.transform.position - pivot.transform.position;               // угол между положением мыши и pivot оружия          
             aimAnglePivot = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;                            // находим угол в градусах             
             Quaternion qua1 = Quaternion.Euler(0, 0, aimAnglePivot);                                                // создаем этот угол в Quaternion
-            pivot.transform.rotation = Quaternion.Lerp(pivot.transform.rotation, qua1, Time.fixedDeltaTime * 15);   // делаем Lerp между weaponHoder и нашим углом
+            pivot.transform.rotation = Quaternion.Lerp(pivot.transform.rotation, qua1, Time.fixedDeltaTime * 5);   // делаем Lerp между weaponHoder и нашим углом
         }
         else 
         {
@@ -243,9 +244,9 @@ public class BotAI : Fighter
         rb2D.AddForce(vec2 * forceBack, ForceMode2D.Impulse);                   // толкаем импульсом
     }
 
-    public override void TakeDamage(int dmg)
+    public override void TakeDamage(int dmg, Vector2 vec2, float pushForce)
     {
-        base.TakeDamage(dmg);
+        base.TakeDamage(dmg, vec2, pushForce);
         //animator.SetTrigger("TakeHit");
         ColorRed(0.05f);
         if (!isFriendly)

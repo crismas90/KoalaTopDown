@@ -23,14 +23,19 @@ public class Player : Fighter
     [HideInInspector] public bool rightFlip = true;     // оружие справа
 
     // Таймер для цветов при уроне
-    float timerForColor;
-    bool red;
+    float timerForColor;        // сколько времени он будет красным
+    bool red;                   // красный (-_-)
+
+    public EnergyShield shield;
+
+
 
     //---------------------------------------------------------------------------------------------------------------------------------------------------------\\
 
 
-    private void Start()
-    {        
+    public override void Start()
+    {
+        base.Start();
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -38,7 +43,7 @@ public class Player : Fighter
         hitBoxPivot = GetComponentInChildren<HitBoxPivot>();
 
         agent.updateRotation = false;               // для навМеш2д
-        agent.updateUpAxis = false;                 //
+        agent.updateUpAxis = false;                 //        
     }
 
     void Update()
@@ -138,11 +143,18 @@ public class Player : Fighter
     }
 
     // Получение урона
-    public override void TakeDamage(int dmg)
+    public override void TakeDamage(int dmg, Vector2 vec2, float pushForce)
     {
-        base.TakeDamage(dmg);
-        animator.SetTrigger("TakeHit");
-        ColorRed(0.1f);                         // делаем спрайт красным
+        if (shield.shieldOn)
+        {
+            shield.TakeDamage(dmg);
+        }
+        else
+        {
+            base.TakeDamage(dmg, vec2, pushForce);
+            animator.SetTrigger("TakeHit");
+            ColorRed(0.1f);                         // делаем спрайт красным
+        }
     }
 
     // Смена цветов при уроне

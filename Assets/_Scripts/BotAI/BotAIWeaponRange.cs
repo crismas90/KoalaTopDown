@@ -44,10 +44,10 @@ public class BotAIWeaponRange : MonoBehaviour
         
         //weaponHolderGO = GetComponentInParent<WeaponHolder>().gameObject;       // находим объект weaponHolder
         weaponName = weaponClass.weaponName;                                    // имя оружия
-        rayCastWeapon = weaponClass.raycastWeapon;                              // рейкаст оружие
-        layerRayCast = weaponClass.layer;                                       // слои к рейкастам
-        if (weaponClass.bullet)
-            bulletPrefab = weaponClass.bullet;                                  // тип снаряда (если не рейкаст оружие)
+        rayCastWeapon = weaponClass.rayCastWeapon;                              // рейкаст оружие
+        layerRayCast = weaponClass.layerRayCast;                                       // слои к рейкастам
+        if (weaponClass.bulletPrefab)
+            bulletPrefab = weaponClass.bulletPrefab;                                  // тип снаряда (если не рейкаст оружие)
         bulletSpeed = weaponClass.bulletSpeed;                                  // скорость
         damage = weaponClass.damage;                                            // урон
         pushForce = weaponClass.pushForce;                                      // сила толчка
@@ -205,9 +205,8 @@ public class BotAIWeaponRange : MonoBehaviour
             //Debug.Log("Hit!");
             if (hit.collider.TryGetComponent<Fighter>(out Fighter fighter))
             {
-                fighter.TakeDamage(damage);
                 Vector2 vec2 = (fighter.transform.position - botAI.transform.position).normalized;
-                fighter.rb2D.AddForce(vec2 * pushForce, ForceMode2D.Impulse);
+                fighter.TakeDamage(damage, vec2, pushForce);
             }
 
             tracer.transform.position = hit.point;                      // конечная позиция трасера рейкаста             
